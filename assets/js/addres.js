@@ -1,4 +1,4 @@
-// Add new menu
+		// Add new menu
 		$('#newmenub').on('click', function() {
 			$('.form-group').removeClass('has-error');
 			$('#modalname').val("");

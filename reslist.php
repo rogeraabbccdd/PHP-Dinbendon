@@ -43,7 +43,7 @@
 				<div class="container">
 					<div class="grid">
 						<?php
-							$result=mysqli_query($link, "SELECT * FROM ".$rest_table."");
+							$result=mysqli_query($link, "SELECT * FROM ".$rest_table);
 							$numb=mysqli_num_rows($result); 
 							if (!empty($numb)) 
 							{ 
@@ -80,26 +80,40 @@
 									?>
 									<div class='col-lg-4 col-md-6 col-sm-6 grid-item'>
 										<a href='./res.php?id=<?=$id?>'>
-										<div class='card card-product'>
-											<div class='card-image' data-header-animation='true'>										
-												<?php if(isset($today_res) && $id == $today_res) { ?>
-													<div class='ribbon ribbon-top-left'><span>今日餐廳</span></div>
-												<?php }?>
-												<img class='img' src='<?=$pic?>' width="625" height="275" />	
-											</div>
-											<div class='card-content'>
-												<div class='card-description'>
-													<?=$name?><br>
-													<font color="#4caf50"><?=$yes[$row['id']]?>% <i class="fas fa-thumbs-up"></i></font>
-													|
-													<font color="#f44336"><?=$no[$row['id']]?>% <i class="fas fa-thumbs-down"></i></font>
+											<div class='card card-product'>
+												<div class='card-image' data-header-animation='true'>										
+													<?php if(isset($today_res) && $id == $today_res) { ?>
+														<div class='ribbon ribbon-top-left'><span>今日餐廳</span></div>
+													<?php }?>
+													<img class='img' src='<?=$pic?>' width="625" height="275" />	
+												</div>
+												<div class='card-content'>
+													<div class='card-description'>
+														<?=$name?><br>
+														<font color="#4caf50"><?=$yes[$row['id']]?>% <i class="fas fa-thumbs-up"></i></font>
+														|
+														<font color="#f44336"><?=$no[$row['id']]?>% <i class="fas fa-thumbs-down"></i></font>
+													</div>
 												</div>
 											</div>
-										</div>
 										</a>
 									</div>	
 									<?php
 								}
+								?>
+									<div class='col-lg-4 col-md-6 col-sm-6 grid-item' id="randombtn">
+										<div class='card card-product'>
+											<div class='card-image' data-header-animation='true'>										
+												<img class='img' src='assets/img/res/pic/itembox.jpg' width="625" height="275" />	
+											</div>
+											<div class='card-content'>
+												<div class='card-description'>
+													<span style="line-height:300%">隨機</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								<?php
 							}
 						?>
 						<div class='col-lg-4 col-md-6 col-sm-6 grid-item'>
@@ -129,6 +143,58 @@
 			</div>
 		</div>
     </div>
+	<!--
+		Edited from 
+		https://codepen.io/n7best/pen/RWPpBx
+	-->
+	<div class="modal fade" id="raffle" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body text-center">
+					<div class="row topbox">
+						<div class="col-md-10 col-md-offset-1 rollbox">
+							<div class="line"></div>
+							<table>
+								<tr id="loadout">
+									<?php
+										$result = mysqli_query($link, "select * from ".$rest_table);
+										$numb=mysqli_num_rows($result); 
+										if (!empty($numb)) 
+										{ 
+											$i=1;
+											while ($row = mysqli_fetch_array($result))
+											{
+												$pic = "./assets/img/res/pic/unknown.jpg";
+												if(!empty($row["cover"]) && file_exists("./assets/img/res/pic/".$row["cover"]))
+													$pic = "./assets/img/res/pic/".$row["cover"];
+
+												echo "
+												<td class='items'>
+													<div class='roller'>
+														<img src='".$pic."' width='100%' height='100%'>
+														<div id='roll".$i."'>
+															<p>".$row["name"]."</p>
+														</div>
+													</div>
+												</td>";
+												$i++;
+											}
+										}
+									?>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer text-center">
+					<button class="btn btn-success" id="roll" style="width:60%">開始</button>
+					<br>
+					<p id="result">點擊按鈕開始</p>
+				</div>
+			</div>
+		</div>
+	</div>	
 </body>					
 <!--   Core JS Files   -->
 <script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
@@ -171,10 +237,16 @@
 		<?php
 			include("./assets/js/loginform.js");
 			include("./assets/js/l2d.js");
+			include("./assets/js/raffle.js");
 		?>
 		
 		window.sr = ScrollReveal();
 		sr.reveal('.card', { duration: 1000 }, 50);
+		
+		// Add new menu
+		$('#randombtn').on('click', function() {
+			$('#raffle').modal('show');
+		});
 	});
 </script>
 </html>
