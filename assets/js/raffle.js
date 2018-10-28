@@ -15,24 +15,35 @@ $("#roll").click(function () {
    $("#result").text("隨機...");
    $(loadout).html("");
    loadout.css("left", "100%");
-   if (items.length < 10) {
+
+   if (items.length <= 5) {
+	   insert_times = 4;
+	   duration_time = 3000;
+   } 
+   else if (5 < items.length && items.length <= 10) {
+	   insert_times = 3;
+	   duration_time = 3000;
+   }
+   else if (10 < items.length && items.length <= 15) {
 	   insert_times = 2;
 	   duration_time = 3000;
-   } else {
+   }
+	else {
 	   insert_times = 1;
-	   duration_time = 5000;
+	   duration_time = 3000;
    }
    for (var times = 0; times < insert_times; times++) {
 	   shuffled = items;
 	   shuffled.shuffle();
 	   for (var i = 0; i < items.length; i++) {
-		    console.log( $(shuffled[i]).eq(0).find("img") );
-
-		   loadout.append("<td class='items'><div class='roller'><img src='"+
+		    loadout.append("<td class='items'><div class='roller'><img src='"+
 					   $(shuffled[i]).eq(0).find("img").attr("src") +
 					   "' width='100%' height='100%'><div><p>"+
 					   $(shuffled[i]).eq(0).find("p").text() +
-					   "<\/p><\/div><\/div><\/td>");
+					   "<\/p>"+
+					   "<span style='display:none'>" + 
+					   $(shuffled[i]).eq(0).find("span").text() +
+					   "<\/span><\/div><\/div><\/td>");
 		   scrollsize = scrollsize + 192;
 	   }
    }
@@ -46,8 +57,9 @@ $("#roll").click(function () {
 	   $('#loadout').children('td').each(function () {
 		   var center = window.innerWidth / 2;
 		   if ($(this).offset().left < center && $(this).offset().left + 185 > center) {
-			   var text = $(this).children().text();
-			  $("#result").text("今天就吃 "+text+" 吧");
+			   var text = $(this).children().find("p").text();
+			   var url = $(this).children().find("span").text();;
+			  $("#result").html("今天就吃 <a href='.\/res.php?id="+url+"'>"+text+"<\/a> 吧");
 		   }
 
 	   });

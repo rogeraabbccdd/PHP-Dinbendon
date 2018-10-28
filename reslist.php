@@ -173,8 +173,9 @@
 												<td class='items'>
 													<div class='roller'>
 														<img src='".$pic."' width='100%' height='100%'>
-														<div id='roll".$i."'>
+														<div>
 															<p>".$row["name"]."</p>
+															<span style='display:none'>".$row["id"]."</span>
 														</div>
 													</div>
 												</td>";
