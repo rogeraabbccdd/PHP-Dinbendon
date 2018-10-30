@@ -9,6 +9,14 @@
 		mysqli_close($link);
 		exit;
 	}
+	
+	// admin
+	if($_SESSION["class"] == 0)
+	{
+		echo "<script type='text/javascript'>window.location.href='./admin.php';</script>"; 
+		mysqli_close($link);
+		exit;
+	}
 ?>
 <html>
 <head>
@@ -190,7 +198,7 @@
 				</div>
 				<div class="modal-footer text-center">
 					<button class="btn btn-success" id="roll" style="width:60%">開始</button>
-					<br>
+					<br><br>
 					<p id="result">點擊按鈕開始</p>
 				</div>
 			</div>
@@ -214,6 +222,7 @@
 <!-- Material Dashboard javascript methods -->
 <script src="./assets/js/material-dashboard.js"></script>
 <script src="./assets/js/live2d.js"></script>
+<script src="./assets/js/bootstrap-notify.js"></script>
 <script src="./assets/js/custom.js"></script>
 <script src="./assets/js/scrollreveal.js"></script>
 <script type="text/javascript">
@@ -244,10 +253,10 @@
 		window.sr = ScrollReveal();
 		sr.reveal('.card', { duration: 1000 }, 50);
 		
-		// Add new menu
-		$('#randombtn').on('click', function() {
-			$('#raffle').modal('show');
-		});
+		<?php if(isset($today_res)) { ?>
+			showNotification('top', 'center', 'primary ', '<a href="./res.php?id=<?=$today_res?>">今日餐廳為&nbsp;<strong style="color:yellow"><?=$today_name?></strong>，快點我訂餐！</a>');
+		<?php }?>
+		
 	});
 </script>
 </html>

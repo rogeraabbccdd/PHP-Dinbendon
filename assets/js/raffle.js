@@ -1,4 +1,8 @@
 // https://codepen.io/Re3ker/pen/VYBXBj
+$('#randombtn').on('click', function() {
+	$('#raffle').modal('show');
+});
+
 var items = [],
 shuffled = [],
 loadout = $("#loadout"),
