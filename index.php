@@ -101,6 +101,7 @@
 <!-- Material Dashboard javascript methods -->
 <script src="./assets/js/material-dashboard.js"></script>
 <script src="./assets/js/live2d.js"></script>
+<script src="./assets/js/bootstrap-notify.js"></script>
 <script src="./assets/js/custom.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
