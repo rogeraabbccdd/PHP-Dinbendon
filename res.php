@@ -152,7 +152,7 @@
 												else echo "<font color='#00bcd4'>這間餐廳還沒有評價 :(</font>"
 											?>
 										</h4>
-										<?php if(isset($pic))	echo "<a href='".$pic."' class='image-link'><img src='".$pic."' style='height:auto !important; width:500px !important'/></a>";?>
+										<?php if(isset($pic))	echo "<a href='".$pic."' class='image-link'><img src='".$pic."' style='width:60% !important'/></a>";?>
 									</div>
 									<br/>
 									<br/>
@@ -204,15 +204,15 @@
 															}
 															?>
 															<tr>
-															<td style='display:none'><input type='text' name='id[]' value='<?=$m_id?>' /></td>
-															<td class="menu_name"><?=$m_name?></td>
-															<td><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
-															<td>
-																<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-xs'  />
-																<input type='text' name='qty[]' value='<?=$qty?>' class='qty' size='2'/>
-																<input type='button' value='+' class='qtyplus btn btn-primary btn-round btn-xs' />
-															</td>
-															<td><input type='text' name='note[]' class="note" value="<?=$note?>"></td>
+																<td style='display:none'><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
+																<td class="menu_name"><?=$m_name?></td>
+																<td><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
+																<td>
+																	<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-xs'  />
+																	<input type='text' name='qty[]' value='<?=$qty?>' class='qty' size='2'/>
+																	<input type='button' value='+' class='qtyplus btn btn-primary btn-round btn-xs' />
+																</td>
+																<td><input type='text' name='note[]' class="note" value="<?=$note?>"></td>
 															</tr>
 															<?php
 														}
@@ -351,6 +351,7 @@
 		});
 
 		var menutable = $('#menu').DataTable( {
+			"responsive": true,
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },
@@ -363,6 +364,7 @@
 			      "targets": 0,
 			      "searchable": false,
 				  "orderDataType": "dom-text-numeric",
+				  "visible": false
 			    }, 
 				{
 			      "targets": 2,

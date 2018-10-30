@@ -63,7 +63,7 @@
 										}
 									?>
 									<hr>
-									<div class="table-responsive material-datatables">
+									<div class="material-datatables table-responsive">
 										<table id="ordertable" class="table col-md-auto">
 											<thead class="text-rose">
 												<tr>
@@ -161,6 +161,7 @@
 	$(document).ready( function () {
 		
 		var ordertable = $('#ordertable').DataTable( {
+			"responsive": true,
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },

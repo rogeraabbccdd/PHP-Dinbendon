@@ -311,6 +311,7 @@
 	$(document).ready( function () {	
 		// DataTables
 		var menutable = $('#menu').DataTable( {
+			"responsive": true,
 			"language": {
 				"url": "./assets/others/datatables-chinese-traditional.json"
 			},
