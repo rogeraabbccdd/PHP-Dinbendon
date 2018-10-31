@@ -161,7 +161,6 @@
 										<table id="menu" class="table col-md-auto">
 											<thead class="text-rose">
 												<tr>
-													<th style="display:none"></th>
 													<th>名字</th>
 													<th>價格</th>
 													<th>數量</th>
@@ -170,7 +169,6 @@
 											</thead>
 											<tfoot>
 												<tr>
-													<th style="display:none"></th>
 													<th>名字</th>
 													<th>價格</th>
 													<th>數量</th>
@@ -204,8 +202,7 @@
 															}
 															?>
 															<tr>
-																<td style='display:none'><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
-																<td class="menu_name"><?=$m_name?></td>
+																<td class="menu_name"><?=$m_name?><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
 																<td><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
 																<td>
 																	<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-xs'  />
@@ -361,23 +358,17 @@
             ],
 			"columnDefs": [ 
 				{
-			      "targets": 0,
-			      "searchable": false,
-				  "orderDataType": "dom-text-numeric",
-				  "visible": false
-			    }, 
-				{
-			      "targets": 2,
+			      "targets": 1,
 			      "searchable": false,
 				  "orderDataType": "dom-text-numeric"
 			    }, 
 				{
-			      "targets": 3,
+			      "targets": 2,
 			      "searchable": false,
 				  "orderDataType": "dom-text-numeric2"
 			    }, 
 				{
-			      "targets": 4,
+			      "targets": 3,
 			      "searchable": false,
 				   "orderDataType": "dom-text", type: 'string'
 			    } 
