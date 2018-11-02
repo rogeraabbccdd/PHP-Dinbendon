@@ -72,7 +72,7 @@
 										$no[$row2['res']] = round($row2['n']/$row2['r']*100, 2);
 									}
 								}
-	
+								
 								while ($row = mysqli_fetch_array($result))
 								{
 									$name = $row['name'];
@@ -93,7 +93,7 @@
 													<?php if(isset($today_res) && $id == $today_res) { ?>
 														<div class='ribbon ribbon-top-left'><span>今日餐廳</span></div>
 													<?php }?>
-													<img class='img' src='<?=$pic?>' width="625" height="275" />	
+													<img class='img' src='<?=$pic?>' style='width:100%; height:100%' />	
 												</div>
 												<div class='card-content'>
 													<div class='card-description'>
