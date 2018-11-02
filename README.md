@@ -1,7 +1,7 @@
 # 訂便當系統
 泰山職訓訂便當系統   
 
-![預覽圖](https://github.com/rogeraabbccdd/PHP-Dinbendon/raw/master/dinbendon.jpg)
+![預覽圖](https://github.com/rogeraabbccdd/PHP-Dinbendon/raw/master/preview/dinbendon.jpg)
 
 ## 功能
 * 統計便當
