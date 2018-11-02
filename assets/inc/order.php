@@ -44,7 +44,7 @@
 			exit;
 		}
 		// 下訂
-		elseif($type == "order" && !empty($_POST["data"]) && !empty($_POST["res"]))
+		elseif($type == "order" && !empty($_POST["res"]))
 		{
 			$order_res = $_POST['res'];
 			
@@ -65,9 +65,7 @@
 			$result=mysqli_query($link, "DELETE FROM ".$order_table." WHERE stu_num = ".$_SESSION["user"]." AND DATE(".$order_table.".date) = CURDATE()");
 			
 			// 下訂
-			$orders = array();
-			parse_str($_POST["data"], $orders);
-			$total = count($orders["id"]);
+			$total = count($_POST["id"]);
 			mysqli_query($link, "SET NAMES utf8");
 			
 			$order_count = "0";
@@ -80,11 +78,11 @@
 			for($i=0; $i<$total; $i++)
 			{
 				// 如果數量為1
-				if($orders["qty"][$i] > 0)
+				if($_POST["qty"][$i] > 0)
 				{
-					$query .= "(NULL, '".$date."', '".$_SESSION["user"]."', '".$orders["id"][$i]."', '".$orders["qty"][$i]."', '".$orders["note"][$i]."'),";
+					$query .= "(NULL, '".$date."', '".$_SESSION["user"]."', '".$_POST["id"][$i]."', '".$_POST["qty"][$i]."', '".$_POST["note"][$i]."'),";
 					$order_count++;
-					$money += $orders["price"][$i]*$orders["qty"][$i];
+					$money += $_POST["price"][$i]*$_POST["qty"][$i];
 				}
 			}
 			
@@ -102,8 +100,9 @@
 				}
 				else
 				{
+					$err = mysqli_error($link);
 					$json = array(
-						"responce" => "error",
+						"responce" => $err,
 					);
 				}
 				echo json_encode($json, true);

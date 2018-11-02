@@ -31,12 +31,22 @@
 			$('#orderbutton').attr('disabled',true);
 			// https://stackoverflow.com/questions/39151643/make-jquery-datatables-submit-all-rows-by-default-not-just-ones-displayed-upon
 			var disabled =  $('#orderform').find(':input:disabled').removeAttr('disabled');
-			var data = menutable.$('input').serialize();
+			
+			var data = new FormData();
+			data.append( "res", "<?=$id?>" );
+			data.append( "type", "order" );
+			menutable.$('input').each(function(){
+				data.append( $(this).attr("name"), $(this).val() );
+			});
+				
 			$.ajax({
 				type: "POST",
 				url: "./assets/inc/order.php",
-				data: {type:'order', data:data, res:'<?=$id?>'},
+				data: data,
 				dataType: "json",
+				cache: false,
+				contentType: false,
+				processData: false,
 				success: function(json) {
 					if (json["responce"] == "plzlogin") {
 						swal({
