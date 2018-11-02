@@ -25,6 +25,7 @@
 		
 		// 基本資料
 		$result = mysqli_query($link, "update ".$rest_table." set name = '".$_POST["resname"]."', tel = '".$_POST["tel"]."', address = '".$_POST["address"]."' where id = '".$res_id."'");
+		echo mysqli_error($link);
 		
 		// 更新菜單
 		if(!empty($_POST["id"]))
@@ -77,7 +78,8 @@
 	else
 	{
 		// 基本資料
-		$result = mysqli_query($link, "insert into ".$rest_table." values (null, '".$_POST["resname"]."', '".$_POST["tel"]."', '".$_POST["address"]."', '', '', 1)");
+		$result = mysqli_query($link, "insert into ".$rest_table." values (null, '".$_POST["resname"]."', '".$_POST["tel"]."', '".$_POST["address"]."', '', '')");
+		echo mysqli_error($link);
 		
 		$res_id = mysqli_insert_id($link);
 		
