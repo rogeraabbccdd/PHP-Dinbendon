@@ -84,11 +84,7 @@
 
 <body>
 	<?php include("./assets/inc/bg.php"); ?>
-    <nav class="navbar navbar-info navbar-absolute">
-        <div class="container">
-			<?php include("./assets/inc/nav.php");	?>
-        </div>
-    </nav>
+    <?php include("./assets/inc/nav.php");	?>
     <div class="wrapper wrapper-full-page">
 		<div class="full-page" style="padding-top: 10vh;">
 			<div class="content">
