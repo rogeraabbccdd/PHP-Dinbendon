@@ -89,7 +89,7 @@
 													<?php if(isset($today_res) && $id == $today_res) { ?>
 														<div class='ribbon ribbon-top-left'><span>今日餐廳</span></div>
 													<?php }?>
-													<img class='img' src='<?=$pic?>' style='width:100%; height:100%' />	
+													<img class='img' src='<?=$pic?>' width="625" height="275" />	
 												</div>
 												<div class='card-content'>
 													<div class='card-description'>
@@ -158,7 +158,7 @@
 				<div class="modal-body text-center">
 					<div class="row topbox">
 						<div class="col-md-10 col-md-offset-1 rollbox">
-							<div class="line"></div>
+							<div class="rollline"></div>
 							<table>
 								<tr id="loadout">
 									<?php
