@@ -86,7 +86,7 @@
 		}
 	});
 	
-	$('#LogoutButton').on('click', function() {
+	$(document).on('click', "#LogoutButton", function() {
 		swal({
 			title: '你確定?',
 			text: '你確定要登出嗎?',
