@@ -56,18 +56,17 @@
     <title>DinBenDon | <?=((!empty($row["id"]))?"編輯餐廳":"新增餐廳")?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
+	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
     <?php include("./assets/inc/nav.php");	?>
     <div class="wrapper wrapper-full-page">
@@ -78,11 +77,12 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="card">
-									<div class="card-header card-header-text" data-background-color="rose">
-										<h4 class="card-title">基本資料</h4>
-										<p class="category"></p>
+									<div class="card-header card-header-text card-header-rose">
+										<div class="card-text">
+											<h4 class="card-title">基本資料</h4>
+										</div>
 									</div>
-									<div class="card-content">
+									<div class="card-body">
 										<div class="row">
 											<div class='col-lg-12 text-center'>
 												<div class='fileinput fileinput-new text-center' data-provides='fileinput' id='uploadteamlogoinput'>
@@ -137,11 +137,12 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="card">
-									<div class="card-header card-header-text" data-background-color="blue">
-										<h4 class="card-title">菜單圖片</h4>
-										<p class="category"></p>
+									<div class="card-header card-header-text card-header-rose">
+										<div class="card-text">
+											<h4 class="card-title">菜單圖片</h4>
+										</div>
 									</div>
-									<div class="card-content">
+									<div class="card-body">
 										<div class="row">
 											<div class='col-lg-12 text-center'>
 												<div class='fileinput fileinput-new text-center' data-provides='fileinput' id='uploadteamlogoinput'>
@@ -170,13 +171,14 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="card">
-								<div class="card-header card-header-text" data-background-color="green">
-									<h4 class="card-title">菜單</h4>
-									<p class="category"></p>
-								</div>
-								<div class="card-content">
+								<div class="card-header card-header-text card-header-success">
+										<div class="card-text">
+											<h4 class="card-title">菜單</h4>
+										</div>
+									</div>
+								<div class="card-body">
 									<div class='material-datatables'>
-										<table id="menu" class="table col-md-auto">
+										<table id="menu" class="table">
 											<thead class="text-rose">
 												<tr>
 													<th>項目</th>
@@ -210,7 +212,7 @@
 																		<input type='text' value='<?=$row["price"]?>' name='price[]' class='pricemenu'>
 																	</td>
 																	<td>
-																		<button type='button' class='delmenu btn btn-danger btn-simple'>
+																		<button type='button' class='delmenu btn btn-danger btn-link'>
 																			<i class='material-icons'>close</i>
 																		</button>
 																		<div style="display:none">
@@ -228,9 +230,10 @@
 										</table>
 									</div>
 								</div>
-								<div class="card-footer text-center">
-									<input type="button" class='btn btn-primary btn-lg' style="padding: 15px 36px; font-size: 20px;" value="新增" id="newmenub">
-									<input type="button" class='btn btn-success btn-lg' style="padding: 15px 36px; font-size: 20px;" value="保存" id="saveres">
+								<div class="card-footer justify-content-center">
+									<input type="button" class='btn btn-primary btn-lg' style="padding: 15px 36px; font-size: 20px;" value="新增菜單" id="newmenub">
+									&emsp;
+									<input type="button" class='btn btn-success btn-lg' style="padding: 15px 36px; font-size: 20px;" value="保存資料" id="saveres">
 								</div>
 							</div>		
 						</div>
@@ -282,27 +285,28 @@
 </body>
 </body>							
 <!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
 <!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
-<!--  DataTables.net Plugin    -->
-<script src="./assets/js/jquery.datatables.js"></script>
+<script src="./assets/js/plugins/nouislider.min.js"></script>
 <!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
-<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-<script src="./assets/js/jasny-bootstrap.min.js"></script>
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/custom.js"></script>
-<script src="./assets/js/scrollreveal.js"></script>
-<script src="./assets/js/datatables-order.js"></script>
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script src="./assets/js/plugins/live2d.js"></script>
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<script src="./assets/js/inc/custom.js"></script>
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="./assets/js/plugins/jquery.dataTables.min.js"></script>
+<script src="./assets/js/plugins/datatables-order.js"></script>
+<script src="./assets/js/plugins/jquery.viewbox.js"></script>
+<script src="./assets/js/plugins/responsive.bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {	
 		// DataTables
@@ -335,9 +339,9 @@
 		})
 		
 		<?php
-			include("./assets/js/loginform.js");
-			include("./assets/js/l2d.js");
-			include("./assets/js/addres.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/l2d.js");
+			include("./assets/js/inc/addres.js");
 		?>
 		
 		window.sr = ScrollReveal();
