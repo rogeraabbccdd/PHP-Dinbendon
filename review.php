@@ -70,16 +70,14 @@
     <title>DinBenDon | <?=$name?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
-	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
+	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -91,11 +89,10 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12">
-							
 							<div class="card" style="padding: 20px">
-								<div class="card-content">
+								<div class="card-body">
 									<div id="info" style='text-align:center;'>
-										<h2><?=$name?></h2>	
+										<a href="<?="res.php?id=".$id?>"><h2><?=$name?></h2></a>
 										<h4>
 											電話:<?=$tel?><br>
 											地址:<?=$address?><br>

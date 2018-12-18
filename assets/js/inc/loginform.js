@@ -98,34 +98,35 @@
 			confirmButtonClass: "btn btn-success",
 			cancelButtonClass: "btn btn-danger",
 			buttonsStyling: false
-		}).then(function() {
-			$.ajax({
-				type: "POST",
-				url: "./assets/inc/auth.php",
-				data: {	logout: "logout"},
-				success:swal({
-					title: '成功',
-					text: '成功登出.',
-					type: 'success',
-					confirmButtonClass: "btn btn-success",
-					buttonsStyling: false
-				}).then(function () {
-					window.location.href="./index.php";
-				}),
-				error: function (xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
-					console.log(thrownError);
-				}
-			});
-		}, function(dismiss) {
-			if (dismiss === 'cancel') {
+		}).then(function(result) {
+			if(result.value){
+				$.ajax({
+					type: "POST",
+					url: "./assets/inc/auth.php",
+					data: {	logout: "logout"},
+					success:swal({
+						title: '成功',
+						text: '成功登出.',
+						type: 'success',
+						confirmButtonClass: "btn btn-success",
+						buttonsStyling: false
+					}).then(function () {
+						window.location.href="./index.php";
+					}),
+					error: function (xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			}
+			else{
 				swal({
-				  title: '取消',
-				  text: '你沒有登出 :)',
-				  type: 'error',
-				  confirmButtonClass: "btn btn-info",
-				  buttonsStyling: false
+					title: '取消',
+					text: '你沒有登出 :)',
+					type: 'error',
+					confirmButtonClass: "btn btn-info",
+					buttonsStyling: false
 				})
-			  }
+			}
 		})
 	});

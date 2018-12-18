@@ -19,15 +19,14 @@
     <title>DinBenDon | 今日訂單</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
+	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -60,7 +59,7 @@
 									?>
 									<hr>
 									<div class="material-datatables table-responsive">
-										<table id="ordertable" class="table col-md-auto">
+										<table id="ordertable" class="table">
 											<thead class="text-rose">
 												<tr>
 													<th>姓名</th>
@@ -134,25 +133,29 @@
 		</div>
     </div>
 </body>
-
 <!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
 <!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
-<!--  DataTables.net Plugin    -->
-<script src="./assets/js/jquery.datatables.js"></script>
+<script src="./assets/js/plugins/nouislider.min.js"></script>
 <!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/custom.js"></script>
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script src="./assets/js/plugins/live2d.js"></script>
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<script src="./assets/js/inc/custom.js"></script>
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="./assets/js/plugins/jquery.dataTables.min.js"></script>
+<script src="./assets/js/plugins/datatables-order.js"></script>
+<script src="./assets/js/plugins/jquery.viewbox.js"></script>
+<script src="./assets/js/plugins/responsive.bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		
@@ -168,8 +171,8 @@
         });
 		
 		<?php
-			include("./assets/js/loginform.js");
-			include("./assets/js/l2d.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/l2d.js");
 		?>
 	});
 </script>

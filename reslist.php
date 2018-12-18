@@ -27,25 +27,23 @@
     <title>DinBenDon</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
     <?php include("./assets/inc/nav.php");	?>
     <div class="wrapper wrapper-full-page">
-		<div class="full-page" style="padding-top: 13vh;">
+		<div class="full-page" style="padding-top: 10vh;">
 			<div class="content">
-				<div class="container">
-					<div class="grid">
+				<div class="container"> 
+					<div class="row">
 						<?php
 							$result=mysqli_query($link, "SELECT * FROM ".$rest_table);
 							$numb=mysqli_num_rows($result); 
@@ -82,18 +80,18 @@
 									if(!isset($yes[$row['id']]))	$yes[$row['id']] = "-";
 									if(!isset($no[$row['id']]))		$no[$row['id']] = "-";
 									?>
-									<div class='col-lg-4 col-md-6 col-sm-6 grid-item'>
+									<div class='col-lg-4 col-md-6 col-sm-6'>
 										<a href='./res.php?id=<?=$id?>'>
 											<div class='card card-product'>
-												<div class='card-image' data-header-animation='true'>										
+												<div class='card-header card-header-image' data-header-animation='true'>										
 													<?php if(isset($today_res) && $id == $today_res) { ?>
 														<div class='ribbon ribbon-top-left'><span>今日餐廳</span></div>
 													<?php }?>
-													<img class='img' src='<?=$pic?>' width="625" height="275" />	
+													<img class='img' src='<?=$pic?>' />	
 												</div>
-												<div class='card-content'>
+												<div class='card-body'>
 													<div class='card-description'>
-														<?=$name?><br>
+														<h4 class="card-title"><?=$name?></h4>
 														<font color="#4caf50"><?=$yes[$row['id']]?>% <i class="fas fa-thumbs-up"></i></font>
 														|
 														<font color="#f44336"><?=$no[$row['id']]?>% <i class="fas fa-thumbs-down"></i></font>
@@ -105,14 +103,14 @@
 									<?php
 								}
 								?>
-									<div class='col-lg-4 col-md-6 col-sm-6 grid-item' id="randombtn">
+									<div class='col-lg-4 col-md-6 col-sm-6' id="randombtn">
 										<div class='card card-product'>
-											<div class='card-image' data-header-animation='true'>										
-												<img class='img' src='assets/img/res/pic/itembox.jpg' width="625" height="275" />	
+											<div class='card-header card-header-image' data-header-animation='true'>										
+												<img class='img' src='assets/img/res/pic/itembox.jpg'/>	
 											</div>
-											<div class='card-content'>
+											<div class='card-body'>
 												<div class='card-description'>
-													<span style="line-height:300%">隨機</span>
+												<h4 class="card-title" style="line-height:300%">隨機</h4>
 												</div>
 											</div>
 										</div>
@@ -123,27 +121,27 @@
 						<div class='col-lg-4 col-md-6 col-sm-6 grid-item'>
 							<a href='addres.php'>
 								<div class='card card-product'>
-									<div class='card-image' data-header-animation='true'>										
-										<img class='img' src="./assets/img/res/pic/add.jpg" width="625" height="275" />	
+									<div class='card-header card-header-image' data-header-animation='true'>										
+										<img class='img' src="./assets/img/res/pic/add.jpg"  />	
 									</div>
-									<div class='card-content'>
+									<div class='card-body'>
 										<div class='card-description'>
-											<span style="line-height:300%">新增餐廳</span>
+											<h4 class="card-title" style="line-height:300%">新增餐廳</h4>
 										</div>
 									</div>
 								</div>
 							</a>
 						</div>	
 					</div>
+					<footer class="footer">
+						<?php include("./assets/inc/footer.php"); ?>
+					</footer>
+					<a id="btn-top" href="#" class="btn btn-rose btn-round btn-lg btn-top" role="button" title="回頁首" data-toggle="tooltip" data-placement="left">
+						<i class="material-icons">
+						arrow_upward
+						</i>
+					</a>
 				</div>
-				<footer class="footer">
-					<?php include("./assets/inc/footer.php"); ?>
-				</footer>
-				<a id="btn-top" href="#" class="btn btn-rose btn-round btn-lg btn-top" role="button" title="回頁首" data-toggle="tooltip" data-placement="left">
-					<i class="material-icons">
-					arrow_upward
-					</i>
-				</a>
 			</div>
 		</div>
     </div>
@@ -157,7 +155,7 @@
 				<div class="modal-header"></div>
 				<div class="modal-body text-center">
 					<div class="row topbox">
-						<div class="col-md-10 col-md-offset-1 rollbox">
+						<div class="col-md-12 mx-auto rollbox">
 							<div class="rollline"></div>
 							<table>
 								<tr id="loadout">
@@ -192,58 +190,40 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer text-center">
-					<button class="btn btn-success" id="roll" style="width:60%">開始</button>
-					<br><br>
-					<p id="result">點擊按鈕開始</p>
+				<div class="modal-footer justify-content-center">
+					<button class="btn btn-success btn-lg mx-auto w-75" id="roll">開始</button>	
+				</div>	
+				<div class="modal-footer justify-content-center py-0">	
+					<p id="result">點擊按鈕開始</p>	
 				</div>
 			</div>
 		</div>
 	</div>	
 </body>					
 <!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
 <!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
-<!--  DataTables.net Plugin    -->
-<script src="./assets/js/jquery.datatables.js"></script>
+<script src="./assets/js/plugins/nouislider.min.js"></script>
 <!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/bootstrap-notify.js"></script>
-<script src="./assets/js/custom.js"></script>
-<script src="./assets/js/scrollreveal.js"></script>
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script src="./assets/js/plugins/live2d.js"></script>
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<script src="./assets/js/inc/custom.js"></script>
+<script src="./assets/js/plugins/scrollreveal.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
-		$('#menu').dataTable( {
-            "language": {
-                "url": "./assets/others/datatables-chinese-traditional.json"
-            },
-			"lengthMenu": [
-                [20, 50, -1],
-                [20, 50, "全部"]
-            ],
-			"columnDefs": [ 
-				{
-			      "targets": 2,
-			      "searchable": false,
-				  "orderable": false
-			    }, 
-			]
-        });
-		
 		<?php
-			include("./assets/js/loginform.js");
-			include("./assets/js/l2d.js");
-			include("./assets/js/raffle.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/l2d.js");
+			include("./assets/js/inc/raffle.js");
 		?>
 		
 		window.sr = ScrollReveal();

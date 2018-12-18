@@ -177,7 +177,7 @@ input[type="nmtext"]{
    color:#57B3F9;
 }
 #roll{
-   margin-top:30px;
+   
 }
 .roller{
    height:180px;
@@ -192,4 +192,14 @@ tr,table,td{
 
 .roller p{
 	background-image:linear-gradient(rgba(0,0,0, 0.5), rgba(0,0,0, 0.5));
+}
+
+.header-filter:after, .header-filter:before {
+	position: fixed !important;
+}
+
+.off-canvas-sidebar .footer {
+    position: relative;
+    bottom: auto !important;
+    width: 100%;
 }

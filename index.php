@@ -11,102 +11,102 @@
 	}
 ?>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="./assets/img/icon.ico"/>
-	<link rel="bookmark" href="./assets/img/icon.ico"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>DinBenDon</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
-    <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="./assets/img/icon.ico" />
+	<link rel="bookmark" href="./assets/img/icon.ico" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>DinBenDon</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<meta name="viewport" content="width=device-width" />
+	<!--  Material Dashboard CSS    -->
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
-    <?php include("./assets/inc/nav.php");	?>
-    <div class="wrapper wrapper-full-page">
-		<div class="full-page" style="padding-top: 30vh;">
-			<div class="content">
-				<div class="container">			
-					<div class="row">
-						<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+	<?php include("./assets/inc/nav.php");	?>
+	<div class="wrapper wrapper-full-page">
+		<div class="page-header login-page header-filter" filter-color="black" style="">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+						<form id="loginform" class="" name="loginform" action="#">
 							<div class="card card-login" style="padding: 20px">
-								<div class="card-header text-center">
-									<h3 class="modal-title">登入</h3>
+								<div class="card-header text-center" style="margin-top:-12px !important">
+									<h2 class="modal-title">登入</h2>
 								</div>
-								<form id="loginform" class="form-horizontal" name="loginform" action="#">
-								<div class="card-content form">
-									<div class="input-group">
-										<span class="input-group-addon">
-											<i class="material-icons">face</i>
-										</span>
-										<div class="form-group label-floating">
-											<label class="control-label">帳號</label>
-											<input type="text" class="form-control" name="loginnumber" id="loginnumber" required="true">
+								<div class="card-body">
+									<span class="bmd-form-group">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="material-icons">face</i>
+												</span>
+											</div>
+											<input type="text" class="form-control" name="loginnumber" id="loginnumber" required="true" placeholder="帳號...">
 										</div>
-									</div>
-									<div class="input-group">
-										<span class="input-group-addon">
-											<i class="material-icons">lock</i>
-										</span>
-										<div class="form-group label-floating">
-											<label class="control-label">密碼</label>
-											<input type="password" class="form-control" name="loginpass" id="loginpass" required="true" maxlength="4">
+									</span>
+									<span class="bmd-form-group">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="material-icons">lock</i>
+												</span>
+											</div>
+											<input type="password" class="form-control" name="loginpass" id="loginpass" required="true" maxlength="4"
+											 placeholder="密碼...">
 										</div>
-									</div>
+									</span>
 								</div>
-								<div class="card-footer text-center">
+								<br>
+								<div class="card-footer justify-content-center">
 									<button type="submit" class="btn btn-rose btn-wd btn-lg" id="SubmitLogin">登入</button>
 								</div>
-								</form>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
-				<footer class="footer">
-					<?php include("./assets/inc/footer.php"); ?>
-				</footer>
 			</div>
+			<footer class="footer position-absolute" style="bottom:0 !important">
+				<?php include("./assets/inc/footer.php"); ?>
+			</footer>
 		</div>
-    </div>
+	</div>
 </body>
 
 <!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
 <!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
+<script src="./assets/js/plugins/nouislider.min.js"></script>
 <!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
-<!-- TagsInput Plugin -->
-<script src="./assets/js/jquery.tagsinput.js"></script>
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/bootstrap-notify.js"></script>
-<script src="./assets/js/custom.js"></script>
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script src="./assets/js/plugins/live2d.js"></script>
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<script src="./assets/js/inc/custom.js"></script>
 <script type="text/javascript">
-	$(document).ready( function () {
+	$(document).ready(function () {
 		<?php
-			include("./assets/js/loginform.js");
-			include("./assets/js/l2d.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/l2d.js");
 		?>
 	});
 </script>
+
 </html>
 <?php
 	mysqli_close($link);

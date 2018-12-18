@@ -106,19 +106,17 @@
     <title>DinBenDon | <?=$name?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
-    <link href="./assets/css/material-dashboard.css" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="./assets/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="./assets/css/google-roboto-300-700.css" rel="stylesheet" />
+	<link href="./assets/css/material-dashboard.min.css" rel="stylesheet" />
+	<!--     Fonts and icons     -->
+	<link href="./assets/css/font-awesome.css" rel="stylesheet" />
+	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
-	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
+	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
     <?php include("./assets/inc/nav.php");	?>
     <div class="wrapper wrapper-full-page">
@@ -128,7 +126,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="card" style="padding: 20px">
-								<div class="card-content">
+								<div class="card-body">
 									<div id="info" style='text-align:center;'>
 										<h2><?=$name?>
 											<a href="./addres.php?id=<?=$id?>"><i class="material-icons">edit</i></a>
@@ -201,9 +199,9 @@
 																<td class="menu_name"><?=$m_name?><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
 																<td><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
 																<td>
-																	<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-xs'  />
+																	<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-sm'  />
 																	<input type='text' name='qty[]' value='<?=$qty?>' class='qty' size='2'/>
-																	<input type='button' value='+' class='qtyplus btn btn-primary btn-round btn-xs' />
+																	<input type='button' value='+' class='qtyplus btn btn-primary btn-round btn-sm' />
 																</td>
 																<td><input type='text' name='note[]' class="note" value="<?=$note?>"></td>
 															</tr>
@@ -223,8 +221,9 @@
 										</p>
 									<?php }?>
 								</div>
-								<div class="card-footer text-center">
+								<div class="card-footer text-center justify-content-center">
 									<input id='orderbutton' type="button" class='btn btn-success btn-lg' style="padding: 15px 36px; font-size: 20px;" value="我要點餐">
+									&emsp;
 									<input id='cancelbutton' type="button" class='btn btn-danger btn-lg' style="padding: 15px 36px; font-size: 20px;" value="取消點餐">
 								</div>
 								</form>
@@ -266,12 +265,15 @@
 									?>
 										<form id="review">
 											<div class="card">
-												<div class="card-header card-header-text" data-background-color="rose">
+												<div class="card-header card-header-text card-header-rose">
+													<div class="card-text">
 														<h4 class="card-title">撰寫評價</h4>
-														<p class="category"></p>
+													</div>
 												</div>
-												<div class="card-content text-center">
-													<textarea name="reviewtext" id="reviewtext" style="width:100%; height:175px" maxlength="50" required="true"><?=$text?></textarea>
+												<div class="card-body text-center">
+													<div class="form-group">
+														<textarea name="reviewtext" id="reviewtext" style="width:100%; height:175px" maxlength="50" required="true" rows="3" class="form-control"><?=$text?></textarea>
+													</div>
 													<button id='yes' type="button" class='btn btn-gray btn-lg btn-round <?=(($review == "1")?"btn-success":"")?>' style="padding: 15px 36px; font-size: 20px;">
 														<i class="fas fa-thumbs-up"></i>
 													</button>
@@ -279,7 +281,7 @@
 														<i class="fas fa-thumbs-down"></i>
 													</button>
 												</div>
-												<div class="card-footer text-center">
+												<div class="card-footer justify-content-center">
 													<input id='submitreview' type="submit" class='btn btn-info btn-lg' style="padding: 15px 36px; font-size: 20px;" value="<?=(!empty($numb2))?"更新評價":"送出"?>">
 													<?php
 														if(!empty($numb2))
@@ -305,28 +307,29 @@
 		</div>
     </div>
 </body>
-
 <!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
 <!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
-<!--  DataTables.net Plugin    -->
-<script src="./assets/js/jquery.datatables.js"></script>
+<script src="./assets/js/plugins/nouislider.min.js"></script>
 <!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/jquery.viewbox.js"></script>
-<script src="./assets/js/responsive.bootstrap.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/custom.js"></script>
-<script src="./assets/js/datatables-order.js"></script>
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script src="./assets/js/plugins/live2d.js"></script>
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<script src="./assets/js/inc/custom.js"></script>
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="./assets/js/plugins/jquery.dataTables.min.js"></script>
+<script src="./assets/js/plugins/datatables-order.js"></script>
+<script src="./assets/js/plugins/jquery.viewbox.js"></script>
+<script src="./assets/js/plugins/responsive.bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		$(function(){
@@ -366,16 +369,16 @@
 				{
 			      "targets": 3,
 			      "searchable": false,
-				   "orderDataType": "dom-text", type: 'string'
+				  "orderDataType": "dom-text", type: 'string'
 			    } 
 			],
         });
 		
 		<?php
-			include("./assets/js/order.js");
-			include("./assets/js/loginform.js");
-			include("./assets/js/l2d.js");
-			include("./assets/js/review.js");
+			include("./assets/js/inc/order.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/l2d.js");
+			include("./assets/js/inc/review.js");
 		?>
 	});
 </script>
