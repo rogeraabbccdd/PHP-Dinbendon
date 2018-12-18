@@ -8,7 +8,7 @@
 	var loginform = $('#loginform');
 		loginform.validate({
 			rules: {
-				loginnumber: { required: true},
+				loginnumber: { required: true, minlength: 4, minlength: 4},
 				loginpass: { required: true, minlength: 4, minlength: 4},
 			},
 			errorPlacement: function(error, element) {
@@ -130,3 +130,10 @@
 			}
 		})
 	});
+
+	/*
+	$(document).click(function(event) {
+		var text = $(event.target).text();
+		console.log(text);
+	});
+	*/

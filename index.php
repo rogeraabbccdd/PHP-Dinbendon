@@ -80,30 +80,41 @@
 		</div>
 	</div>
 </body>
-
-<!--   Core JS Files   -->
+<!-- Core Js  -->					
 <script src="./assets/js/core/jquery.min.js"></script>
 <script src="./assets/js/core/popper.min.js"></script>
 <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
 <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Notify -->
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<!--  Plugin for Sweet Alert -->
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Forms Validations Plugin -->
 <script src="./assets/js/plugins/jquery.validate.min.js"></script>
-<!-- Sliders Plugin -->
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
 <script src="./assets/js/plugins/nouislider.min.js"></script>
-<!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/plugins/sweetalert2.js"></script>
-<!-- Material Dashboard javascript methods -->
-<script src="./assets/js/core/material-dashboard.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<script src="./assets/js/plugins/core.js"></script>
+<!-- Library for adding dinamically elements -->
+<script src="./assets/js/plugins/arrive.min.js"></script>
+<!-- Live 2D Plugin -->
 <script src="./assets/js/plugins/live2d.js"></script>
-<script src="./assets/js/plugins/bootstrap-notify.js"></script>
-<script src="./assets/js/inc/custom.js"></script>
+<!-- Scrollreveal -->
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- Custom JS -->
+<script src="./assets/js/plugins/custom.js"></script>
+<!-- Material dashboard JS -->
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");
 		?>
+
+		window.sr = ScrollReveal();
+		sr.reveal('.card', { duration: 1000 }, 50);
 	});
 </script>
 

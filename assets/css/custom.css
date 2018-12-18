@@ -203,3 +203,12 @@ tr,table,td{
     bottom: auto !important;
     width: 100%;
 }
+
+@media (max-width:992px){
+	.qtyplus{
+		display:none;
+	}
+	.qtyminus{
+		display:none;
+	}
+}

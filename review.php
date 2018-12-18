@@ -80,7 +80,7 @@
 	<link href="./assets/css/viewbox.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
     <?php include("./assets/inc/nav.php");	?>
     <div class="wrapper wrapper-full-page">
@@ -111,7 +111,7 @@
 										<?php if(isset($pic))	echo "<a href='".$pic."' class='image-link'><img src='".$pic."' style='height:auto !important; width:500px !important'/></a>";?>
 									</div>
 									<div class="table-responsive material-datatables">
-										<table class="table col-md-auto" id="reviewtbl">
+										<table class="table col-md-auto nowrap" id="reviewtbl">
 											<thead class="text-primary">
 												<tr>
 													<th>留言</th>
@@ -153,27 +153,38 @@
 		</div>
     </div>
 </body>
-
-<!--   Core JS Files   -->
-<script src="./assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./assets/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/material.min.js" type="text/javascript"></script>
-<script src="./assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<!-- Core Js  -->					
+<script src="./assets/js/core/jquery.min.js"></script>
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Notify -->
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<!--  Plugin for Sweet Alert -->
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Forms Validations Plugin -->
-<script src="./assets/js/jquery.validate.min.js"></script>
-<!-- Sliders Plugin -->
-<script src="./assets/js/nouislider.min.js"></script>
-<!--  DataTables.net Plugin    -->
-<script src="./assets/js/jquery.datatables.js"></script>
-<!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/sweetalert2.js"></script>
-<!-- Material Dashboard javascript methods -->
-<script src="./assets/js/material-dashboard.js"></script>
-<script src="./assets/js/jquery.viewbox.js"></script>
-<script src="./assets/js/responsive.bootstrap.js"></script>
-<script src="./assets/js/live2d.js"></script>
-<script src="./assets/js/custom.js"></script>
+<script src="./assets/js/plugins/jquery.validate.min.js"></script>
+<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+<script src="./assets/js/plugins/jquery.dataTables.min.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="./assets/js/plugins/nouislider.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<script src="./assets/js/plugins/core.js"></script>
+<!-- Library for adding dinamically elements -->
+<script src="./assets/js/plugins/arrive.min.js"></script>
+<!-- Custom orders for datatables -->
+<script src="./assets/js/plugins/datatables-order.js"></script>
+<!-- Responsive datatables -->
+<script src="./assets/js/plugins/responsive.bootstrap.js"></script>
+<!-- Live 2D Plugin -->
+<script src="./assets/js/plugins/live2d.js"></script>
+<!-- Scrollreveal -->
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- Custom JS -->
+<script src="./assets/js/plugins/custom.js"></script>
+<!-- Material dashboard JS -->
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		
@@ -189,9 +200,9 @@
         });
 			
 		<?php
-			include("./assets/js/loginform.js");
-			include("./assets/js/review.js");
-			include("./assets/js/l2d.js");
+			include("./assets/js/inc/loginform.js");
+			include("./assets/js/inc/review.js");
+			include("./assets/js/inc/l2d.js");
 		?>
 	});
 </script>

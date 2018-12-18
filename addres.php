@@ -283,30 +283,43 @@
 		</div>
     </div>
 </body>
-</body>							
-<!--   Core JS Files   -->
+</body>		
+<!-- Core Js  -->					
 <script src="./assets/js/core/jquery.min.js"></script>
 <script src="./assets/js/core/popper.min.js"></script>
 <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
 <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Plugin for the momentJs  -->
+<script src="./assets/js/plugins/moment.min.js"></script>
+<!-- Notify -->
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<!--  Plugin for Sweet Alert -->
+<script src="./assets/js/plugins/sweetalert2.js"></script>
 <!-- Forms Validations Plugin -->
 <script src="./assets/js/plugins/jquery.validate.min.js"></script>
-<!-- Sliders Plugin -->
-<script src="./assets/js/plugins/nouislider.min.js"></script>
-<!-- Sweet Alert 2 plugin -->
-<script src="./assets/js/plugins/sweetalert2.js"></script>
-<!-- Material Dashboard javascript methods -->
-<script src="./assets/js/core/material-dashboard.min.js"></script>
-<script src="./assets/js/plugins/live2d.js"></script>
-<script src="./assets/js/plugins/bootstrap-notify.js"></script>
-<script src="./assets/js/inc/custom.js"></script>
-<script src="./assets/js/plugins/scrollreveal.js"></script>
-<!--  DataTables.net Plugin    -->
+<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
 <script src="./assets/js/plugins/jquery.dataTables.min.js"></script>
+<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="./assets/js/plugins/jasny-bootstrap.min.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="./assets/js/plugins/nouislider.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<script src="./assets/js/plugins/core.js"></script>
+<!-- Library for adding dinamically elements -->
+<script src="./assets/js/plugins/arrive.min.js"></script>
+<!-- Custom orders for datatables -->
 <script src="./assets/js/plugins/datatables-order.js"></script>
-<script src="./assets/js/plugins/jquery.viewbox.js"></script>
+<!-- Responsive datatables -->
 <script src="./assets/js/plugins/responsive.bootstrap.js"></script>
+<!-- Live 2D Plugin -->
+<script src="./assets/js/plugins/live2d.js"></script>
+<!-- Scrollreveal -->
+<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- Custom JS -->
+<script src="./assets/js/plugins/custom.js"></script>
+<!-- Material dashboard JS -->
+<script src="./assets/js/core/material-dashboard.min.js"></script>
+<script async defer src="./assets/js/plugins/buttons.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {	
 		// DataTables
