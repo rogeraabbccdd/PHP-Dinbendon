@@ -27,6 +27,7 @@
 	<link href="./assets/css/googlefonts.css" rel="stylesheet" />
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
+	<link href="./assets/css/loading-bar.css" rel="stylesheet" />
 </head>
 
 <body class="off-canvas-sidebar">
@@ -106,15 +107,15 @@
 <!-- Material dashboard JS -->
 <script src="./assets/js/core/material-dashboard.min.js"></script>
 <script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Loading bar JS -->
+<script src="./assets/js/plugins/loading-bar.js"></script>
+<script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");
 		?>
-
-		window.sr = ScrollReveal();
-		sr.reveal('.card', { duration: 1000 }, 50);
 	});
 </script>
 

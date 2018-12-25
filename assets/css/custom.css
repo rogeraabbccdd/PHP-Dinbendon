@@ -212,3 +212,12 @@ tr,table,td{
 		display:none;
 	}
 }
+
+.ldBar-label{
+	text-align: center;
+	color: #fff;
+}
+
+.ldBar-label:after{
+	content: " %";
+}

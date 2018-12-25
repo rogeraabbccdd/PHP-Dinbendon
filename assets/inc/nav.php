@@ -27,20 +27,24 @@
 					else 
 					{ 
 				?>
-						<li class="nav-item">
-							<a href="./reslist.php" style="font-size: 20px !important" class='nav-link  mx-0'>
-								<i class="fas fa-utensils"></i>&nbsp;餐廳 
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="./orders.php" style="font-size: 20px !important" class='nav-link  mx-0'>
-							<i class="fas fa-list-ul"></i>&nbsp;今日點餐 </a>
-						</li>
-						<li class="nav-item">
-							<a href="javascript:void(0)" id='LogoutButton' class='nav-link mx-0' style="font-size: 20px !important; cursor:pointer;">
-								<i class="fas fa-user"></i>&nbsp;<?=$_SESSION["name"]?>
-							</a>
-						</li>
+					<li class="nav-item">
+						<a href="./reslist.php" style="font-size: 20px !important" class='nav-link  mx-0'>
+							<i class="fas fa-utensils"></i>&nbsp;餐廳 
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="./orders.php" style="font-size: 20px !important" class='nav-link  mx-0'>
+						<i class="fas fa-list-ul"></i>&nbsp;今日點餐 </a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle mx-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px !important; cursor:pointer;">
+							<i class="fas fa-user"></i>&nbsp;<?=$_SESSION["name"]?>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">訂餐紀錄</a>
+							<a class="dropdown-item" href="javascript:void(0)" id="LogoutButton">登出</a>
+						</div>
+					</li>
 				<?php 
 					} 
 				?> 
@@ -48,3 +52,11 @@
 		</div>
 	</div>
 </nav>
+<div id="loading-div" class="container-fluid position-fixed" style="height:100vh; z-index:1029">
+	<div class='blurbg' style='background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(<?=$bgimg?>);' data-filer="black"></div>
+	<div class="h-100 w-100" style="display:table">
+		<div class="d-table-cell align-middle">
+			<div id="loading-pic" class="mx-auto" data-type="fill" data-img="./assets/img/hamburguer.svg" data-img-size="100,100"></div>
+		</div>
+	</div>
+</div>

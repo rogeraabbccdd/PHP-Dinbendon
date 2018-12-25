@@ -139,4 +139,4 @@
 				  buttonsStyling: false
 				})
 			}
-		})
+		});

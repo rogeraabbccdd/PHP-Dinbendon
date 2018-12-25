@@ -320,6 +320,9 @@
 <!-- Material dashboard JS -->
 <script src="./assets/js/core/material-dashboard.min.js"></script>
 <script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Loading bar JS -->
+<script src="./assets/js/plugins/loading-bar.js"></script>
+<script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {	
 		// DataTables
@@ -353,12 +356,9 @@
 		
 		<?php
 			include("./assets/js/inc/loginform.js");
-			include("./assets/js/inc/l2d.js");
 			include("./assets/js/inc/addres.js");
+			include("./assets/js/inc/l2d.js");
 		?>
-		
-		window.sr = ScrollReveal();
-		sr.reveal('.card', { duration: 1000 }, 50);
 	});
 </script>
 </html>

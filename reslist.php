@@ -226,21 +226,18 @@
 <!-- Material dashboard JS -->
 <script src="./assets/js/core/material-dashboard.min.js"></script>
 <script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Loading bar JS -->
+<script src="./assets/js/plugins/loading-bar.js"></script>
+<script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");
 			include("./assets/js/inc/raffle.js");
-		?>
-		
-		window.sr = ScrollReveal();
-		sr.reveal('.card', { duration: 1000 }, 50);
-		
-		<?php if(isset($today_res)) { ?>
-			showNotification('top', 'center', 'primary ', '<a href="./res.php?id=<?=$today_res?>">今日餐廳為&nbsp;<strong style="color:yellow"><?=$today_name?></strong>，快點我訂餐！</a>');
+			if(isset($today_res))	{ ?>
+				showNotification('top', 'center', 'primary ', '<a href="./res.php?id=<?=$today_res?>">今日餐廳為&nbsp;<strong style="color:yellow"><?=$today_name?></strong>，快點我訂餐！</a>');
 		<?php }?>
-		
 	});
 </script>
 </html>

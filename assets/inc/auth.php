@@ -32,7 +32,7 @@
 	}
 	
 	// 今日餐廳
-	if(!empty($_SESSION))
+	if(!empty($_SESSION["class"]))
 	{
 		$result=mysqli_query($link, "
 		SELECT

@@ -165,6 +165,9 @@
 <!-- Material dashboard JS -->
 <script src="./assets/js/core/material-dashboard.min.js"></script>
 <script async defer src="./assets/js/plugins/buttons.js"></script>
+<!-- Loading bar JS -->
+<script src="./assets/js/plugins/loading-bar.js"></script>
+<script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
 	$(document).ready( function () {
 		
