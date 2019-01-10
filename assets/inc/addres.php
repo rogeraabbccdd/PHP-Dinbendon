@@ -2,6 +2,8 @@
 	require_once "./config.php";
 	require_once "./auth.php";
 	
+	EscapePostData($_POST);
+	
 	// too large
 	if($_FILES["menupic"]["size"] > 1048576 || $_FILES["cover"]["size"] > 1048576)
 	{

@@ -4,7 +4,7 @@ $(window).on("load", function(){
 	bar1.set(0);
 	var loadtimer = setInterval(fakeload, 150);
 	function fakeload(){
-		load+=5;
+		load+=7;
 		if(load >= 100){
 			bar1.set(100);
 			clearInterval(loadtimer);

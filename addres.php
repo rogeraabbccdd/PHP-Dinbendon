@@ -104,28 +104,25 @@
 											</div>
 										</div>
 										<div class="row">
-											<label class="col-md-2 label-on-left" style="padding:28px 5px 0 0;text-align: right;">餐廳名字</label>
-											<div class="col-md-9">
-												<div class="form-group label-floating">
-													<label class="control-label"></label>
-													<input class="form-control" type="text" name="resname" value="<?=((!empty($name))?$name:"")?>"/>
+											<label class="col-sm-2 col-form-label">餐廳名字</label>
+											<div class="col-sm-10">
+												<div class="form-group">
+													<input class="form-control" type="text" name="resname" value="<?=((!empty($name))?$name:"")?>"/>			
 												</div>
 											</div>
 										</div>
 										<div class="row">
-											<label class="col-md-2 label-on-left" style="padding:28px 5px 0 0;text-align: right;">餐廳電話</label>
-											<div class="col-md-9">
-												<div class="form-group label-floating">
-													<label class="control-label"></label>
+											<label class="col-sm-2 col-form-label">餐廳電話</label>
+											<div class="col-sm-10">
+												<div class="form-group">
 													<input class="form-control" type="text" name="tel" value="<?=((!empty($tel))?$tel:"")?>" />
 												</div>
 											</div>
 										</div>
 										<div class="row">
-											<label class="col-md-2 label-on-left" style="padding:28px 5px 0 0;text-align: right;">餐廳地址</label>
-											<div class="col-md-9">
-												<div class="form-group label-floating">
-													<label class="control-label"></label>
+											<label class="col-sm-2 col-form-label">餐廳地址</label>
+											<div class="col-sm-10">
+												<div class="form-group">
 													<input class="form-control" type="text" name="address" value="<?=((!empty($address))?$address:"")?>" />
 												</div>
 											</div>
@@ -178,9 +175,9 @@
 									</div>
 								<div class="card-body">
 									<div class='material-datatables'>
-										<table id="menu" class="table">
+										<table id="menu" class="table col-md-auto nowrap table-rwd">
 											<thead class="text-rose">
-												<tr>
+												<tr class="tr-only-hide">
 													<th>項目</th>
 													<th>價格</th>
 													<th>操作</th>
@@ -205,13 +202,13 @@
 															{
 																?>
 																<tr>
-																	<td>
+																	<td data-th="項目">
 																		<input type='text' value='<?=$row["name"]?>' name='name[]' class='namemenu'>
 																	</td>
-																	<td>
+																	<td data-th="價格">
 																		<input type='text' value='<?=$row["price"]?>' name='price[]' class='pricemenu'>
 																	</td>
-																	<td>
+																	<td data-th="操作">
 																		<button type='button' class='delmenu btn btn-danger btn-link'>
 																			<i class='material-icons'>close</i>
 																		</button>
@@ -231,43 +228,11 @@
 									</div>
 								</div>
 								<div class="card-footer justify-content-center">
-									<input type="button" class='btn btn-primary btn-lg' style="padding: 15px 36px; font-size: 20px;" value="新增菜單" id="newmenub">
+									<input type="button" class='btn btn-primary btn-lg' style="padding: 15px 36px; font-size: 20px;" value="新增菜單" id="newmenub" data-toggle="modal" data-target="#modal_form">
 									&emsp;
 									<input type="button" class='btn btn-success btn-lg' style="padding: 15px 36px; font-size: 20px;" value="保存資料" id="saveres">
 								</div>
 							</div>		
-						</div>
-					</div>
-				</div>
-				<div class="modal fade" id="modal_form" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h3 class="modal-title">新增</h3>
-							</div>
-							<div class="modal-body form">
-								<div class="row">
-									<label class="col-sm-2 label-on-left" style="padding:15px 5px 0 0;text-align: right;">名稱</label>
-									<div class="col-md-9">
-										<div class="form-group label-floating" style="margin:0px !important">
-											<input class='form-control' type='text' name='modalname' id='modalname' required='true'/>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-2 label-on-left" style="padding:15px 5px 0 0;text-align: right;">價格</label>
-									<div class="col-md-9">
-										<div class="form-group label-floating"  style="margin:0px !important">
-											<input class='form-control' type='text' id='modalprice' name='modalprice' required='true'/>
-										</div>
-									</div>
-								</div>
-								<br />
-							</div>
-							<div class="modal-footer">
-								<input type="button" id="savemenum" class="btn btn-primary" value="確定" />
-							</div>
 						</div>
 					</div>
 				</div>	
@@ -281,9 +246,40 @@
 				</a>
 			</div>
 		</div>
-    </div>
-</body>
-</body>		
+	</div>
+	<div class="modal fade" id="modal_form" role="dialog" tabindex="-1" style="display:none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h3 class="modal-title">新增</h3>
+				</div>
+				<div class="modal-body form">
+					<div class="row">
+						<label class="col-sm-2 col-form-label">名稱</label>
+						<div class="col-sm-10">
+							<div class="form-group bmd-form-group">
+								<input class='form-control' type='text' name='modalname' id='modalname' required='true'/>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 col-form-label">價格</label>
+						<div class="col-sm-10">
+							<div class="form-group bmd-form-group">
+							<input class='form-control' type='text' id='modalprice' name='modalprice' required='true'/>
+							</div>
+						</div>
+					</div>
+					<br />
+				</div>
+				<div class="modal-footer">
+					<input type="button" id="savemenum" class="btn btn-primary" value="確定" />
+				</div>
+			</div>
+		</div>
+	</div>
+</body>	
 <!-- Core Js  -->					
 <script src="./assets/js/core/jquery.min.js"></script>
 <script src="./assets/js/core/popper.min.js"></script>
@@ -327,7 +323,6 @@
 	$(document).ready( function () {	
 		// DataTables
 		var menutable = $('#menu').DataTable( {
-			"responsive": true,
 			"language": {
 				"url": "./assets/others/datatables-chinese-traditional.json"
 			},

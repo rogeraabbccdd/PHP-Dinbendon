@@ -19,4 +19,17 @@
 	mysqli_query($link, "SET collate utf8_unicode_ci");
 	mysqli_set_charset($link, "utf8");
 	date_default_timezone_set("Asia/Taipei");
+
+	function EscapePostData(&$post)
+	{
+		global $link;
+		foreach($post as $p){
+			if(is_array($p)){
+				foreach($p as $pp){
+					$pp = mysqli_real_escape_string($link, $pp);
+				}
+			}
+			else $p = mysqli_real_escape_string($link, $p);
+		}
+	}
 ?>

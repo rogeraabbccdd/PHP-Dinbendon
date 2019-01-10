@@ -52,7 +52,7 @@
 		</div>
 	</div>
 </nav>
-<div id="loading-div" class="container-fluid position-fixed" style="height:100vh; z-index:1029">
+<div id="loading-div" class="container-fluid position-fixed" style="height:100vh; z-index:1029;">
 	<div class='blurbg' style='background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(<?=$bgimg?>);' data-filer="black"></div>
 	<div class="h-100 w-100" style="display:table">
 		<div class="d-table-cell align-middle">

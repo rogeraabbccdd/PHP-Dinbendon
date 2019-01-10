@@ -3,7 +3,6 @@
 			$('.form-group').removeClass('has-error');
 			$('#modalname').val("");
 			$('#modalprice').val("");
-			$('#modal_form').modal('show');
 		});
 		
 		// Add new menu to datatables

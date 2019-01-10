@@ -109,6 +109,10 @@
 							type: 'success',
 							confirmButtonClass: "btn btn-info",
 							buttonsStyling: false
+						}).then(function(){
+							window.setTimeout(function () {
+								window.location.reload()
+							}, 1000);
 						})
 					}
 					disabled.attr('disabled','disabled');

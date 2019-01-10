@@ -58,16 +58,14 @@
 										}
 									?>
 									<hr>
-									<div class="material-datatables table-responsive">
-										<table id="ordertable" class="table col-md-auto nowrap">
+									<div class="material-datatables">
+										<table id="ordertable" class="table col-md-auto nowrap table-rwd">
 											<thead class="text-rose">
-												<tr>
-													<th>姓名</th>
-													<th>座號</th>
+												<tr class="tr-only-hide">
 													<th>便當</th>
 													<th>價格</th>
 													<th>數量</th>
-													<th>備註</th>
+													<th>訂餐者</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -77,12 +75,12 @@
 													$result=mysqli_query($link, "
 													SELECT
 														".$menu_table.".name AS ordername,
-														".$student_table.".name AS name,
-														".$student_table.".num AS num,
 														".$menu_table.".price AS price,
-														".$order_table.".note AS note,
-														".$order_table.".qty AS qty,
-														".$order_table.".menu_id AS id
+														SUM(".$order_table.".qty) AS qty,
+														".$order_table.".menu_id AS id,
+														GROUP_CONCAT(".$student_table.".name) AS sname,
+														GROUP_CONCAT(".$order_table.".qty) AS q,
+														GROUP_CONCAT(".$order_table.".note) AS n
 													FROM
 														".$order_table.",
 														".$menu_table.",
@@ -94,6 +92,7 @@
 														".$student_table.".class = ".$class_table.".id AND
 														".$order_table.".stu_num = ".$student_table.".id AND
 														".$class_table.".id = '".$_SESSION['class']."'
+													GROUP BY ".$menu_table.".name 
 													ORDER BY ".$order_table.".menu_id DESC");
 
 													$numb=mysqli_num_rows($result); 
@@ -102,15 +101,30 @@
 														while ($row = mysqli_fetch_array($result))
 														{
 															$money += $row['price']*$row['qty'];
-															
-															echo "<tr>
-															<td>".$row['name']."</td>
-															<td>".$row['num']."</td>
-															<td>".$row['ordername']."</td>
-															<td>".$row['price']."</td>
-															<td>".$row['qty']."</td>
-															<td>".$row['note']."</td>
-															</tr>";						
+															?>
+															<tr>
+																<td data-th='便當'><?=$row['ordername']?></td>
+																<td data-th='價格'><?=$row['price']?></td>
+																<td data-th='數量'><?=$row['qty']?></td>
+																<td data-th='訂餐者'>
+																	<?php
+																		$sname = explode(",", $row["sname"]);
+																		$q = explode(",", $row["q"]);
+																		$n = explode(",", $row["n"]);
+																		for($i=0;$i<count($sname);$i++){
+																			?>
+																			<span class="badge badge-pill badge-<?=(empty($n[$i]))?"success":"danger"?> badge-name" 
+																			data-toggle="popover" data-placement="top"  data-trigger="hover" 
+																			data-container="body"
+																			data-content="<?=(empty($n[$i]))?"":$n[$i]?>">
+																				<?=$sname[$i]?>&nbsp;x<?=$q[$i]?>
+																			</span>
+																			<?php
+																		}
+																	?>
+																</td>
+															</tr>
+															<?php
 														}
 													}
 												?>
@@ -118,7 +132,10 @@
 										</table>
 									</div>
 									<br>
-									<p class="text-center" style="color:#FF0000">
+									<p class="text-danger text-center">
+										紅色的名字代表有備註
+									</p>
+									<p class="text-danger text-center">
 										總金額：<?=$money?>
 									</p>
 								</div>
@@ -172,7 +189,6 @@
 	$(document).ready( function () {
 		
 		var ordertable = $('#ordertable').DataTable( {
-			"responsive": true,
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },
@@ -180,8 +196,15 @@
                 [30, 50, -1],
                 [30, 50, "全部"]
             ],
+			"columnDefs": [ 
+				{
+			      "targets": 3,
+			      "searchable": false,
+				  "orderable": false
+				}
+			],
         });
-		
+	
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");

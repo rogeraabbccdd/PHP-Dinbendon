@@ -221,3 +221,61 @@ tr,table,td{
 .ldBar-label:after{
 	content: " %";
 }
+
+.badge-name{
+	text-shadow: none !important;
+	margin-bottom: 0px !important;
+	font-size: 15px !important;
+}
+
+tr.tr-only-hide {
+	color: #D20B2A;
+}
+
+@media (max-width: 767px) {
+	table.dataTable>tbody>tr>td:first-child {
+		padding-left: 5px!important; 
+	}
+	.table-rwd {
+		min-width: 100%;
+	}
+
+	tr.tr-only-hide {
+		display: none !important;
+	}
+
+	.table-rwd tr {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.table-rwd tr.odd {
+		background: WhiteSmoke;
+	}
+	.table-rwd tr.even {
+		background: Gainsboro;
+	}
+
+	.table-rwd td {
+		text-align: left;
+		font-size: 15px;
+		overflow: hidden;
+		display: block;
+		border:none;
+	}
+
+	.table-rwd td:before {
+		content: attr(data-th) " : ";
+		display: inline-block;
+		text-transform: uppercase;
+		font-weight: bold;
+		margin-right: 10px;
+		color: #D20B2A;
+	}
+
+	.table-rwd.table-bordered td,
+	.table-rwd.table-bordered th,
+	.table-rwd.table-bordered {
+		border: 0;
+	}
+}

@@ -151,10 +151,10 @@
 									<br/>
 									<br/>
 									<form id="orderform">
-									<div class="material-datatables table-responsive">
-										<table id="menu" class="table col-md-auto nowrap">
+									<div class="material-datatables">
+										<table id="menu" class="table col-md-auto nowrap table-rwd">
 											<thead class="text-rose">
-												<tr>
+												<tr class="tr-only-hide">
 													<th>名字</th>
 													<th>價格</th>
 													<th>數量</th>
@@ -196,14 +196,14 @@
 															}
 															?>
 															<tr>
-																<td class="menu_name"><?=$m_name?><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
-																<td><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
-																<td>
+																<td data-th="名字"><?=$m_name?><input type='hidden' name='id[]' value='<?=$m_id?>' /></td>
+																<td data-th="價格"><input type='nmtext' value='<?=$m_price?>' disabled name='price[]'/></td>
+																<td data-th="數量">
 																	<input type='button' value='-' class='qtyminus btn btn-primary btn-round btn-sm'  />
-																	<input type='text' name='qty[]' value='<?=$qty?>' class='qty' size='2'/>
+																	<input type='number' name='qty[]' value='<?=$qty?>' class='qty' size='2'/>
 																	<input type='button' value='+' class='qtyplus btn btn-primary btn-round btn-sm' />
 																</td>
-																<td><input type='text' name='note[]' class="note" value="<?=$note?>"></td>
+																<td data-th="備註"><input type='text' name='note[]' class="note" value="<?=$note?>"></td>
 															</tr>
 															<?php
 														}
@@ -361,7 +361,6 @@
 		});
 
 		var menutable = $('#menu').DataTable( {
-			"responsive": true,
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },
