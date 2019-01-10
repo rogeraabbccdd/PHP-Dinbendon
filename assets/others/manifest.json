@@ -1,0 +1,16 @@
+{
+	"name": "DinBenDon",
+	"short_name": "DinBenDon",
+	"icons": [{
+	  "src": "../img/hamburger512.png",
+	  "sizes": "512x512",
+	  "type": "image/png"
+	},{
+		"src": "../img/hamburger192.png",
+		"sizes": "192x192",
+		"type": "image/png"
+	}],
+	"start_url": "../../index.php",
+	"display": "standalone",
+	"background_color": "#00bcd4"
+  }

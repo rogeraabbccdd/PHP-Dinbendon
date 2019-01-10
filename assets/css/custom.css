@@ -279,3 +279,14 @@ tr.tr-only-hide {
 		border: 0;
 	}
 }
+
+@media (max-width: 991px) {
+	.dropdown-menu .dropdown-item, .dropdown-menu li>a {
+		color:#fff !important;
+	}
+
+	.navbar .dropdown .dropdown-menu, .navbar .dropdown.show .dropdown-menu {
+		height: 100%;
+		overflow-y: auto;
+	}
+}

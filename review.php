@@ -78,13 +78,14 @@
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
 	<link href="./assets/css/viewbox.css" rel="stylesheet" />
+	<link rel="manifest" href="./assets/others/manifest.json">
 </head>
 
 <body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
     <?php include("./assets/inc/nav.php");	?>
-    <div class="wrapper wrapper-full-page">
-		<div class="full-page" style="padding-top: 10vh;">
+    <div class="wrapper wrapper-full-page" style="display:none">
+		<div class="" style="padding-top: 13vh;">
 			<div class="content">
 				<div class="container">
 					<div class="row">

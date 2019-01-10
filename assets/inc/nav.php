@@ -56,7 +56,7 @@
 	<div class='blurbg' style='background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(<?=$bgimg?>);' data-filer="black"></div>
 	<div class="h-100 w-100" style="display:table">
 		<div class="d-table-cell align-middle">
-			<div id="loading-pic" class="mx-auto" data-type="fill" data-img="./assets/img/hamburguer.svg" data-img-size="100,100"></div>
+			<div id="loading-pic" class="mx-auto" data-type="fill" data-img="./assets/img/hamburger.svg" data-img-size="100,100"></div>
 		</div>
 	</div>
 </div>

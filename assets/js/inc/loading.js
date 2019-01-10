@@ -8,7 +8,7 @@ $(window).on("load", function(){
 		if(load >= 100){
 			bar1.set(100);
 			clearInterval(loadtimer);
-			setTimeout(' $("#loading-div").fadeOut(); window.sr = ScrollReveal(); sr.reveal(".card", { duration: 1000 }, 50); ', 500);
+			setTimeout(loadcomplete, 500);
 		}
 		else{
 			load+=5;
@@ -16,3 +16,11 @@ $(window).on("load", function(){
 		}
 	}
 })
+
+function loadcomplete(){
+	window.sr = ScrollReveal(); 
+	$("#loading-div").fadeOut(function(){
+		$(".wrapper").fadeIn();
+		sr.reveal(".card", { duration: 1000 }, 50);
+	}); 
+}

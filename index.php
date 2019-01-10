@@ -28,13 +28,14 @@
 	<link href="./assets/css/custom.css" rel="stylesheet" />
 	<link href="./assets/css/l2d.css" rel="stylesheet" />
 	<link href="./assets/css/loading-bar.css" rel="stylesheet" />
+	<link rel="manifest" href="./assets/others/manifest.json">
 </head>
 
 <body class="off-canvas-sidebar">
 	<?php include("./assets/inc/bg.php"); ?>
 	<?php include("./assets/inc/nav.php");	?>
-	<div class="wrapper wrapper-full-page">
-		<div class="page-header login-page header-filter" filter-color="black" style="">
+	<div class="wrapper wrapper-full-page" style="display:none">
+		<div class="page-header login-page" style="">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
