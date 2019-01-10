@@ -224,7 +224,8 @@ tr,table,td{
 
 .badge-name{
 	text-shadow: none !important;
-	margin-bottom: 0px !important;
+	margin-bottom: 2px !important;
+	margin-top: 2px !important;
 	font-size: 15px !important;
 }
 
@@ -289,4 +290,8 @@ tr.tr-only-hide {
 		height: 100%;
 		overflow-y: auto;
 	}
+}
+
+table.dataTable.nowrap td, table.dataTable.nowrap th {
+    white-space: normal !important;
 }
