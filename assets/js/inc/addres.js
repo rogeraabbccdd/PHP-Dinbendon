@@ -17,7 +17,7 @@
 				// add to rows
 				var r1 = "<input type='text' value='"+name+"' name='name2[]' class='namemenu'>";
 				var r2 = "<input type='text' value='"+price+"' name='price2[]' class='pricemenu'>";
-				var r3 = "<button type='button' class='delmenu2 btn btn-danger btn-simple'><i class='material-icons'>close</i></button>";
+				var r3 = "<button type='button' class='delmenu2 btn btn-danger btn-link'><i class='material-icons'>close</i></button>";
 				var rowadd = menutable.row.add([r1, r2, r3]).draw().node();
 				// hide modal
 				$('#modal_form').modal('hide');
@@ -83,7 +83,7 @@
 				
 				$.ajax({
 					type: 'post',
-					url: './assets/inc/addres.php<?=((!empty($id))?"?id=".$id:"")?>',
+					url: './assets/inc/api.php?do=addres',
 					data: fd,
 					cache: false,
 					contentType: false,

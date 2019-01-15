@@ -6,7 +6,7 @@
 	if(!isset($_SESSION["user"]))
 	{
 		echo "<script type='text/javascript'>window.location.href='./index.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
@@ -14,7 +14,7 @@
 	if($_SESSION["class"] == 0)
 	{
 		echo "<script type='text/javascript'>window.location.href='./admin.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 ?>
@@ -46,29 +46,29 @@
 				<div class="container"> 
 					<div class="row">
 						<?php
-							$result=mysqli_query($link, "SELECT * FROM ".$rest_table);
-							$numb=mysqli_num_rows($result); 
-							if (!empty($numb)) 
+							$sql = "SELECT * FROM ".$rest_table;
+							$result = $pdo->query($sql)->fetchAll(); 
+							if (!empty($result)) 
 							{ 
-								$result2 = mysqli_query($link, "
+								$sql = "
 									select (sum(case review when 1 then 1 else 0 end)/count(*))*100 as p, 
 									res,
 									count(*) as r, 
 									sum(case review when 1 then 1 else 0 end) as y, 
 									sum(case review when 0 then 1 else 0 end) as n 
-									from ".$review_table." group by res");
+									from ".$review_table." group by res";
 									
-								$numb2 = mysqli_num_rows($result2); 
-								if (!empty($numb2)) 
+								$result2 = $pdo->query($sql)->fetchAll(); 
+								if (!empty($result2)) 
 								{ 
-									while ($row2 = mysqli_fetch_array($result2))
+									foreach($result2 as $row2)
 									{
 										$yes[$row2['res']] = round($row2['y']/$row2['r']*100, 2);
 										$no[$row2['res']] = round($row2['n']/$row2['r']*100, 2);
 									}
 								}
 								
-								while ($row = mysqli_fetch_array($result))
+								foreach($result as $row)
 								{
 									$name = $row['name'];
 									$id = $row['id'];
@@ -161,12 +161,12 @@
 							<table>
 								<tr id="loadout">
 									<?php
-										$result = mysqli_query($link, "select * from ".$rest_table);
-										$numb=mysqli_num_rows($result); 
-										if (!empty($numb)) 
+										$sql = "select * from ".$rest_table;
+										$result = $pdo->query($sql)->fetchAll();
+										if (!empty($result)) 
 										{ 
 											$i=1;
-											while ($row = mysqli_fetch_array($result))
+											foreach($result as $row)
 											{
 												$pic = "./assets/img/res/pic/unknown.jpg";
 												if(!empty($row["cover"]) && file_exists("./assets/img/res/pic/".$row["cover"]))
@@ -243,5 +243,5 @@
 </script>
 </html>
 <?php
-	mysqli_close($link);
+	$pdo = null;
 ?>

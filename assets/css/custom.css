@@ -87,15 +87,7 @@ input[type="nmtext"]{
 .topbox{
    background:white;
    padding-bottom:50px;
-   background: #0f161d; /* Old browsers */
-   background: -moz-linear-gradient(left,  #0f161d 0%, #131b24 51%, #0f161d 100%); /* FF3.6+ */
-   background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0f161d), color-stop(51%,#131b24), color-stop(100%,#0f161d)); /* Chrome,Safari4+ */
-   background: -webkit-linear-gradient(left,  #0f161d 0%,#131b24 51%,#0f161d 100%); /* Chrome10+,Safari5.1+ */
-   background: -o-linear-gradient(left,  #0f161d 0%,#131b24 51%,#0f161d 100%); /* Opera 11.10+ */
-   background: -ms-linear-gradient(left,  #0f161d 0%,#131b24 51%,#0f161d 100%); /* IE10+ */
-   background: linear-gradient(to right,  #0f161d 0%,#131b24 51%,#0f161d 100%); /* W3C */
    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f161d', endColorstr='#0f161d',GradientType=1 ); /* IE6-9 */
-   box-shadow:0 0 10px 0 black;
 }
 
 .rollbox{

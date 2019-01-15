@@ -6,7 +6,7 @@
 	if(isset($_SESSION["user"]))
 	{
 		echo "<script type='text/javascript'>window.location.href='./reslist.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 ?>
@@ -122,5 +122,5 @@
 
 </html>
 <?php
-	mysqli_close($link);
+	$pdo = null;
 ?>

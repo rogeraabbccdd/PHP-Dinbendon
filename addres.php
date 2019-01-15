@@ -10,6 +10,8 @@
 		exit;
 	}
 	
+	$id = -1;
+
 	if(!empty($_GET["id"]))
 	{
 		$id = $_GET["id"];
@@ -18,15 +20,15 @@
 		if(!is_numeric($id))	
 		{
 			echo "<script type='text/javascript'>window.location='./addres.php';</script>"; 
-			mysqli_close($link);
+			$pdo = null;
 			exit;
 		}
 		
-		$result=mysqli_query($link, "SELECT * FROM ".$rest_table." WHERE id = ".$id."");
-		$numb=mysqli_num_rows($result); 
-		if (!empty($numb)) 
+		$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
+		$result = $pdo-> query($sql)->fetchAll(); 
+		if (!empty($result)) 
 		{ 
-			while ($row = mysqli_fetch_array($result))
+			foreach($result as $row)
 			{
 				$name = $row['name'];
 				$tel = $row['tel'];
@@ -42,7 +44,7 @@
 		else
 		{
 			echo "<script type='text/javascript'>window.location='./addres.php';</script>"; 
-			mysqli_close($link);
+			$pdo = null;
 			exit;
 		}
 	}
@@ -53,7 +55,7 @@
     <link rel="shortcut icon" href="./assets/img/icon.ico"/>
 	<link rel="bookmark" href="./assets/img/icon.ico"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>DinBenDon | <?=((!empty($row["id"]))?"編輯餐廳":"新增餐廳")?></title>
+    <title>DinBenDon | <?=((!empty($name))?"編輯餐廳":"新增餐廳")?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <!--  Material Dashboard CSS    -->
@@ -75,6 +77,7 @@
 			<div class="content">
 				<div class="container">
 					<form id="resform">
+						<input type="hidden" name="resid" value="<?=$id?>">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="card">
@@ -193,13 +196,13 @@
 											</tfoot>
 											<tbody>
 												<?php
-													if(!empty($id))
+													if($id != -1)
 													{
-														$result = mysqli_query($link, "select * from ".$menu_table." where res_id = '".$id."'");
-														$numb=mysqli_num_rows($result); 
-														if(!empty($numb)) 
+														$sql = "select * from ".$menu_table." where res_id = '".$id."'";
+														$result = $pdo-> query($sql)->fetchAll();  
+														if(!empty($result)) 
 														{
-															while($row = mysqli_fetch_array($result))
+															foreach($result as $row)
 															{
 																?>
 																<tr>
@@ -207,7 +210,7 @@
 																		<input type='text' value='<?=$row["name"]?>' name='name[]' class='namemenu'>
 																	</td>
 																	<td data-th="價格">
-																		<input type='text' value='<?=$row["price"]?>' name='price[]' class='pricemenu'>
+																		<input type='number' value='<?=$row["price"]?>' name='price[]' class='pricemenu'>
 																	</td>
 																	<td data-th="操作">
 																		<button type='button' class='delmenu btn btn-danger btn-link'>
@@ -268,7 +271,7 @@
 						<label class="col-sm-2 col-form-label">價格</label>
 						<div class="col-sm-10">
 							<div class="form-group bmd-form-group">
-							<input class='form-control' type='text' id='modalprice' name='modalprice' required='true'/>
+							<input class='form-control' type='number' id='modalprice' name='modalprice' required='true'/>
 							</div>
 						</div>
 					</div>
@@ -359,5 +362,5 @@
 </script>
 </html>
 <?php
-	mysqli_close($link);
+	$pdo = null;
 ?>

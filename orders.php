@@ -6,7 +6,7 @@
 	if(!isset($_SESSION["user"]))
 	{
 		echo "<script type='text/javascript'>window.location.href='./index.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 ?>
@@ -72,14 +72,16 @@
 											<tbody>
 												<?php
 													$money = 0;
+													$count = 0;
 													$tempDate = date("Y-m-d");
-													$result=mysqli_query($link, "
+													$sql = "
 													SELECT
 														".$menu_table.".name AS ordername,
 														".$menu_table.".price AS price,
 														SUM(".$order_table.".qty) AS qty,
 														".$order_table.".menu_id AS id,
 														GROUP_CONCAT(".$student_table.".name) AS sname,
+														GROUP_CONCAT(".$student_table.".num) AS snum,
 														GROUP_CONCAT(".$order_table.".qty) AS q,
 														GROUP_CONCAT(".$order_table.".note) AS n
 													FROM
@@ -94,14 +96,15 @@
 														".$order_table.".stu_num = ".$student_table.".id AND
 														".$class_table.".id = '".$_SESSION['class']."'
 													GROUP BY ".$menu_table.".name 
-													ORDER BY ".$order_table.".menu_id DESC");
+													ORDER BY ".$order_table.".menu_id DESC";
 
-													$numb=mysqli_num_rows($result); 
-													if(!empty($numb)) 
+													$result = $pdo->query($sql)->fetchAll(); 
+													if(!empty($result)) 
 													{ 
-														while ($row = mysqli_fetch_array($result))
+														foreach($result as $row)
 														{
 															$money += $row['price']*$row['qty'];
+															$count += $row['qty'];
 															?>
 															<tr>
 																<td data-th='便當'><?=$row['ordername']?></td>
@@ -110,6 +113,7 @@
 																<td data-th='訂餐者'>
 																	<?php
 																		$sname = explode(",", $row["sname"]);
+																		$snum = explode(",", $row["snum"]);
 																		$q = explode(",", $row["q"]);
 																		$n = explode(",", $row["n"]);
 																		for($i=0;$i<count($sname);$i++){
@@ -118,7 +122,7 @@
 																			data-toggle="popover" data-placement="top"  data-trigger="hover" 
 																			data-container="body"
 																			data-content="<?=(empty($n[$i]))?"":$n[$i]?>">
-																				<?=$sname[$i]?>&nbsp;x<?=$q[$i]?>
+																				<?=$sname[$i]?>(<?=$snum[$i]?>)&nbsp;&nbsp;x<?=$q[$i]?>
 																			</span>
 																			<?php
 																		}
@@ -137,7 +141,8 @@
 										紅色的名字代表有備註
 									</p>
 									<p class="text-danger text-center">
-										總金額：<?=$money?>
+										總金額：<?=$money?><br>
+										總數量：<?=$count?><br>
 									</p>
 								</div>
 							</div>
@@ -214,5 +219,5 @@
 </script>
 </html>
 <?php
-	mysqli_close($link);
+$pdo = null;
 ?>

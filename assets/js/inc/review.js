@@ -68,8 +68,7 @@
 		var text = $("#reviewtext").val();
 		$("#submitreview").attr("disabled");
 		var res = <?=$id?>;
-		$.post("./assets/inc/review.php", {text, yn, res}, function(r){
-			console.log(r);
+		$.post("./assets/inc/api.php?do=review", {text, yn, res}, function(r){
 			if(r == "s")
 			{
 				swal({
@@ -88,7 +87,7 @@
 			{
 				swal({
 					title: '錯誤',
-					text: '系統發生錯誤',
+					text: r,
 					type: 'error',
 					confirmButtonClass: "btn btn-info",
 					buttonsStyling: false
@@ -131,7 +130,7 @@
 				{
 					swal({
 						title: '錯誤',
-						text: '系統發生錯誤',
+						text: r,
 						type: 'error',
 						confirmButtonClass: "btn btn-info",
 						buttonsStyling: false

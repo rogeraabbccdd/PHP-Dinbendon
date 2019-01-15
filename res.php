@@ -7,7 +7,7 @@
 	if(!isset($_SESSION["user"]))
 	{
 		echo "<script type='text/javascript'>window.location.href='./index.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
@@ -16,7 +16,7 @@
 	else 
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
@@ -24,15 +24,15 @@
 	if(!is_numeric($id))	
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
-	$result=mysqli_query($link, "SELECT * FROM ".$rest_table." WHERE id = ".$id."");
-	$numb=mysqli_num_rows($result); 
-	if (!empty($numb)) 
+	$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
+	$result = $pdo->query($sql)->fetchAll();
+	if (!empty($result)) 
 	{ 
-		while ($row = mysqli_fetch_array($result))
+		foreach($result as $row)
 		{
 			$name = $row['name'];
 			$tel = $row['tel'];
@@ -45,28 +45,26 @@
 	else
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
-	$result=mysqli_query($link, "
+	$sql = "
 	select (sum(case review when 1 then 1 else 0 end)/count(*))*100 as p, 
 	count(*) as r, 
 	sum(case review when 1 then 1 else 0 end) as y, 
 	sum(case review when 0 then 1 else 0 end) as n 
-	from ".$review_table." where res = ".$id." group by res");
-	$numb=mysqli_num_rows($result); 
-	if (!empty($numb)) 
-	{ 
-		$row = mysqli_fetch_array($result);
-
+	from ".$review_table." where res = ".$id." group by res";
+	$row = $pdo->query($sql)->fetch();
+	if (!empty($row)) 
+	{
 		$yes = round($row['y']/$row['r']*100, 2);
 		$no = round($row['n']/$row['r']*100, 2);
 	}
 	
 	if(!empty($today_res) && $today_res == $id)
 	{
-		$result = mysqli_query($link, "
+		$sql = "
 			SELECT
 				".$order_table.".note AS note,
 				".$order_table.".qty AS qty,
@@ -83,12 +81,12 @@
 				".$order_table.".stu_num = ".$student_table.".id AND
 				".$class_table.".id = '".$_SESSION['class']."' AND
 				".$order_table.".stu_num = '".$_SESSION['user']."'
-			ORDER BY ".$order_table.".menu_id DESC");
+			ORDER BY ".$order_table.".menu_id DESC";
 			
-		$numb=mysqli_num_rows($result); 
-		if (!empty($numb)) 
+		$result = $pdo->query($sql)->fetchAll(); 
+		if (!empty($result)) 
 		{ 
-			while ($row = mysqli_fetch_array($result))
+			foreach($result as $row)
 			{
 				$orders["id"][] = $row["id"];
 				$orders["qty"][] = $row["qty"];
@@ -172,11 +170,11 @@
 											</tfoot>
 											<tbody>
 												<?php
-													$result=mysqli_query($link, "SELECT * FROM ".$menu_table." WHERE res_id = ".$id."");
-													$numb=mysqli_num_rows($result); 
-													if (!empty($numb)) 
+													$sql = "SELECT * FROM ".$menu_table." WHERE res_id = ".$id."";
+													$result = $pdo->query($sql)->fetchAll(); 
+													if (!empty($result)) 
 													{ 
-														while ($row = mysqli_fetch_array($result))
+														foreach($result as $row)
 														{
 															$m_name = $row['name'];
 															$m_price = $row['price'];
@@ -185,7 +183,6 @@
 															$qty = 0;
 															$note = "";
 
-															// https://stackoverflow.com/questions/2581619/php-what-does-array-search-return-if-nothing-was-found
 															if(!empty($orders))
 															{
 																$key = array_search($m_id, $orders["id"]);
@@ -231,7 +228,7 @@
 							</div>
 							<?php
 								// 檢查有沒有訂過這家，有的話顯示評價撰寫欄
-								$result = mysqli_query($link, "
+								$sql = "
 									SELECT
 										".$order_table.".note AS note,
 										".$order_table.".qty AS qty,
@@ -248,18 +245,18 @@
 										".$class_table.".id = '".$_SESSION['class']."' AND
 										".$order_table.".stu_num = '".$_SESSION['user']."' AND
 										".$menu_table.".res_id = '".$id."'
-									ORDER BY ".$order_table.".menu_id DESC");
+									ORDER BY ".$order_table.".menu_id DESC";
 									
-								$numb=mysqli_num_rows($result); 
-								if (!empty($numb)) 
+								$result = $pdo->query($sql)->fetchAll(); 
+								if (!empty($result)) 
 								{ 
 									$text = "";
 									$review = "";
-									$result2 = mysqli_query($link, "select * from ".$review_table." where stu_num = '".$_SESSION["user"]."' and res = '".$id."'");
-									$numb2=mysqli_num_rows($result2); 
-									if(!empty($numb2))
+									$sql = "select * from ".$review_table." where stu_num = '".$_SESSION["user"]."' and res = '".$id."'";
+									$result2 = $pdo->query($sql); 
+									if(!empty($result2))
 									{
-										$row2 = mysqli_fetch_array($result2);
+										$row2 = $result2->fetch();
 										$text = $row2["comment"];
 										$review = $row2["review"];
 									}
@@ -283,12 +280,12 @@
 													</button>
 												</div>
 												<div class="card-footer justify-content-center">
-													<input id='submitreview' type="submit" class='btn btn-info btn-lg' style="padding: 15px 36px; font-size: 20px;" value="<?=(!empty($numb2))?"更新評價":"送出"?>">
+													<input id='submitreview' type="submit" class='btn btn-info btn-lg mx-1' style="padding: 15px 36px; font-size: 20px;" value="<?=(!empty($result2))?"更新":"送出"?>">
 													<?php
-														if(!empty($numb2))
+														if(!empty($result2))
 														{
 															?>
-															<input id='delreview' type="button" class='btn btn-danger btn-lg' style="padding: 15px 36px; font-size: 20px;" value="刪除評價">
+															<input id='delreview' type="button" class='btn btn-danger btn-lg mx-1' style="padding: 15px 36px; font-size: 20px;" value="刪除">
 															<?php
 														}
 													?>
@@ -398,5 +395,5 @@
 </script>
 </html>
 <?php
-	mysqli_close($link);
+	$pdo = null;
 ?>

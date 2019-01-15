@@ -7,10 +7,11 @@
 		$number = $_POST["login"];
 		$password = $_POST["pass"];
 		
-		$result = mysqli_query($link, "SELECT * FROM ".$student_table." WHERE number = '".$number."' AND pass = '".$password."'");
-		if($result && mysqli_num_rows($result) > 0)
+		$sql = "SELECT * FROM ".$student_table." WHERE number = '".$number."' AND pass = '".$password."'";
+		$result = $pdo->query($sql)->fetchAll();
+		if(!empty($result) && count($result) > 0)
 		{
-			while($row = mysqli_fetch_array($result))
+			foreach($result as $row)
 			{
 				$_SESSION['name'] = $row["name"];
 				$_SESSION['class'] = $row["class"];
@@ -22,7 +23,7 @@
 		{
 			echo "failed";
 		}
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	if (isset($_POST['logout']))
@@ -34,7 +35,7 @@
 	// 今日餐廳
 	if(!empty($_SESSION["class"]))
 	{
-		$result=mysqli_query($link, "
+		$sql = "
 		SELECT
 			".$rest_table.".*
 		FROM
@@ -50,13 +51,12 @@
 			".$student_table.".class = ".$class_table.".id AND
 			".$student_table.".class = '".$_SESSION["class"]."' AND
 			DATE(".$order_table.".date) = CURDATE()
-		ORDER BY 
-			".$rest_table.".id LIMIT 1;");
+		ORDER BY ".$rest_table.".id LIMIT 1;";
 
-		$numb=mysqli_num_rows($result); 
-		if (!empty($numb)) 
+		$result = $pdo->query($sql)->fetchAll();
+		if (!empty($result)) 
 		{ 
-			while ($row = mysqli_fetch_array($result))
+			foreach($result as $row)
 			{
 				$today_res = $row['id'];
 				$today_name = $row['name'];

@@ -41,7 +41,7 @@
 				
 			$.ajax({
 				type: "POST",
-				url: "./assets/inc/order.php",
+				url: "./assets/inc/api.php?do=order",
 				data: data,
 				dataType: "json",
 				cache: false,
@@ -111,7 +111,7 @@
 							buttonsStyling: false
 						}).then(function(){
 							window.setTimeout(function () {
-								window.location.reload()
+								window.location = "./orders.php";
 							}, 1000);
 						})
 					}

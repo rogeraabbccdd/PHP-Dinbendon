@@ -7,7 +7,7 @@
 	if(!isset($_SESSION["user"]))
 	{
 		echo "<script type='text/javascript'>window.location.href='./index.php';</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
@@ -16,7 +16,7 @@
 	else 
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
@@ -24,39 +24,34 @@
 	if(!is_numeric($id))	
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
-	$result=mysqli_query($link, "SELECT * FROM ".$rest_table." WHERE id = ".$id."");
-	$numb=mysqli_num_rows($result); 
-	if (!empty($numb)) 
+	$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
+	$row = $pdo->query($sql)->fetch();
+	if (!empty($row)) 
 	{ 
-		while ($row = mysqli_fetch_array($result))
-		{
-			$name = $row['name'];
-			$tel = $row['tel'];
-			$address = $row['address'];
-		}
+		$name = $row['name'];
+		$tel = $row['tel'];
+		$address = $row['address'];
 	}
 	else
 	{
 		echo "<script type='text/javascript'>alert('查無餐廳ID');window.history.back();</script>"; 
-		mysqli_close($link);
+		$pdo = null;
 		exit;
 	}
 	
-	$result=mysqli_query($link, "
+	$sql = "
 	select (sum(case review when 1 then 1 else 0 end)/count(*))*100 as p, 
 	count(*) as r, 
 	sum(case review when 1 then 1 else 0 end) as y, 
 	sum(case review when 0 then 1 else 0 end) as n 
-	from ".$review_table." where res = ".$id." group by res");
-	$numb=mysqli_num_rows($result); 
-	if (!empty($numb)) 
+	from ".$review_table." where res = ".$id." group by res";
+	$row = $pdo->query($sql)->fetch();
+	if (!empty($result)) 
 	{ 
-		$row = mysqli_fetch_array($result);
-
 		$yes = round($row['y']/$row['r']*100, 2);
 		$no = round($row['n']/$row['r']*100, 2);
 	}
@@ -112,25 +107,25 @@
 										<?php if(isset($pic))	echo "<a href='".$pic."' class='image-link'><img src='".$pic."' style='height:auto !important; width:500px !important'/></a>";?>
 									</div>
 									<div class="table-responsive material-datatables">
-										<table class="table col-md-auto nowrap" id="reviewtbl">
-											<thead class="text-primary">
-												<tr>
+										<table class="table col-md-auto nowrap table-rwd" id="reviewtbl">
+											<thead class="text-rose">
+												<tr class="tr-only-hide">
 													<th>留言</th>
 													<th>評價</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
-													$result = mysqli_query($link, "select * from ".$review_table." where res = '".$id."'");
-													$numb=mysqli_num_rows($result); 
-													if (!empty($numb)) 
+													$sql = "select * from ".$review_table." where res = '".$id."'";
+													$result = $pdo->query($sql)->fetchAll();
+													if (!empty($result)) 
 													{ 
-														while ($row = mysqli_fetch_array($result))
+														foreach($result as $row)
 														{
 															?>
 																<tr>
-																	<td class="text-left"><?=$row["comment"]?></td>
-																	<td><span style="display:none"><?=$row["review"]?></span>
+																	<td class="text-left" data-th="留言"><?=$row["comment"]?></td>
+																	<td data-th="評價"><span style="display:none"><?=$row["review"]?></span>
 																	<?=($row["review"] == "1")?'<font color="#4caf50"><i class="fas fa-thumbs-up"></i></font>':'<font color="#f44336"><i class="fas fa-thumbs-down"></i></font>'?></td>
 																</tr>
 															<?php
@@ -212,5 +207,5 @@
 </script>
 </html>
 <?php
-	mysqli_close($link);
+	$pdo = null;
 ?>
