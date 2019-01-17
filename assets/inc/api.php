@@ -410,7 +410,7 @@
 					$n = explode(",", $row["n"]);
 
 					for($i=0;$i<count($sname);$i++){
-
+						$snum[$i] = str_pad($snum[$i], 2, 0, STR_PAD_LEFT);
 						$holder = array("NOTETEXT", "NUMBER", "HASNOTE", "NAME", "QTY");
 						$hasnote = (empty($n[$i]))?"success":"danger";
 						$value   = array($n[$i], $snum[$i], $hasnote, $sname[$i], $q[$i]);
