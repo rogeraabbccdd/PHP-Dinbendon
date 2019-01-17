@@ -56,7 +56,7 @@
 	sum(case review when 0 then 1 else 0 end) as n 
 	from ".$review_table." where res = ".$id." group by res";
 	$row = $pdo->query($sql)->fetch();
-	if (count($row) > 0) 
+	if ($row)
 	{
 		$yes = round($row['y']/$row['r']*100, 2);
 		$no = round($row['n']/$row['r']*100, 2);
