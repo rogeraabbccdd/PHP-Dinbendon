@@ -118,12 +118,16 @@
 																		$n = explode(",", $row["n"]);
 																		for($i=0;$i<count($sname);$i++){
 																			?>
-																			<span class="badge badge-pill badge-<?=(empty($n[$i]))?"success":"danger"?> badge-name" 
+																			<div class="d-inline bg-secondary text-white p-1" style=" border-radius: 25px 0px 0 25px;"><?=$snum[$i]?></div>
+																			<div class="d-inline bg-success text-white p-1" style="margin-left:-4px"><?=$sname[$i]?></div>
+																			<div class="d-inline bg-danger text-white p-1" style="border-radius: 0 25px 25px 0;margin-left:-4px">x<?=$q[$i]?></div>
+																	
+																			<!-- span class="badge badge-pill badge-<?=(empty($n[$i]))?"success":"danger"?> badge-name" 
 																			data-toggle="popover" data-placement="top"  data-trigger="hover" 
 																			data-container="body"
 																			data-content="<?=(empty($n[$i]))?"":$n[$i]?>">
 																				<?=$sname[$i]?>(<?=$snum[$i]?>)&nbsp;&nbsp;x<?=$q[$i]?>
-																			</span>
+																			</span -->
 																			<?php
 																		}
 																	?>
