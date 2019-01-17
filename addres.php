@@ -26,7 +26,7 @@
 		
 		$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
 		$result = $pdo-> query($sql)->fetchAll(); 
-		if (!empty($result)) 
+		if (count($result) > 0) 
 		{ 
 			foreach($result as $row)
 			{
@@ -200,7 +200,7 @@
 													{
 														$sql = "select * from ".$menu_table." where res_id = '".$id."'";
 														$result = $pdo-> query($sql)->fetchAll();  
-														if(!empty($result)) 
+														if (count($result) > 0)  
 														{
 															foreach($result as $row)
 															{

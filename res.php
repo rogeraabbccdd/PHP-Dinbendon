@@ -30,7 +30,7 @@
 	
 	$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
 	$result = $pdo->query($sql)->fetchAll();
-	if (!empty($result)) 
+	if (count($result) > 0) 
 	{ 
 		foreach($result as $row)
 		{
@@ -56,7 +56,7 @@
 	sum(case review when 0 then 1 else 0 end) as n 
 	from ".$review_table." where res = ".$id." group by res";
 	$row = $pdo->query($sql)->fetch();
-	if (!empty($row)) 
+	if (count($row) > 0) 
 	{
 		$yes = round($row['y']/$row['r']*100, 2);
 		$no = round($row['n']/$row['r']*100, 2);
@@ -84,7 +84,7 @@
 			ORDER BY ".$order_table.".menu_id DESC";
 			
 		$result = $pdo->query($sql)->fetchAll(); 
-		if (!empty($result)) 
+		if (count($result) > 0) 
 		{ 
 			foreach($result as $row)
 			{
@@ -172,7 +172,7 @@
 												<?php
 													$sql = "SELECT * FROM ".$menu_table." WHERE res_id = ".$id."";
 													$result = $pdo->query($sql)->fetchAll(); 
-													if (!empty($result)) 
+													if (count($result) > 0) 
 													{ 
 														foreach($result as $row)
 														{
@@ -248,13 +248,13 @@
 									ORDER BY ".$order_table.".menu_id DESC";
 									
 								$result = $pdo->query($sql)->fetchAll(); 
-								if (!empty($result)) 
+								if (count($result) > 0) 
 								{ 
 									$text = "";
 									$review = "";
 									$sql = "select * from ".$review_table." where stu_num = '".$_SESSION["user"]."' and res = '".$id."'";
 									$result2 = $pdo->query($sql); 
-									if(!empty($result2))
+									if (count($result2) > 0) 
 									{
 										$row2 = $result2->fetch();
 										$text = $row2["comment"];
@@ -282,7 +282,7 @@
 												<div class="card-footer justify-content-center">
 													<input id='submitreview' type="submit" class='btn btn-info btn-lg mx-1' style="padding: 15px 36px; font-size: 20px;" value="<?=(!empty($result2))?"更新":"送出"?>">
 													<?php
-														if(!empty($result2))
+														if (count($result2) > 0) 
 														{
 															?>
 															<input id='delreview' type="button" class='btn btn-danger btn-lg mx-1' style="padding: 15px 36px; font-size: 20px;" value="刪除">

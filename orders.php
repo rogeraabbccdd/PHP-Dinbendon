@@ -9,6 +9,33 @@
 		$pdo = null;
 		exit;
 	}
+
+	$money = 0;
+	$count = 0;
+
+	$sql = "SELECT
+		".$menu_table.".price AS price,
+		".$order_table.".qty AS qty
+	FROM
+		".$order_table.",
+		".$menu_table.",
+		".$class_table.",
+		".$student_table."
+	WHERE
+		".$menu_table.".id = ".$order_table.".menu_id AND 
+		DATE(".$order_table.".date) = CURDATE() AND
+		".$student_table.".class = ".$class_table.".id AND
+		".$order_table.".stu_num = ".$student_table.".id AND
+		".$class_table.".id = '".$_SESSION['class']."'
+	ORDER BY ".$order_table.".menu_id DESC";
+
+	$result = $pdo->query($sql)->fetchAll(); 
+	if(count($result)>0){
+		foreach($result as $row){
+			$money += $row['price']*$row['qty'];
+			$count += $row['qty'];
+		}
+	}
 ?>
 <html>
 <head>
@@ -60,7 +87,7 @@
 									?>
 									<hr>
 									<div class="material-datatables">
-										<table id="ordertable" class="table col-md-auto nowrap table-rwd">
+										<table id="ordertable" class="table col-md-auto nowrap table-rwd" style="width:100%	">
 											<thead class="text-rose">
 												<tr class="tr-only-hide">
 													<th>便當</th>
@@ -71,71 +98,7 @@
 											</thead>
 											<tbody>
 												<?php
-													$money = 0;
-													$count = 0;
-													$tempDate = date("Y-m-d");
-													$sql = "
-													SELECT
-														".$menu_table.".name AS ordername,
-														".$menu_table.".price AS price,
-														SUM(".$order_table.".qty) AS qty,
-														".$order_table.".menu_id AS id,
-														GROUP_CONCAT(".$student_table.".name) AS sname,
-														GROUP_CONCAT(".$student_table.".num) AS snum,
-														GROUP_CONCAT(".$order_table.".qty) AS q,
-														GROUP_CONCAT(".$order_table.".note) AS n
-													FROM
-														".$order_table.",
-														".$menu_table.",
-														".$class_table.",
-														".$student_table."
-													WHERE
-														".$menu_table.".id = ".$order_table.".menu_id AND 
-														DATE(".$order_table.".date) = CURDATE() AND
-														".$student_table.".class = ".$class_table.".id AND
-														".$order_table.".stu_num = ".$student_table.".id AND
-														".$class_table.".id = '".$_SESSION['class']."'
-													GROUP BY ".$menu_table.".name 
-													ORDER BY ".$order_table.".menu_id DESC";
-
-													$result = $pdo->query($sql)->fetchAll(); 
-													if(!empty($result)) 
-													{ 
-														foreach($result as $row)
-														{
-															$money += $row['price']*$row['qty'];
-															$count += $row['qty'];
-															?>
-															<tr>
-																<td data-th='便當'><?=$row['ordername']?></td>
-																<td data-th='價格'><?=$row['price']?></td>
-																<td data-th='數量'><?=$row['qty']?></td>
-																<td data-th='訂餐者'>
-																	<?php
-																		$sname = explode(",", $row["sname"]);
-																		$snum = explode(",", $row["snum"]);
-																		$q = explode(",", $row["q"]);
-																		$n = explode(",", $row["n"]);
-																		for($i=0;$i<count($sname);$i++){
-																			?>
-																			<div class="d-inline bg-secondary text-white p-1" style=" border-radius: 25px 0px 0 25px;"><?=$snum[$i]?></div>
-																			<div class="d-inline bg-success text-white p-1" style="margin-left:-4px"><?=$sname[$i]?></div>
-																			<div class="d-inline bg-danger text-white p-1" style="border-radius: 0 25px 25px 0;margin-left:-4px">x<?=$q[$i]?></div>
-																	
-																			<!-- span class="badge badge-pill badge-<?=(empty($n[$i]))?"success":"danger"?> badge-name" 
-																			data-toggle="popover" data-placement="top"  data-trigger="hover" 
-																			data-container="body"
-																			data-content="<?=(empty($n[$i]))?"":$n[$i]?>">
-																				<?=$sname[$i]?>(<?=$snum[$i]?>)&nbsp;&nbsp;x<?=$q[$i]?>
-																			</span -->
-																			<?php
-																		}
-																	?>
-																</td>
-															</tr>
-															<?php
-														}
-													}
+												
 												?>
 											</tbody>
 										</table>
@@ -206,15 +169,50 @@
                 [30, 50, -1],
                 [30, 50, "全部"]
             ],
+			"columns": [
+            	{ data: 'name'},
+            	{ data: 'price'},
+            	{ data: 'count'},
+				{ data: 'people'}
+          	],
 			"columnDefs": [ 
+				{
+			      "targets": 0,
+				  "createdCell":  function (td, cellData, rowData, row, col) {
+         			  $(td).attr('data-th', '便當'); 
+					}
+				},
+				{
+			      "targets": 1,
+				  "createdCell":  function (td, cellData, rowData, row, col) {
+         			  $(td).attr('data-th', '價格'); 
+					}
+				},
+				{
+			      "targets": 2,
+				  "createdCell":  function (td, cellData, rowData, row, col) {
+         			  $(td).attr('data-th', '數量'); 
+					}
+				},
 				{
 			      "targets": 3,
 			      "searchable": false,
-				  "orderable": false
+				  "orderable": false,
+				  "createdCell":  function (td, cellData, rowData, row, col) {
+         			  $(td).attr('data-th', '訂餐者'); 
+					}
 				}
 			],
+			"ajax": "./assets/inc/api.php?do=getorder",
+			drawCallback: function () {
+				$('[data-toggle="popover" ]').popover();
+			}
         });
 	
+		setInterval( function () {
+			ordertable.ajax.reload();
+		}, 3000 );
+
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");

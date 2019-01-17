@@ -30,7 +30,7 @@
 	
 	$sql = "SELECT * FROM ".$rest_table." WHERE id = ".$id."";
 	$row = $pdo->query($sql)->fetch();
-	if (!empty($row)) 
+	if (count($row) > 0) 
 	{ 
 		$name = $row['name'];
 		$tel = $row['tel'];
@@ -50,7 +50,7 @@
 	sum(case review when 0 then 1 else 0 end) as n 
 	from ".$review_table." where res = ".$id." group by res";
 	$row = $pdo->query($sql)->fetch();
-	if (!empty($result)) 
+	if (count($result) > 0) 
 	{ 
 		$yes = round($row['y']/$row['r']*100, 2);
 		$no = round($row['n']/$row['r']*100, 2);
@@ -118,7 +118,7 @@
 												<?php
 													$sql = "select * from ".$review_table." where res = '".$id."'";
 													$result = $pdo->query($sql)->fetchAll();
-													if (!empty($result)) 
+													if (count($result) > 0) 
 													{ 
 														foreach($result as $row)
 														{

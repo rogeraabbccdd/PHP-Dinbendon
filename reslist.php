@@ -48,7 +48,7 @@
 						<?php
 							$sql = "SELECT * FROM ".$rest_table;
 							$result = $pdo->query($sql)->fetchAll(); 
-							if (!empty($result)) 
+							if (count($result) > 0) 
 							{ 
 								$sql = "
 									select (sum(case review when 1 then 1 else 0 end)/count(*))*100 as p, 
@@ -59,7 +59,7 @@
 									from ".$review_table." group by res";
 									
 								$result2 = $pdo->query($sql)->fetchAll(); 
-								if (!empty($result2)) 
+								if (count($result2) > 0) 
 								{ 
 									foreach($result2 as $row2)
 									{
@@ -163,7 +163,7 @@
 									<?php
 										$sql = "select * from ".$rest_table;
 										$result = $pdo->query($sql)->fetchAll();
-										if (!empty($result)) 
+										if (count($result) > 0) 
 										{ 
 											$i=1;
 											foreach($result as $row)
