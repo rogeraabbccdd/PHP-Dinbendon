@@ -358,67 +358,73 @@
 		/*************************************************************************************************/
 		case "getorder":
 			$data = array();
-			$sql = "
-			SELECT
-				".$menu_table.".name AS ordername,
-				".$menu_table.".price AS price,
-				SUM(".$order_table.".qty) AS qty,
-				".$order_table.".menu_id AS id,
-				GROUP_CONCAT(".$student_table.".name) AS sname,
-				GROUP_CONCAT(".$student_table.".num) AS snum,
-				GROUP_CONCAT(".$order_table.".qty) AS q,
-				GROUP_CONCAT(".$order_table.".note) AS n
-			FROM
-				".$order_table.",
-				".$menu_table.",
-				".$class_table.",
-				".$student_table."
-			WHERE
-				".$menu_table.".id = ".$order_table.".menu_id AND 
-				DATE(".$order_table.".date) = CURDATE() AND
-				".$student_table.".class = ".$class_table.".id AND
-				".$order_table.".stu_num = ".$student_table.".id AND
-				".$class_table.".id = '".$_SESSION['class']."'
-			GROUP BY ".$menu_table.".name 
-			ORDER BY ".$order_table.".menu_id DESC";
+			if(!empty($_SESSION["user"]))
+			{
+				$sql = "
+				SELECT
+					".$menu_table.".name AS ordername,
+					".$menu_table.".price AS price,
+					SUM(".$order_table.".qty) AS qty,
+					".$order_table.".menu_id AS id,
+					GROUP_CONCAT(".$student_table.".name) AS sname,
+					GROUP_CONCAT(".$student_table.".num) AS snum,
+					GROUP_CONCAT(".$order_table.".qty) AS q,
+					GROUP_CONCAT(".$order_table.".note) AS n
+				FROM
+					".$order_table.",
+					".$menu_table.",
+					".$class_table.",
+					".$student_table."
+				WHERE
+					".$menu_table.".id = ".$order_table.".menu_id AND 
+					DATE(".$order_table.".date) = CURDATE() AND
+					".$student_table.".class = ".$class_table.".id AND
+					".$order_table.".stu_num = ".$student_table.".id AND
+					".$class_table.".id = '".$_SESSION['class']."'
+				GROUP BY ".$menu_table.".name 
+				ORDER BY ".$order_table.".menu_id DESC";
 
-			$result = $pdo->query($sql)->fetchAll(); 
-			if (count($result) > 0) 
-			{ 
-				$recordsTotal = count($result);
-				foreach($result as $row)
-				{
-					
-					$people = "";
-					$template = '
-					<span data-toggle="popover" 
-						data-placement="top"  
-						data-trigger="hover" 
-							data-container="body"
-							data-content="NOTETEXT">
-						<div class="d-inline bg-secondary text-white p-1" style=" border-radius: 25px 0px 0 25px;">NUMBER</div>
+				$result = $pdo->query($sql)->fetchAll(); 
+				if (count($result) > 0) 
+				{ 
+					$recordsTotal = count($result);
+					foreach($result as $row)
+					{
 						
-							<div class="d-inline bg-HASNOTE text-white p-1" style="margin-left:-4px" >NAME</div>
-						
-						<div class="d-inline bg-info text-white p-1" style="border-radius: 0 25px 25px 0;margin-left:-4px">xQTY</div>
-					</div>
-					</span>';
+						$people = "";
+						$template = '
+						<div class="my-1 d-inline-block" data-toggle="popover" 
+							data-placement="top"  
+							data-trigger="hover" 
+								data-container="body"
+								data-content="NOTETEXT">
+							<div class="d-inline bg-secondary text-white p-1" style=" border-radius: 25px 0px 0 25px;">NUMBER</div>
+							
+								<div class="d-inline bg-HASNOTE text-white p-1" style="margin-left:-4px" >NAME</div>
+							
+							<div class="d-inline bg-info text-white p-1" style="border-radius: 0 25px 25px 0;margin-left:-4px">xQTY</div>
+						</div>';
 
-					$sname = explode(",", $row["sname"]);
-					$snum = explode(",", $row["snum"]);
-					$q = explode(",", $row["q"]);
-					$n = explode(",", $row["n"]);
+						$sname = explode(",", $row["sname"]);
+						$snum = explode(",", $row["snum"]);
+						$q = explode(",", $row["q"]);
+						$n = explode(",", $row["n"]);
 
-					for($i=0;$i<count($sname);$i++){
-						$snum[$i] = str_pad($snum[$i], 2, 0, STR_PAD_LEFT);
-						$holder = array("NOTETEXT", "NUMBER", "HASNOTE", "NAME", "QTY");
-						$hasnote = (empty($n[$i]))?"success":"danger";
-						$value   = array($n[$i], $snum[$i], $hasnote, $sname[$i], $q[$i]);
-						$people .= str_replace($holder, $value, $template);
+						for($i=0;$i<count($sname);$i++){
+							$snum[$i] = str_pad($snum[$i], 2, 0, STR_PAD_LEFT);
+							$holder = array("NOTETEXT", "NUMBER", "HASNOTE", "NAME", "QTY");
+							$hasnote = (empty($n[$i]))?"success":"danger";
+							$value   = array($n[$i], $snum[$i], $hasnote, $sname[$i], $q[$i]);
+							$people .= str_replace($holder, $value, $template);
+						}
+
+						array_push($data, array('name' => $row["ordername"], 'count' => $row["qty"], 'price' => $row["price"], 'people' => $people));
 					}
-
-					array_push($data, array('name' => $row["ordername"], 'count' => $row["qty"], 'price' => $row["price"], 'people' => $people));
 				}
+			}
+			else
+			{
+				array_push($data, array('name' => "錯誤", 'count' => 0, 'price' => 0, 'people' => "請重新登入"));
 			}
 			$return = array("data"=>$data);
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
