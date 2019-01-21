@@ -108,8 +108,8 @@
 										紅色的名字代表有備註
 									</p>
 									<p class="text-danger text-center">
-										總金額：<?=$money?><br>
-										總數量：<?=$count?><br>
+										總金額：<span id="money"><?=$money?></span><br>
+										總數量：<span id="total"><?=$count?></span><br>
 									</p>
 								</div>
 							</div>
@@ -205,7 +205,16 @@
 			],
 			"ajax": "./assets/inc/api.php?do=getorder",
 			drawCallback: function () {
+				let money = 0, total = 0;
 				$('[data-toggle="popover" ]').popover();
+				$('#ordertable').find("tbody tr").each(function(){
+					let m = $(this).find("td").eq(1).text()*1;
+					let t = $(this).find("td").eq(2).text()*1;
+					money += (m*t);
+					total += t;
+				})
+				$("#money").text(money);
+				$("#total").text(total);
 			}
         });
 	
