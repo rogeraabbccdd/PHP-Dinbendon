@@ -7,7 +7,14 @@
 		$number = $_POST["login"];
 		$password = $_POST["pass"];
 		
-		$sql = "SELECT * FROM ".$student_table." WHERE number = '".$number."' AND pass = '".$password."'";
+		$sql = "
+			SELECT ".$student_table.".*, ".$class_table.".name AS cname 
+			FROM ".$student_table.", ".$class_table." 
+			WHERE 
+				".$student_table.".number = '".$number."' AND 
+				".$student_table.".pass = '".$password."' AND 
+				".$student_table.".class = ".$class_table.".id";
+
 		$result = $pdo->query($sql)->fetchAll();
 		if(!empty($result) && count($result) > 0)
 		{
@@ -16,6 +23,7 @@
 				$_SESSION['name'] = $row["name"];
 				$_SESSION['class'] = $row["class"];
 				$_SESSION['user'] = $row["id"];
+				$_SESSION['cname'] = $row["cname"];
 			}
 			echo "success";
 		}

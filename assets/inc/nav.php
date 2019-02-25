@@ -41,7 +41,7 @@
 							<i class="fas fa-user"></i>&nbsp;<?=$_SESSION["name"]?>
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">訂餐紀錄</a>
+							<a class="dropdown-item" href="./history.php">訂餐紀錄</a>
 							<a class="dropdown-item" href="javascript:void(0)" id="LogoutButton">登出</a>
 						</div>
 					</li>
