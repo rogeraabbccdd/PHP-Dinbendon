@@ -154,7 +154,7 @@
 				$('#cancelbutton').attr('disabled',true);
 				$.ajax({
 					type: "POST",
-					url: "./assets/inc/order.php",
+					url: "./assets/inc/api.php?do=order",
 					data: {type:'cancel'},
 					dataType: "json",
 					success: function(json) {
