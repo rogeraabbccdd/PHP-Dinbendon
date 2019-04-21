@@ -16,7 +16,7 @@
 			// has id, update
 			if($_POST["resid"] != -1)
 			{
-				$res_id = $_GET["id"];
+				$res_id = $_POST["resid"];
 				
 				// today res
 				if(!empty($today_res) && $today_res == $res_id)
