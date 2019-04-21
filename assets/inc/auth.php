@@ -4,18 +4,24 @@
 	if (isset($_POST['login']) && isset($_POST['pass']))
 	{
 		require_once "./config.php";
-		$number = $_POST["login"];
-		$password = $_POST["pass"];
 		
+		$input = array(
+			":number" => $_POST["login"],
+			":password" => $_POST["pass"],
+		);
+
 		$sql = "
 			SELECT ".$student_table.".*, ".$class_table.".name AS cname 
 			FROM ".$student_table.", ".$class_table." 
 			WHERE 
-				".$student_table.".number = '".$number."' AND 
-				".$student_table.".pass = '".$password."' AND 
+				".$student_table.".number = :number AND 
+				".$student_table.".pass = :password AND 
 				".$student_table.".class = ".$class_table.".id";
 
-		$result = $pdo->query($sql)->fetchAll();
+		$sth = $pdo->prepare($sql);
+		$sth->execute($input);
+		$result = $sth->fetchAll();
+
 		if(!empty($result) && count($result) > 0)
 		{
 			foreach($result as $row)
