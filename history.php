@@ -17,6 +17,33 @@
 		$pdo = null;
 		exit;
 	}
+
+	// get all orders
+	$sql = "SELECT
+				DATE(".$order_table.".date) AS date,
+				".$rest_table.".name AS name,
+				".$rest_table.".id AS resid,
+				".$menu_table.".name AS menuname, 
+				".$menu_table.".price AS menuprice
+			FROM
+				".$order_table.",
+				".$rest_table.",
+				".$menu_table.",
+				".$student_table.",
+				".$class_table."
+			WHERE
+				".$student_table.".class = ".$class_table.".id
+				and ".$order_table.".stu_num = ".$student_table.".id
+				and ".$rest_table.".id = ".$menu_table.".res_id
+				and ".$order_table.".menu_id = ".$menu_table.".id
+				and ".$student_table.".class = '".$_SESSION["class"]."' 
+				and ".$student_table.".id = '".$_SESSION["user"]."' 
+			GROUP by
+				DATE(".$order_table.".date), ".$order_table.".menu_id
+			ORDER by
+				".$order_table.".date";
+
+	$orders = $pdo->query($sql)->fetchAll();
 ?>
 <html>
 <head>
@@ -49,13 +76,9 @@
 						<div class="col-lg-12">
 							<div class="card" style="padding: 20px">
 								<div id="info" style='text-align:center;'>
-									<h2><?=$_SESSION["cname"]?>的訂餐紀錄</h2>	
+									<h2><?=$_SESSION["name"]?>的訂餐紀錄</h2>	
 								</div>
 								<div id='calendar' style=""></div>
-								<?php
-									
-
-								?>
 							</div>
 						</div>
 					</div>
@@ -125,36 +148,15 @@
 			themeSystem: "bootstrap4",
 			navLinks: true,
 			eventLimit: true,
+			defaultView: 'listMonth',
 			events: [
 				<?php
-					$sql = "SELECT
-								DATE(orders.date) AS date,
-								restaurant.name AS name,
-								restaurant.id AS resid
-							FROM
-								orders,
-								restaurant,
-								menu,
-								student,
-								class
-							WHERE
-								student.class = class.id
-								and orders.stu_num = student.id
-								and restaurant.id = menu.res_id
-								and orders.menu_id = menu.id
-								and student.class = '".$_SESSION["class"]."'
-							GROUP by
-								DATE(orders.date)
-							ORDER by
-								orders.date";
-
-					$result = $pdo->query($sql)->fetchAll();
-					foreach($result as $row)
+					foreach($orders as $row)
 					{
 						echo '
 						{
-							title: "'.$row["name"].'",
-							start : "'.$row["date"].'",
+							title: "'.$row["name"].' - '.$row["menuname"].'",
+							start : "'.$row["date"].' 12:00:00",
 							url: "./res.php?id='.$row["resid"].'",
 						},';
 					}
