@@ -287,3 +287,12 @@ tr.tr-only-hide {
 table.dataTable.nowrap td, table.dataTable.nowrap th {
     white-space: normal !important;
 }
+
+.card .card-header.card-header-image {
+   height: 25vh;
+}
+
+.card .card-header.card-header-image img {
+   height: 100%;
+   object-fit: cover;
+}
