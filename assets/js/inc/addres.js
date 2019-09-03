@@ -25,11 +25,11 @@
 			else
 			{
 				swal({
-				  title: '錯誤',
-				  text: '欄位不能為空',
-				  type: 'error',
-				  confirmButtonClass: "btn btn-info",
-				  buttonsStyling: false
+					title: '錯誤',
+					text: '欄位不能為空',
+					type: 'error',
+					confirmButtonClass: "btn btn-info",
+					buttonsStyling: false
 				})
 			}
 		});
@@ -93,21 +93,21 @@
 						if(r == "large")
 						{
 							swal({
-							  title: '錯誤',
-							  text: '圖片大於1MB',
-							  type: 'error',
-							  confirmButtonClass: "btn btn-info",
-							  buttonsStyling: false
+								title: '錯誤',
+								text: '圖片大於1MB',
+								type: 'error',
+								confirmButtonClass: "btn btn-info",
+								buttonsStyling: false
 							})
 						}
 						else if(r == "today")
 						{
 							swal({
-							  title: '錯誤',
-							  text: '不能編輯今日餐廳',
-							  type: 'error',
-							  confirmButtonClass: "btn btn-info",
-							  buttonsStyling: false
+								title: '錯誤',
+								text: '不能編輯今日餐廳',
+								type: 'error',
+								confirmButtonClass: "btn btn-info",
+								buttonsStyling: false
 							})
 						}
 						else if(r == "ok")
@@ -131,11 +131,11 @@
 			else
 			{
 				swal({
-				  title: '錯誤',
-				  text: '菜單和餐廳名稱、電話不能為空',
-				  type: 'error',
-				  confirmButtonClass: "btn btn-info",
-				  buttonsStyling: false
+					title: '錯誤',
+					text: '菜單和餐廳名稱、電話不能為空',
+					type: 'error',
+					confirmButtonClass: "btn btn-info",
+					buttonsStyling: false
 				})
 			}
 		});

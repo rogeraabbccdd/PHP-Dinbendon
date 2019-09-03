@@ -18,9 +18,17 @@ $(window).on("load", function(){
 })
 
 function loadcomplete(){
-	window.sr = ScrollReveal(); 
 	$("#loading-div").fadeOut(function(){
 		$(".wrapper").fadeIn();
-		sr.reveal(".card", { duration: 1000 }, 50);
+		let tl = new TimelineMax()
+		tl.staggerFrom(".card", 0.5, {
+			opacity:0,
+			cycle: {
+				y:function(){
+					return -100;
+				}
+			}
+		}, 0.1);
+		tl.timeScale(0.5);
 	}); 
 }

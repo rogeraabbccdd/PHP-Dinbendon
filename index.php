@@ -101,8 +101,9 @@
 <script src="./assets/js/plugins/arrive.min.js"></script>
 <!-- Live 2D Plugin -->
 <script src="./assets/js/plugins/live2d.js"></script>
-<!-- Scrollreveal -->
-<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- TweenMax -->
+<script src="./assets/js/plugins/TweenMax.min.js"></script>
+<script src="./assets/js/plugins/TimelineMax.min.js"></script>
 <!-- Custom JS -->
 <script src="./assets/js/plugins/custom.js"></script>
 <!-- Material dashboard JS -->
@@ -112,7 +113,7 @@
 <script src="./assets/js/plugins/loading-bar.js"></script>
 <script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
-	$(document).ready(function () {
+	$(function () {
 		<?php
 			include("./assets/js/inc/loginform.js");
 			include("./assets/js/inc/l2d.js");

@@ -332,8 +332,9 @@
 <script src="./assets/js/plugins/responsive.bootstrap.js"></script>
 <!-- Live 2D Plugin -->
 <script src="./assets/js/plugins/live2d.js"></script>
-<!-- Scrollreveal -->
-<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- TweenMax -->
+<script src="./assets/js/plugins/TweenMax.min.js"></script>
+<script src="./assets/js/plugins/TimelineMax.min.js"></script>
 <!-- Custom JS -->
 <script src="./assets/js/plugins/custom.js"></script>
 <!-- Material dashboard JS -->
@@ -343,22 +344,20 @@
 <script src="./assets/js/plugins/loading-bar.js"></script>
 <script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
-	$(document).ready( function () {
-		$(function(){
-			$('.image-link').viewbox({
-				setTitle: true,
-				margin: 20,
-				resizeDuration: 300,
-				openDuration: 200,
-				closeDuration: 200,
-				closeButton: true,
-				navButtons: true,
-				closeOnSideClick: true,
-				nextOnContentClick: true
-			});
+	$(function () {
+		$('.image-link').viewbox({
+			setTitle: true,
+			margin: 20,
+			resizeDuration: 300,
+			openDuration: 200,
+			closeDuration: 200,
+			closeButton: true,
+			navButtons: true,
+			closeOnSideClick: true,
+			nextOnContentClick: true
 		});
 
-		var menutable = $('#menu').DataTable( {
+		let menutable = $('#menu').DataTable( {
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },
@@ -370,17 +369,17 @@
 				{
 			      "targets": 1,
 			      "searchable": false,
-				  "orderDataType": "dom-text-numeric"
+					"orderDataType": "dom-text-numeric"
 			    }, 
 				{
 			      "targets": 2,
 			      "searchable": false,
-				  "orderDataType": "dom-text-numeric2"
+					"orderDataType": "dom-text-numeric2"
 			    }, 
 				{
 			      "targets": 3,
 			      "searchable": false,
-				  "orderDataType": "dom-text", type: 'string'
+					"orderDataType": "dom-text", type: 'string'
 			    } 
 			],
         });

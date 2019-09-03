@@ -174,8 +174,9 @@
 <script src="./assets/js/plugins/responsive.bootstrap.js"></script>
 <!-- Live 2D Plugin -->
 <script src="./assets/js/plugins/live2d.js"></script>
-<!-- Scrollreveal -->
-<script src="./assets/js/plugins/scrollreveal.js"></script>
+<!-- TweenMax -->
+<script src="./assets/js/plugins/TweenMax.min.js"></script>
+<script src="./assets/js/plugins/TimelineMax.min.js"></script>
 <!-- Custom JS -->
 <script src="./assets/js/plugins/custom.js"></script>
 <!-- Material dashboard JS -->
@@ -185,9 +186,8 @@
 <script src="./assets/js/plugins/loading-bar.js"></script>
 <script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
-	$(document).ready( function () {
-		
-		var reviewtbl = $('#reviewtbl').DataTable({
+	$(function () {
+		let reviewtbl = $('#reviewtbl').DataTable({
             "language": {
                 "url": "./assets/others/datatables-chinese-traditional.json"
             },
