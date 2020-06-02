@@ -1,10 +1,10 @@
 loadlive2d("live2d", "./assets/model/wanko.model.json");
 function showMessage(a,b){
     if(b==null) b = 10000;
-    jQuery(".l2d-text").hide().stop();
-    jQuery(".l2d-text").html(a);
-    jQuery(".l2d-text").fadeTo("10",1);
-    jQuery(".l2d-text").fadeOut(b);
+    $(".l2d-text").hide().stop();
+    $(".l2d-text").html(a);
+    $(".l2d-text").fadeTo("10",1);
+    $(".l2d-text").fadeOut(b);
 }
 (function(){
     var text;
@@ -16,11 +16,12 @@ function showMessage(a,b){
     if(window.location.href == SiteIndexUrl || window.location.href == SiteIndexUrl2){
        text = '歡迎來到DinBenDon！請先登入哦~~~';
     }
-	else if(window.location.href == ResListUrl){
+	else if(window.location.href.includes(ResListUrl)){
 		<?php if(!isset($today_res)) { ?>
 	   text = '今天想吃什麼?';
 		<?php } else { ?>
 		text = '今天訂<?=$today_name?>這家哦~~~';
+		console.log('asd');
 		<?php } ?>
 	}
 	else if(window.location.href == OrdersUrl){
@@ -45,34 +46,39 @@ $("#live2d").mouseover(function(){
 });
 $('.qtyminus').click(function(){
 	<?php if(isset($today_res) && isset($id) && $id == $today_res) {?>
-    var data =  $(this).closest('tr').find('.menu_name').text();
+    var data =  $(this).closest('tr').find('td').eq(0).text();
 	showMessage(data + '減一份');
 	<?php } else if(isset($today_res) && isset($id) && $id != $today_res) { ?>
-	text = '今天訂的是<?=$today_name?>啦!';
+		showMessage('今天訂的是<?=$today_name?>啦!');
 	<?php } else {?>
-	 var data =  $(this).closest('tr').find('.menu_name').text();
+	 var data =  $(this).closest('tr').find('td').eq(0).text();
 	showMessage(data + '減一份');
 	<?php } ?>
 });
 $('.qtyplus').click(function(){
 	<?php if(isset($today_res) && isset($id) && $id == $today_res) {?>
-    var data =  $(this).closest('tr').find('.menu_name').text();
+    var data =  $(this).closest('tr').find('td').eq(0).text();
 	showMessage(data + '加一份');
 	<?php } else if(isset($today_res) && isset($id) && $id != $today_res) { ?>
-	text = '今天訂的是<?=$today_name?>啦!';
+		showMessage('今天訂的是<?=$today_name?>啦!');
 	<?php } else {?>
-	var data =  $(this).closest('tr').find('.menu_name').text();	
+	var data =  $(this).closest('tr').find('td').eq(0).text();	
 	showMessage(data + '加一份');
 	<?php } ?>
 });
 $('.qty').focus(function(){
-	<?php if(isset($today_res) && isset($id)  && $id == $today_res) {?>
-    var data =  $(this).closest('tr').find('.menu_name').text();
-	showMessage('一個便當吃不飽，你可以吃兩個');
-	<?php } else if(isset($today_res) && isset($id)  && $id != $today_res) { ?>
-	text = '今天訂的是<?=$today_name?>啦!';
-	<?php } else {?>
-	showMessage('一個便當吃不飽，你可以吃兩個');
+	<?php if(isset($today_res) && isset($id)  && $id != $today_res) {?>
+		showMessage('今天訂的是<?=$today_name?>啦!');
+	<?php } else { ?>
+		showMessage('一個便當吃不飽，你可以吃兩個');
+	<?php } ?>
+});
+
+$('.note').focus(function(){
+	<?php if(isset($today_res) && isset($id) && $id != $today_res) { ?>
+		showMessage('今天訂的是<?=$today_name?>啦!');
+	<?php } else { ?>
+	showMessage('你不加香菜你要先講');
 	<?php } ?>
 });
 var stat_click = 0;
