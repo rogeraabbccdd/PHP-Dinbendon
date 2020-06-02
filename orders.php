@@ -206,7 +206,7 @@
 			"ajax": "./assets/inc/api.php?do=getorder",
 			drawCallback: function () {
 				let money = 0, total = 0;
-				$('[data-toggle="popover" ]').popover();
+				$('[data-toggle="popover"]').popover();
 				$('#ordertable').find("tbody tr").each(function(){
 					let m = $(this).find("td").eq(1).text()*1;
 					let t = $(this).find("td").eq(2).text()*1;
@@ -215,6 +215,22 @@
 				})
 				$("#money").text(money);
 				$("#total").text(total);
+				
+				let temp = []
+				$("[id^=popover]").each(function(){
+					let top = $(this).css("top")
+					let left = $(this).css("left")
+					let json = {top, left}
+					let has = temp.filter(t=>{
+						return t === json
+					})
+					if(has) {
+						$(this).remove()
+					}
+					else {
+						temp.push(json)
+					}
+				})
 			}
         });
 	
