@@ -14,7 +14,7 @@
 		<div class="collapse navbar-collapse justify-content-end">
 			<ul class="navbar-nav">
 				<?php 
-					if(!isset($_SESSION[ "user"])) 
+					if(!isset($_SESSION["user"])) 
 					{ 
 				?>
 						<li class="nav-item">
