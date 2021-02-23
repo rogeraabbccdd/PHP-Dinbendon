@@ -429,6 +429,34 @@
 			$return = array("data"=>$data);
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			break;
+		case "getcsv":
+			if(!empty($_SESSION["user"]))
+			{
+				$sql = "
+					SELECT
+							".$student_table.".num AS num,
+							".$student_table.".name AS sname,
+							SUM(".$order_table.".qty * ".$menu_table.".price) AS total
+					FROM
+							".$order_table.",
+							".$menu_table.",
+							".$class_table.",
+							".$student_table."
+					WHERE
+							".$menu_table.".id = ".$order_table.".menu_id AND 
+							DATE(".$order_table.".date) = CURDATE() AND
+							".$student_table.".class = ".$class_table.".id AND
+							".$order_table.".stu_num = ".$student_table.".id AND
+							".$class_table.".id = ".$_SESSION['class']."
+					GROUP BY
+							".$student_table.".id
+					ORDER BY
+							num";
+				
+				$result = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC); 
+				echo json_encode($result, JSON_UNESCAPED_UNICODE);
+			}
+			break;
 	}
 
 	$pdo = null;

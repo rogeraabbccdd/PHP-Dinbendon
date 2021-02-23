@@ -110,6 +110,9 @@
 									<p class="text-danger text-center">
 										總金額：<span id="money"><?=$money?></span><br>
 										總數量：<span id="total"><?=$count?></span><br>
+										<button class="btn btn-success" id="btn-csv">
+											<i class="fas fa-download"></i>&emsp;下載值日生用 CSV
+										</button>
 									</p>
 								</div>
 							</div>
@@ -158,6 +161,8 @@
 <script async defer src="./assets/js/plugins/buttons.js"></script>
 <!-- Loading bar JS -->
 <script src="./assets/js/plugins/loading-bar.js"></script>
+<!-- Export Excel -->
+<script src="./assets/js/plugins/xlsx.mini.min.js"></script>
 <script src="./assets/js/inc/loading.js"></script>
 <script type="text/javascript">
 	$(function () {
@@ -237,6 +242,22 @@
 		setInterval( function () {
 			ordertable.ajax.reload();
 		}, 3000 );
+
+		$("#btn-csv").click(function(){
+			$.get("./assets/inc/api.php?do=getcsv", function(data) {
+				let csvdata = [
+					['座號', '姓名', '價格']
+				]
+				console.log(data)
+				for(let i=0;i<data.length;i++) {
+					csvdata.push([data[i].num, data[i].sname, data[i].total])
+				}
+				let wb = XLSX.utils.book_new()
+				let ws = XLSX.utils.aoa_to_sheet(csvdata);
+				XLSX.utils.book_append_sheet(wb, ws, "");
+				XLSX.writeFile(wb, "點餐.csv");
+			}, "json")
+		})
 
 		<?php
 			include("./assets/js/inc/loginform.js");
