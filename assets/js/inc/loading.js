@@ -27,8 +27,10 @@ function loadcomplete(){
 				y:function(){
 					return -100;
 				}
-			}
-		}, 0.1);
+			},
+		}, 0.1, null, function () {
+			$($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+		})
 		tl.timeScale(0.5);
 	}); 
 }
