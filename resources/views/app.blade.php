@@ -26,7 +26,13 @@
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         @routes
+
+        @if (app()->environment('local'))
+            <script type="module" src="http://localhost:5173/@@vite-plugin-checker-runtime-entry"></script>
+        @endif
+
         @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
