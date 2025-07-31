@@ -1,10 +1,11 @@
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
 import prettier from 'eslint-config-prettier';
 import vue from 'eslint-plugin-vue';
-
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import vuePug from 'eslint-plugin-vue-pug';
 
 export default defineConfigWithVueTs(
     vue.configs['flat/essential'],
+    vuePug.configs['flat/essential'],
     vueTsConfigs.recommended,
     {
         ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr'],
