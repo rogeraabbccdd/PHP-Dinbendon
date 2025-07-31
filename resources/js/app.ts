@@ -1,5 +1,3 @@
-import '../css/app.css';
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
@@ -7,7 +5,20 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
+import '@quasar/extras/material-icons/material-icons.css';
+import '@quasar/extras/roboto-font/roboto-font.css';
+import { Quasar } from 'quasar';
+import quasarIconSet from 'quasar/icon-set/svg-material-icons';
+import quasarLang from 'quasar/lang/zh-TW';
+import 'quasar/src/css/index.sass';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+const quasarConfig = {
+    plugins: {},
+    lang: quasarLang,
+    iconSet: quasarIconSet,
+}
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -16,6 +27,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(Quasar, quasarConfig)
             .mount(el);
     },
     progress: {
