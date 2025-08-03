@@ -36,4 +36,9 @@ export default defineConfig({
             },
         }),
     ],
+    resolve: {
+        alias: {
+            '$': fileURLToPath(new URL('./resources/assets', import.meta.url)),
+        },
+    },
 });
