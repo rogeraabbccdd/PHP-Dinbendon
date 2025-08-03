@@ -31,15 +31,18 @@
     "dependencies": {
         "@inertiajs/vue3": "^2.0.0",
         "@quasar/extras": "^1.17.0",
+        "@vee-validate/zod": "^4.15.1",
         "@vitejs/plugin-vue": "^6.0.0",
         "@vueuse/core": "^12.8.2",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
         "quasar": "^2.18.2",
         "typescript": "^5.2.2",
+        "vee-validate": "^4.15.1",
         "vite": "^7.0.4",
         "vue": "^3.5.13",
-        "ziggy-js": "^2.4.2"
+        "ziggy-js": "^2.4.2",
+        "zod": "^4.0.14"
     },
     "optionalDependencies": {
         "@rollup/rollup-linux-x64-gnu": "4.9.5"
