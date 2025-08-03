@@ -14,7 +14,7 @@ q-layout(view='hHh lpR fff')
                     q-btn.self-stretch(icon="group" flat label="開團")
                     q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
                         q-list
-                            q-item(v-close-popup clickable)
+                            q-item(v-close-popup clickable @click="logout")
                                 q-item-section 登出
                 //- 導覽列按鈕 (未登入)
                 template(v-else)
@@ -37,16 +37,29 @@ q-layout(view='hHh lpR fff')
 
 <script setup lang="ts">
 import type { AppPageProps } from '@/types';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
+import { useQuasar } from 'quasar';
 import { computed } from 'vue';
 
 const page = usePage<AppPageProps>();
+const $q = useQuasar();
 
 const year = new Date().getFullYear();
 
 const isLoggedIn = computed(() => {
     return page.props.auth.user !== null;
 });
+
+const logout = () => {
+    $q.dialog({
+        title: '你確定?',
+        message: '你確定要登出嗎?',
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        router.post('/logout');
+    });
+};
 </script>
 
 <style lang="sass" scoped>

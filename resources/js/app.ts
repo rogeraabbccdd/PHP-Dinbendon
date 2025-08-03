@@ -7,7 +7,7 @@ import { initializeTheme } from './composables/useAppearance';
 
 import '@quasar/extras/material-icons/material-icons.css';
 import '@quasar/extras/roboto-font/roboto-font.css';
-import { Quasar, Notify } from 'quasar';
+import { Quasar, Notify, Dialog } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-material-icons';
 import quasarLang from 'quasar/lang/zh-TW';
 import 'quasar/src/css/index.sass';
@@ -18,7 +18,8 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 const quasarConfig = {
     plugins: {
-        Notify
+        Notify,
+        Dialog
     },
     lang: quasarLang,
     iconSet: quasarIconSet,
