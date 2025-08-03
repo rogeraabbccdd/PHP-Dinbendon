@@ -3,8 +3,11 @@ import type { Config } from 'ziggy-js';
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     name: string;
     ziggy: Config & { location: string };
-    auth: Auth
 };
+
+export interface AuthPageProps extends AppPageProps {
+    auth: Auth;
+}
 
 export interface Auth {
     user?: User

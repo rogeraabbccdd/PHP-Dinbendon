@@ -36,12 +36,12 @@ q-layout(view='hHh lpR fff')
 </template>
 
 <script setup lang="ts">
-import type { AppPageProps } from '@/types';
+import type { AuthPageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
 import { computed } from 'vue';
 
-const page = usePage<AppPageProps>();
+const page = usePage<AuthPageProps>();
 const $q = useQuasar();
 
 const year = new Date().getFullYear();
