@@ -12,7 +12,6 @@ class MenuItem extends Model
     protected $fillable = [
         'store_id',
         'name',
-        'description',
         'price',
         'is_available',
     ];

@@ -14,6 +14,7 @@ class Store extends Model
         'address',
         'google_map',
         'phone',
+        'image',
         'is_open',
     ];
 

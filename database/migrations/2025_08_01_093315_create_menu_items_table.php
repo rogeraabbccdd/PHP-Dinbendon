@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->comment('菜單品項 ID');
             $table->foreignId('store_id')->comment('所屬店家 ID')->constrained()->cascadeOnDelete();
             $table->string('name')->comment('品項名稱');
-            $table->text('description')->nullable()->comment('品項描述');
             $table->decimal('price', 8, 2)->comment('目前的價格');
             $table->boolean('is_available')->default(true)->comment('目前是否供應中');
             $table->timestamps();

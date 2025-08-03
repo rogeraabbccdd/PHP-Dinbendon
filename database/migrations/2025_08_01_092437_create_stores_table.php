@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('address')->nullable()->comment('地址');
             $table->string('google_map')->nullable()->comment('Google 地圖連結');
             $table->string('phone')->nullable()->comment('聯絡電話');
+            $table->string('image')->nullable()->comment('店家圖片 URL');
             $table->boolean('is_open')->default(true)->comment('是否營業中');
             $table->timestamps();
         });
