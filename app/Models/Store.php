@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MenuItem;
 
 class Store extends Model
 {
@@ -23,5 +24,10 @@ class Store extends Model
         return [
             'is_open' => 'boolean',
         ];
+    }
+
+    public function menuItems()
+    {
+        return $this->hasMany(MenuItem::class);
     }
 }

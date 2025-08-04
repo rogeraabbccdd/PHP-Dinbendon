@@ -27,4 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('stores', [StoreController::class, 'index'])
         ->name('stores');
 
+    Route::get('stores/{id}', [StoreController::class, 'show'])
+        ->name('stores.show');
 });

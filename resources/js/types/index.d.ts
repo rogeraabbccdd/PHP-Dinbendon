@@ -13,6 +13,11 @@ export interface StorePageProps extends AuthPageProps {
     stores: Store[];
 }
 
+export interface StoreShowPageProps extends AuthPageProps {
+    store: Store;
+    menuItems: MenuItem[];
+}
+
 export interface Auth {
     user?: User
 }
@@ -36,6 +41,16 @@ export interface Store {
     phone: string;
     image: string;
     is_open: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface MenuItem {
+    id: number;
+    store_id: number;
+    name: string;
+    price: number;
+    is_available: boolean;
     created_at: string;
     updated_at: string;
 }

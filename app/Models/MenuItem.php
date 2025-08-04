@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Store;
 
 class MenuItem extends Model
 {
@@ -22,5 +23,10 @@ class MenuItem extends Model
             'price' => 'decimal:2',
             'is_available' => 'boolean',
         ];
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 }
