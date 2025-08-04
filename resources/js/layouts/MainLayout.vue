@@ -27,7 +27,7 @@ q-layout(view='hHh lpR fff')
         slot
         //- 回到頂部按鈕
         q-page-scroller(position="bottom-right" :scroll-offset="150" :offset="[18, 18]")
-            q-btn(fab icon="keyboard_arrow_up" color="tech" text-color="black")
+            q-btn(fab icon="keyboard_arrow_up" color="rose" text-color="white")
     //- Footer
     q-footer.bg-transparent.text-center.q-py-md
         span.text-yellow 請使用 Chrome 瀏覽本系統
