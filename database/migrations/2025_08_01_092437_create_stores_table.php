@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name')->comment('店家名稱');
             $table->string('address')->nullable()->comment('地址');
             $table->string('google_map')->nullable()->comment('Google 地圖連結');
-            $table->string('phone')->nullable()->comment('聯絡電話');
-            $table->string('image')->nullable()->comment('店家圖片 URL');
-            $table->boolean('is_open')->default(true)->comment('是否營業中');
+            $table->string('facebook')->nullable()->comment('Facebook 頁面');
+            $table->string('instagram')->nullable()->comment('Instagram 頁面');
+            $table->string('business_hours')->nullable()->comment('營業時間');
+            $table->string('phone')->comment('聯絡電話');
+            $table->string('image')->comment('店家圖片 URL');
+            $table->string('delivery_conditions')->nullable()->comment('外送條件');
+            $table->boolean('is_closed')->default(true)->comment('是否歇業');
             $table->timestamps();
         });
     }

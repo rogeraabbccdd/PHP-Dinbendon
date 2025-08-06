@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -26,6 +28,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'student_id'
     ];
 
     /**
@@ -39,5 +42,29 @@ class User extends Authenticatable
             'seat_number' => 'integer',
             'enabled' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the course that the user belongs to.
+     */
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * Get the group orders for the user.
+     */
+    public function groupOrders(): HasMany
+    {
+        return $this->hasMany(GroupOrder::class);
+    }
+
+    /**
+     * Get the orders for the user.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

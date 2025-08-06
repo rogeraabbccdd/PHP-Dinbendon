@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -29,5 +30,21 @@ class Course extends Model
             'year' => 'integer',
             'term' => 'integer',
         ];
+    }
+
+    /**
+     * The users that belong to the course.
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    /**
+     * Get the group orders for the course.
+     */
+    public function groupOrders(): HasMany
+    {
+        return $this->hasMany(GroupOrder::class);
     }
 }
