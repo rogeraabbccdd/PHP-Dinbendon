@@ -112,14 +112,14 @@ q-page.q-py-lg
                     br
                     q-btn.q-my-sm.q-mx-sm(
                         :disable="page.props.groupOrder.status !== 'open'"
-                    color="green" icon="check" label="確認結單"
-                    @click="setStatus('ordered')"
-                )
-                q-btn.q-my-sm.q-mx-sm(
-                    :disable="page.props.groupOrder.status !== 'open'"
-                    color="red" icon="close" label="關閉團購"
-                    @click="setStatus('closed')"
-                )
+                        color="green" icon="check" label="確認結單"
+                        @click="setStatus('ordered')"
+                    )
+                    q-btn.q-my-sm.q-mx-sm(
+                        :disable="page.props.groupOrder.status !== 'open'"
+                        color="red" icon="close" label="關閉團購"
+                        @click="setStatus('closed')"
+                    )
         //- 我的訂單
         q-card
             q-card-section.text-center
@@ -261,7 +261,7 @@ let timer = 0;
 onMounted(() => {
     timer = setInterval(() => {
         router.reload({ only: ['orders', 'myOrder', 'groupOrder'] });
-    }, 30000);
+    }, 10000);
 });
 
 onUnmounted(() => {
