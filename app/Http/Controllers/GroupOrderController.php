@@ -131,4 +131,21 @@ class GroupOrderController extends Controller
 
         return redirect()->intended(route('groupOrders.show', $order->id));
     }
+
+    /**
+     * 顯示所有團購.
+     */
+    public function index(Request $request): Response
+    {
+        $groupOrders = GroupOrder::where('course_id', $request->user()->course_id)
+            ->orderByDesc('created_at')
+            ->get();
+        $groupOrders->load('store', 'user');
+        $groupOrders->makeHidden('menu_snapshot');
+
+
+        return Inertia::render('groupOrders/Index', [
+            'groupOrders' => $groupOrders,
+        ]);
+    }
 }
