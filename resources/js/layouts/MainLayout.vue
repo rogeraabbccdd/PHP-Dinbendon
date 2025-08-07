@@ -18,7 +18,7 @@ q-layout(view='hHh lpR fff')
                                 q-item-section 登出
                 //- 導覽列按鈕 (未登入)
                 template(v-else)
-                    q-btn.self-stretch(icon="person" flat label="未登入")
+                    q-btn(icon="person" stretch flat label="未登入")
     //- 內容
     q-page-container
         //- 滿版背景
