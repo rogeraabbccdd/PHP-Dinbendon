@@ -141,7 +141,7 @@ class GroupOrderController extends Controller
             $order->orderItems()->saveMany($orderItems);
         });
 
-        return redirect()->intended(route('groupOrders.show', $order->id));
+        return redirect()->intended(route('groupOrders.show', $order->group_order_id));
     }
 
     /**
