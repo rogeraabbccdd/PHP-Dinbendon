@@ -18,14 +18,14 @@ q-page.q-py-lg
                 v-for="store in filteredStores"
                 :key="store.id"
             )
-                StoreCard.cursor-pointer(v-bind="store" @click="$inertia.get(`/stores/${store.id}`)")
+                StoreCard.cursor-pointer(v-bind="store" @click="router.get(route('stores.show', store.id))")
 </template>
 
 <script setup lang="ts">
 import StoreCard from '@/components/StoreCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { StorePageProps } from '@/types';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
 defineOptions({ layout: MainLayout });

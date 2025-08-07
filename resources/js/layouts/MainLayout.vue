@@ -10,8 +10,8 @@ q-layout(view='hHh lpR fff')
                     | &nbsp;DinBenDon
                 //- 導覽列按鈕 (登入)
                 template(v-if="isLoggedIn")
-                    q-btn(icon="restaurant" stretch flat label="店家" @click="$inertia.get(`/stores`)")
-                    q-btn(icon="group" stretch flat label="團購" @click="$inertia.get(`/group-orders`)")
+                    q-btn(icon="restaurant" stretch flat label="店家" @click="router.get(route('stores'))")
+                    q-btn(icon="group" stretch flat label="團購" @click="router.get(route('groupOrders'))")
                     q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
                         q-list
                             q-item(v-close-popup clickable @click="logout")

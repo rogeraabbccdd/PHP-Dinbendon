@@ -6,14 +6,14 @@ q-page.q-py-lg
                 v-for="groupOrder in page.props.groupOrders"
                 :key="groupOrder.id"
             )
-                GroupOrderCard.cursor-pointer(v-bind="groupOrder" @click="$inertia.get(`/group-orders/${groupOrder.id}`)")
+                GroupOrderCard.cursor-pointer(v-bind="groupOrder" @click="router.get(route('groupOrders.show', groupOrder.id))")
 </template>
 
 <script setup lang="ts">
 import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { GroupOrderPageProps } from '@/types';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 
 defineOptions({ layout: MainLayout });
 
