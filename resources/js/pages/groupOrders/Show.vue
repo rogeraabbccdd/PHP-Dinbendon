@@ -70,8 +70,8 @@ q-page.q-py-lg
             q-card-section
                 //- 分頁
                 q-tabs.text-primary(v-model="tab" align="center")
-                    q-tab(name="user" label="使用者訂單")
-                    q-tab(name="all" label="所有訂單")
+                    q-tab(name="user" label="訂單")
+                    q-tab(name="all" label="品項")
                 q-tab-panels(v-model="tab")
                     //- 使用者訂單卡片
                     q-tab-panel(name="user")
@@ -124,11 +124,11 @@ q-page.q-py-lg
                     )
         //- 我的訂單
         q-card
-            q-card-section.text-center
-                h4.q-my-md
-                    | 我的訂單
             //- 有訂單
             template(v-if="page.props.myOrder")
+                q-card-section.text-center
+                    h4.q-my-md
+                        | 我的訂單
                 q-card-section
                     q-table(
                         :rows="page.props.myOrder.order_items"
@@ -152,7 +152,8 @@ q-page.q-py-lg
             //- 無訂單
             template(v-else)
                 q-card-section.text-center
-                    | 尚未下單
+                    h4.q-my-md
+                        | 尚未下單
                     q-btn.q-mt-sm(
                         color="rose"
                         label="前往下單"
