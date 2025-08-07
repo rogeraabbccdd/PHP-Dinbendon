@@ -103,6 +103,7 @@ q-page.q-py-lg
                         color="green"
                         icon="upload"
                         :disable="page.props.groupOrder.status !== 'open' || totalPrice === 0"
+                        :loading="loading"
                         @click="placeOrder"
                     )
                 .text-center
@@ -193,6 +194,8 @@ const onQuantityChange = (id: number, value: string | number | null) => {
     }
 };
 
+const loading = ref(false);
+
 const placeOrder = () => {
     const payload = Object.entries(orderInputs.value)
         .filter(([, data]) => data.quantity > 0)
@@ -203,6 +206,7 @@ const placeOrder = () => {
             quantity: data.quantity,
             comment: data.comment,
         }));
+    loading.value = true;
     router.post(
         '/group-orders/{id}/order',
         {
@@ -212,12 +216,19 @@ const placeOrder = () => {
         },
         {
             onSuccess: () => {
+                loading.value = false;
                 $q.notify({
                     type: 'positive',
                     message: `團購訂單送出成功！請把 $${totalPrice.value} 交給值日生`,
                 });
             },
-            onError: () => {},
+            onError: () => {
+                loading.value = false;
+                $q.notify({
+                    type: 'negative',
+                    message: '團購訂單送出失敗，請稍後再試',
+                });
+            },
         },
     );
 };
