@@ -112,11 +112,13 @@ q-page.q-py-lg
                     br
                     q-btn.q-my-sm.q-mx-sm(
                         :disable="page.props.groupOrder.status !== 'open'"
+                        :loading="loading"
                         color="green" icon="check" label="確認結單"
                         @click="setStatus('ordered')"
                     )
                     q-btn.q-my-sm.q-mx-sm(
                         :disable="page.props.groupOrder.status !== 'open'"
+                        :loading="loading"
                         color="red" icon="close" label="關閉團購"
                         @click="setStatus('closed')"
                     )
@@ -144,6 +146,7 @@ q-page.q-py-lg
                         label="修改訂單"
                         icon="shopping_cart"
                         :disable="page.props.groupOrder.status !== 'open'"
+                        :loading="loading"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
             //- 無訂單
@@ -155,6 +158,7 @@ q-page.q-py-lg
                         label="前往下單"
                         icon="shopping_cart"
                         :disable="page.props.groupOrder.status !== 'open'"
+                        :loading="loading"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
 </template>
@@ -167,11 +171,13 @@ import { openLink } from '@/utils/url';
 import { router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
 import type { QTableColumn } from 'quasar';
+import { useQuasar } from 'quasar';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({ layout: MainLayout });
 
 const page = usePage<GroupOrderShowPageProps>();
+const $q = useQuasar();
 
 const tab = ref<'user' | 'all'>('user');
 
@@ -252,8 +258,30 @@ const myTotalPrice = computed(() => {
         : 0;
 });
 
+const loading = ref(false);
+
 const setStatus = (status: 'ordered' | 'closed') => {
-    router.post(route('groupOrders.update', { id: page.props.groupOrder.id }), { status });
+    loading.value = true;
+    router.post(
+        route('groupOrders.update', { id: page.props.groupOrder.id }),
+        { status },
+        {
+            onSuccess: () => {
+                loading.value = false;
+                $q.notify({
+                    type: 'positive',
+                    message: '團購狀態更新成功！',
+                });
+            },
+            onError: () => {
+                loading.value = false;
+                $q.notify({
+                    type: 'negative',
+                    message: '團購狀態更新失敗！',
+                });
+            },
+        },
+    );
 };
 
 // 自動更新訂單
