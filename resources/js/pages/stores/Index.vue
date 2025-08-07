@@ -1,7 +1,7 @@
 <template lang="pug">
-q-page
+q-page.q-py-lg
     .container
-        .row.q-my-md.q-col-gutter-lg
+        .row.q-col-gutter-lg
             //- 搜尋欄位
             .col-12
                 q-input(
