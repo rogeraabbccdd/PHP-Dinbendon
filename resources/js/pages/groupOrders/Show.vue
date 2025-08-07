@@ -166,7 +166,7 @@ import { openLink } from '@/utils/url';
 import { router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
 import type { QTableColumn } from 'quasar';
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 defineOptions({ layout: MainLayout });
 
@@ -254,4 +254,16 @@ const myTotalPrice = computed(() => {
 const setStatus = (status: 'ordered' | 'closed') => {
     router.post(route('groupOrders.update', { id: page.props.groupOrder.id }), { status });
 };
+
+// 自動更新訂單
+let timer = 0;
+onMounted(() => {
+    timer = setInterval(() => {
+        router.reload({ only: ['orders', 'myOrder', 'groupOrder'] });
+    }, 30000);
+});
+
+onUnmounted(() => {
+    clearInterval(timer);
+});
 </script>
