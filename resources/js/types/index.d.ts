@@ -38,9 +38,13 @@ export interface Store {
     name: string;
     address: string;
     google_map: string;
+    facebook: string;
+    instagram: string;
+    business_hours: string;
+    delivery_conditions: string;
     phone: string;
     image: string;
-    is_open: boolean;
+    is_closed: boolean;
     created_at: string;
     updated_at: string;
 }

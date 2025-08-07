@@ -1,28 +1,54 @@
 <template lang="pug">
-q-page.q-my-lg
+q-page.q-py-lg
     .container
         //- 歇業警告
-        template(v-if="!page.props.store.is_open")
+        template(v-if="page.props.store.is_closed")
             q-banner.text-white.bg-red.q-mb-lg(rounded)
-                | 店家已歇業
+                | 店家已歇業，無法進行訂購
                 template(#avatar)
                     q-icon(name="warning")
         //- 內容
         q-card
-            //- 店家名稱
-            q-card-section
-                .text-h4.text-center
+            //- 店家名稱和資訊
+            q-card-section.text-center
+                h4.q-my-md.text-purple
                     | {{ page.props.store.name }}
-                .text-subtitle1.text-center
+                div
+                    | 營業時間: {{ page.props.store.business_hours }}
+                    br
+                    | 外送條件: {{ page.props.store.delivery_conditions }}
+                    br
                     | 地址: {{ page.props.store.address }}
+                    br
+                    | 電話: {{ page.props.store.phone }}
+                div
                     q-btn(
+                        v-if="page.props.store.facebook"
+                        icon="fa-brands fa-facebook"
+                        flat
+                        round
+                        color="blue"
+                        size="md"
+                        @click="openLink(page.props.store.facebook)"
+                    )
+                    q-btn(
+                        v-if="page.props.store.instagram"
+                        icon="fa-brands fa-instagram"
+                        flat
+                        round
+                        color="purple"
+                        size="md"
+                        @click="openLink(page.props.store.instagram)"
+                    )
+                    q-btn(
+                        v-if="page.props.store.google_map"
                         icon="location_on"
-                        flat round
+                        flat
+                        round
                         color="green"
+                        size="md"
                         @click="openLink(page.props.store.google_map)"
                     )
-                .text-subtitle1.text-center
-                    | 電話: {{ page.props.store.phone }}
             //- 店家圖片
             q-card-section
                 q-img(:src="page.props.store.image" height="25vh")
@@ -46,9 +72,10 @@ q-page.q-my-lg
                 .text-center.q-gutter-md
                     q-btn(
                         label="開團訂購"
-                        color="rose"
+                        color="green"
                         icon="group_add"
-                        :disable="!page.props.store.is_open"
+                        :disable="page.props.store.is_closed"
+                        @click="createGroupOrder"
                     )
                     q-btn(
                         label="編輯資訊"
