@@ -93,6 +93,7 @@ q-page.q-py-lg
                                 dense
                                 color="purple"
                                 placeholder="備註"
+                                maxlength="50"
                             )
             //- 動作按鈕
             q-card-section.q-gutter-md
