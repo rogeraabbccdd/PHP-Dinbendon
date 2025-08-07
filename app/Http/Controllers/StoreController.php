@@ -30,7 +30,9 @@ class StoreController extends Controller
      */
     public function show(Request $request, int $id): Response
     {
-        $store = Store::findOrFail($id);
+        $store = Store::withCount(['groupOrders as ordered_group_orders_count' => function ($query) {
+            $query->where('status', 'ordered');
+        }])->findOrFail($id);
         $menuItems = $store->menuItems()->where('is_available', true)->get();
 
         $groupOrders = GroupOrder::where('store_id', $store->id)->where('status', 'open')

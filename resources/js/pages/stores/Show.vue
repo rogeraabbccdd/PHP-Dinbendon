@@ -21,6 +21,8 @@ q-page.q-py-lg
                     | 地址: {{ page.props.store.address }}
                     br
                     | 電話: {{ page.props.store.phone }}
+                    br
+                    | 成團次數: {{ page.props.store.ordered_group_orders_count }}
                 div
                     q-btn(
                         v-if="page.props.store.facebook"
