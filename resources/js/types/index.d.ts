@@ -16,6 +16,7 @@ export interface StorePageProps extends AuthPageProps {
 export interface StoreShowPageProps extends AuthPageProps {
     store: Store;
     menuItems: MenuItem[];
+    groupOrders: GroupOrderBase[];
 }
 
 export interface GroupOrderPageProps extends AuthPageProps {
@@ -23,13 +24,13 @@ export interface GroupOrderPageProps extends AuthPageProps {
 }
 
 export interface GroupOrderShowPageProps extends AuthPageProps {
-    groupOrder: GroupOrder;
+    groupOrder: GroupOrderWithMenuSnapshot;
     orders: Order[];
     myOrder: Order | null;
 }
 
 export interface GroupOrdersOrderPageProps extends AuthPageProps {
-    groupOrder: GroupOrder;
+    groupOrder: GroupOrderWithMenuSnapshot;
     myOrder: Order | null;
 }
 
@@ -75,16 +76,23 @@ export interface MenuItem {
     updated_at: string;
 }
 
-export interface GroupOrder {
+export interface GroupOrderBase {
     id: number;
     store_id: number;
     user_id: number;
     status: 'open'|'closed'|'ordered';
-    menu_snapshot: MenuItem[];
     store: Store;
     user: User;
     created_at: string;
     updated_at: string;
+}
+
+export interface GroupOrderWithStore extends GroupOrderBase {
+    store: Store;
+}
+
+export interface GroupOrderWithMenuSnapshot extends GroupOrderBase {
+    menu_snapshot: MenuItem[];
 }
 
 export interface Order {

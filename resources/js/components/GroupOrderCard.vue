@@ -22,7 +22,7 @@ q-card.card-group-order
 </template>
 
 <script setup lang="ts">
-import type { GroupOrder } from '@/types';
+import type { GroupOrderWithStore } from '@/types';
 
-const props = defineProps<GroupOrder>();
+const props = defineProps<GroupOrderWithStore>();
 </script>

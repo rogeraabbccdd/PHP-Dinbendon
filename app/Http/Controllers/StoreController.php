@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Store;
 use App\Models\MenuItem;
+use App\Models\GroupOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -31,9 +32,18 @@ class StoreController extends Controller
     {
         $store = Store::findOrFail($id);
         $menuItems = $store->menuItems()->where('is_available', true)->get();
+
+        $groupOrders = GroupOrder::where('store_id', $store->id)->where('status', 'open')
+            ->orderByDesc('created_at')
+            ->get();
+        $groupOrders->load('user');
+        $groupOrders->makeHidden('menu_snapshot');
+        $groupOrders->store = $store;
+
         return Inertia::render('stores/Show', [
             'store' => $store,
             'menuItems' => $menuItems,
+            'groupOrders' => $groupOrders,
         ]);
     }
 }

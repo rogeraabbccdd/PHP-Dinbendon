@@ -83,9 +83,16 @@ q-page.q-py-lg
                         color="purple"
                         icon="edit"
                     )
+        .row.q-col-gutter-lg.q-mt-sm
+            .col-12.col-sm-6.col-md-6.col-lg-4(
+                v-for="groupOrder in page.props.groupOrders"
+                :key="groupOrder.id"
+            )
+                GroupOrderCard.cursor-pointer(v-bind="groupOrder" :store="page.props.store" @click="router.get(route('groupOrders.show', groupOrder.id))")
 </template>
 
 <script setup lang="ts">
+import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { StoreShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
