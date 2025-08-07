@@ -88,10 +88,12 @@ q-page.q-py-lg
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { StoreShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import type { QTableColumn } from 'quasar';
+import { useQuasar } from 'quasar';
 
 const page = usePage<StoreShowPageProps>();
+const $q = useQuasar();
 
 defineOptions({ layout: MainLayout });
 
@@ -111,4 +113,27 @@ const tableColumns: QTableColumn[] = [
         align: 'left',
     },
 ];
+
+const createGroupOrder = () => {
+    router.post(
+        '/group-orders',
+        {
+            store_id: page.props.store.id,
+        },
+        {
+            onSuccess: () => {
+                $q.notify({
+                    type: 'positive',
+                    message: '團購建立成功！',
+                });
+            },
+            onError: () => {
+                $q.notify({
+                    type: 'negative',
+                    message: '團購建立失敗！',
+                });
+            },
+        },
+    );
+};
 </script>

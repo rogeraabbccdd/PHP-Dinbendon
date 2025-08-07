@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\GroupOrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,4 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('stores/{id}', [StoreController::class, 'show'])
         ->name('stores.show');
+
+    Route::post('group-orders', [GroupOrderController::class, 'create'])
+        ->name('groupOrders.create');
 });
