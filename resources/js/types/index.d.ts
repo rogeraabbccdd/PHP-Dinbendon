@@ -18,6 +18,21 @@ export interface StoreShowPageProps extends AuthPageProps {
     menuItems: MenuItem[];
 }
 
+export interface GroupOrderPageProps extends AuthPageProps {
+    groupOrders: GroupOrder[];
+}
+
+export interface GroupOrderShowPageProps extends AuthPageProps {
+    groupOrder: GroupOrder;
+    orders: Order[];
+    myOrder: Order | null;
+}
+
+export interface GroupOrdersOrderPageProps extends AuthPageProps {
+    groupOrder: GroupOrder;
+    myOrder: Order | null;
+}
+
 export interface Auth {
     user?: User
 }
@@ -57,4 +72,35 @@ export interface MenuItem {
     is_available: boolean;
     created_at: string;
     updated_at: string;
+}
+
+export interface GroupOrder {
+    id: number;
+    store_id: number;
+    user_id: number;
+    status: 'open'|'closed'|'ordered';
+    menu_snapshot: MenuItem[];
+    store: Store;
+    user: User;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Order {
+    id: number;
+    total_price: string;
+    user: User;
+    order_items: OrderItem[];
+    created_at: string;
+    updated_at: string;
+}
+
+export interface OrderItem {
+    id: number;
+    order_id: number;
+    menu_item_id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    comment: string;
 }

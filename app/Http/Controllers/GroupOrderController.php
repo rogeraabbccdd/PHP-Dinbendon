@@ -34,4 +34,29 @@ class GroupOrderController extends Controller
 
         return redirect()->intended(route('groupOrders.order', $groupOrder->id));
     }
+
+    /**
+     * 顯示團購內訂單表單.
+     */
+    public function showOrderForm(Request $request, int $id): Response|RedirectResponse
+    {
+        $groupOrder = GroupOrder::findOrFail($id);
+        $groupOrder->load('store', 'user');
+
+        // 若 course_id 不同則導向 stores 頁面
+        if ($groupOrder->course_id !== $request->user()->course_id) {
+            return redirect()->route('groupOrders');
+        }
+
+        // 查詢目前使用者的訂單
+        $myOrder = Order::where('group_order_id', $groupOrder->id)
+            ->where('user_id', $request->user()->id)
+            ->with('orderItems')
+            ->first();
+
+        return Inertia::render('groupOrders/Order', [
+            'groupOrder' => $groupOrder,
+            'myOrder' => $myOrder,
+        ]);
+    }
 }
