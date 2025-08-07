@@ -64,8 +64,8 @@ q-page.q-py-lg
                         @click="openLink(page.props.groupOrder.store.google_map)"
                     )
             //- 店家圖片
-            //- q-card-section
-            //-     q-img(:src="page.props.groupOrder.store.image" height="25vh")
+            q-card-section
+                q-img(:src="page.props.groupOrder.store.image" height="25vh")
             //- 訂單資訊
             q-card-section
                 //- 分頁
