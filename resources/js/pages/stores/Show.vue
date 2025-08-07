@@ -75,6 +75,7 @@ q-page.q-py-lg
                         color="green"
                         icon="group_add"
                         :disable="page.props.store.is_closed"
+                        :loading="loading"
                         @click="createGroupOrder"
                     )
                     q-btn(
@@ -91,6 +92,7 @@ import { openLink } from '@/utils/url';
 import { router, usePage } from '@inertiajs/vue3';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';
+import { ref } from 'vue';
 
 const page = usePage<StoreShowPageProps>();
 const $q = useQuasar();
@@ -114,7 +116,10 @@ const tableColumns: QTableColumn[] = [
     },
 ];
 
+const loading = ref(false);
+
 const createGroupOrder = () => {
+    loading.value = true;
     router.post(
         '/group-orders',
         {
@@ -122,12 +127,14 @@ const createGroupOrder = () => {
         },
         {
             onSuccess: () => {
+                loading.value = false;
                 $q.notify({
                     type: 'positive',
                     message: '團購建立成功！',
                 });
             },
             onError: () => {
+                loading.value = false;
                 $q.notify({
                     type: 'negative',
                     message: '團購建立失敗！',
