@@ -1,19 +1,46 @@
 <template lang="pug">
 q-page.q-py-lg
     .container
-        .row.q-col-gutter-lg
-            //- 搜尋欄位
-            .col-12
+        //- 搜尋
+        q-card
+            q-card-section
                 q-input(
                     v-model="search"
-                    rounded outlined bg-color="white" color="rose"
+                    outlined bg-color="white" color="rose"
                     placeholder="搜尋店家"
                 )
                     template(#prepend)
                         q-icon(name="search")
                     template(#append)
                         q-icon.cursor-pointer(v-if="search" name="close" @click="search = ''")
-            //- 店家卡片列表
+            q-card-section
+                .row.align.items-center.q-gutter-y-md
+                    .col-12.col-sm-6.col-lg-6 排序
+                    .col-12.col-sm-6.col-lg-6
+                        .q-gutter-md-xs
+                            q-btn(
+                                flat
+                                label="名稱"
+                                :icon-right="getSortIcon('name')"
+                                :text-color="sort.field === 'name' ? 'rose' : 'grey'"
+                                @click="changeSort('name')"
+                            )
+                            q-btn(
+                                flat
+                                label="更新時間"
+                                :icon-right="getSortIcon('updated_at')"
+                                :text-color="sort.field === 'updated_at' ? 'rose' : 'grey'"
+                                @click="changeSort('updated_at')"
+                            )
+                            q-btn(
+                                flat
+                                label="成團次數"
+                                :icon-right="getSortIcon('ordered_group_orders_count')"
+                                :text-color="sort.field === 'ordered_group_orders_count' ? 'rose' : 'grey'"
+                                @click="changeSort('ordered_group_orders_count')"
+                            )
+        //- 店家卡片列表
+        .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
                 v-for="store in filteredStores"
                 :key="store.id"
@@ -24,7 +51,7 @@ q-page.q-py-lg
 <script setup lang="ts">
 import StoreCard from '@/components/StoreCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import type { StorePageProps } from '@/types';
+import type { Store, StorePageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
@@ -33,8 +60,36 @@ defineOptions({ layout: MainLayout });
 const page = usePage<StorePageProps>();
 
 const search = ref('');
+const sort = ref<{
+    field: keyof Store;
+    order: 1 | -1;
+}>({
+    field: 'name',
+    order: 1,
+});
 
 const filteredStores = computed(() => {
-    return page.props.stores.filter((store) => store.name.toLowerCase().includes(search.value.toLowerCase()));
+    return page.props.stores
+        .filter((store) => store.name.toLowerCase().includes(search.value.toLowerCase()))
+        .sort((a: Store, b: Store) => {
+            const aValue = a[sort.value.field];
+            const bValue = b[sort.value.field];
+            if (aValue < bValue) return -1 * sort.value.order;
+            if (aValue > bValue) return 1 * sort.value.order;
+            return 0;
+        });
 });
+
+const getSortIcon = (field: keyof Store) => {
+    if (sort.value.field === field) return sort.value.order > 0 ? 'arrow_drop_up' : 'arrow_drop_down';
+    else return undefined;
+};
+
+const changeSort = (field: keyof Store) => {
+    if (sort.value.field === field) sort.value.order *= -1;
+    else {
+        sort.value.field = field;
+        sort.value.order = -1;
+    }
+};
 </script>
