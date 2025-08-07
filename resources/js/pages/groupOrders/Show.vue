@@ -107,7 +107,7 @@ q-page.q-py-lg
             q-card-section.text-center
                 | 總金額: {{ totalPrice }} 元
                 br
-                q-btn.q-my-sm(color="blue" icon="download" label="下載 csv")
+                q-btn.q-my-sm(color="blue" icon="download" label="下載 csv" @click="downloadCsv")
                 template(v-if="page.props.auth.user && page.props.groupOrder.user.id === page.props.auth.user.id")
                     br
                     q-btn.q-my-sm.q-mx-sm(
@@ -167,13 +167,28 @@ q-page.q-py-lg
 <script setup lang="ts">
 import OrderCard from '@/components/OrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import type { GroupOrderShowPageProps, OrderItem } from '@/types';
+import type { GroupOrderShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
 import { router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+import * as xlsx from 'xlsx';
+
+interface GroupedMenuItem {
+    id: number;
+    name: string;
+    price: number;
+    total: number;
+    subtotal: number;
+    orders: {
+        comment?: string;
+        name: string;
+        seat_number: number;
+        quantity: number;
+    }[];
+}
 
 defineOptions({ layout: MainLayout });
 
@@ -182,7 +197,7 @@ const $q = useQuasar();
 
 const tab = ref<'user' | 'all'>('user');
 
-const groupedMenuItems = computed(() => {
+const groupedMenuItems = computed((): GroupedMenuItem[] => {
     const menuItemsById = _.keyBy(page.props.groupOrder.menu_snapshot, 'id');
     const allOrderItems = _.flatMap(page.props.orders, 'order_items');
     const groupedById = _.groupBy(allOrderItems, 'menu_item_id');
@@ -197,7 +212,7 @@ const groupedMenuItems = computed(() => {
         }
     });
 
-    return _.map(groupedById, (orderItems: OrderItem[], menuItemId: number) => {
+    return _.map(groupedById, (orderItems, menuItemId): GroupedMenuItem => {
         const menuItem = menuItemsById[menuItemId];
         const total = _.sumBy(orderItems, 'quantity');
         const subtotal = menuItem.price * total;
@@ -205,8 +220,8 @@ const groupedMenuItems = computed(() => {
             const user = orderIdToUser.get(item.order_id);
             return {
                 comment: item.comment,
-                name: user?.name,
-                seat_number: user?.seat_number,
+                name: user?.name || '',
+                seat_number: user?.seat_number || 0,
                 quantity: item.quantity,
             };
         });
@@ -219,7 +234,7 @@ const groupedMenuItems = computed(() => {
             subtotal,
             orders,
         };
-    });
+    }) as unknown as GroupedMenuItem[];
 });
 
 const ordersColumns: QTableColumn[] = [
@@ -283,6 +298,30 @@ const setStatus = (status: 'ordered' | 'closed') => {
             },
         },
     );
+};
+
+const downloadCsv = () => {
+    const data = groupedMenuItems.value.map((item) => {
+        return {
+            品項: item.name,
+            單價: item.price,
+            數量: item.total,
+            金額: item.subtotal,
+            訂購者: item.orders
+                .map((order) => `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`)
+                .join(', '),
+        };
+    });
+    const ws = xlsx.utils.json_to_sheet(data);
+
+    const totalRow = [{ field: '總計', value: totalPrice.value }];
+    xlsx.utils.sheet_add_json(ws, totalRow, { origin: -1, skipHeader: true });
+
+    const wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, '訂單');
+
+    const date = new Date().toISOString().slice(0, 10);
+    xlsx.writeFile(wb, `${page.props.groupOrder.store.name}-團購訂單-${date}.xlsx`);
 };
 
 // 自動更新訂單
