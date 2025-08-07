@@ -108,9 +108,10 @@ q-page.q-py-lg
                 | 總金額: {{ totalPrice }} 元
                 br
                 q-btn.q-my-sm(color="blue" icon="download" label="下載 csv")
-                br
-                q-btn.q-my-sm.q-mx-sm(
-                    :disable="page.props.groupOrder.status !== 'open'"
+                template(v-if="page.props.auth.user && page.props.groupOrder.user.id === page.props.auth.user.id")
+                    br
+                    q-btn.q-my-sm.q-mx-sm(
+                        :disable="page.props.groupOrder.status !== 'open'"
                     color="green" icon="check" label="確認結單"
                     @click="setStatus('ordered')"
                 )

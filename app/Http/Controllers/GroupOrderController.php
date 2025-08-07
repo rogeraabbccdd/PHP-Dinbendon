@@ -41,6 +41,11 @@ class GroupOrderController extends Controller
     public function update(Request $request, int $id): RedirectResponse
     {
         $groupOrder = GroupOrder::findOrFail($id);
+
+        if ($groupOrder->user_id !== $request->user()->id) {
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        }
+
         $groupOrder->status = $request->input('status');
         $groupOrder->save();
 
