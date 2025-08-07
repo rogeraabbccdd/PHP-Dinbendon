@@ -59,4 +59,46 @@ class GroupOrderController extends Controller
             'myOrder' => $myOrder,
         ]);
     }
+
+    /**
+     * 建立團購內訂單.
+     */
+    public function createOrder(Request $request): RedirectResponse
+    {
+        $order = null;
+        \DB::transaction(function () use ($request, &$order) {
+            $order = Order::where('group_order_id', $request->input('group_order_id'))
+                ->where('user_id', $request->user()->id)
+                ->first();
+
+            if ($order) {
+                // 已下訂，先刪除舊的 orderItems
+                $order->orderItems()->delete();
+                $order->total_price = $request->input('total_price', 0);
+                $order->save();
+            } else {
+                // 尚未下訂，建立新訂單
+                $order = new Order();
+                $order->group_order_id = $request->input('group_order_id');
+                $order->user_id = $request->user()->id;
+                $order->total_price = $request->input('total_price', 0);
+                $order->save();
+            }
+
+            $orderItems = [];
+            foreach ($request->input('items', []) as $item) {
+                $orderItems[] = new OrderItem([
+                    'order_id' => $order->id,
+                    'menu_item_id' => $item['menu_item_id'],
+                    'name' => $item['name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'comment' => $item['comment'] ?? '',
+                ]);
+            }
+            $order->orderItems()->saveMany($orderItems);
+        });
+
+        return redirect()->intended(route('groupOrders.show', $order->id));
+    }
 }

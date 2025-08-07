@@ -36,4 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('group-orders/{id}/order', [GroupOrderController::class, 'showOrderForm'])
         ->name('groupOrders.order');
+
+    Route::post('group-orders/{id}/order', [GroupOrderController::class, 'createOrder'])
+        ->name('groupOrders.order.create');
 });
