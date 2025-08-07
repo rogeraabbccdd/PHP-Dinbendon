@@ -134,6 +134,7 @@ q-page.q-py-lg
                         color="rose"
                         label="修改訂單"
                         icon="shopping_cart"
+                        :disable="page.props.groupOrder.status !== 'open'"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
             //- 無訂單
@@ -144,6 +145,7 @@ q-page.q-py-lg
                         color="rose"
                         label="前往下單"
                         icon="shopping_cart"
+                        :disable="page.props.groupOrder.status !== 'open'"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
 </template>
