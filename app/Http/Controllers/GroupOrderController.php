@@ -36,6 +36,36 @@ class GroupOrderController extends Controller
     }
 
     /**
+     * 顯示單筆團購.
+     */
+    public function show(Request $request, int $id): Response|RedirectResponse
+    {
+        $groupOrder = GroupOrder::findOrFail($id);
+        $groupOrder->load('store', 'user');
+
+        // 若 course_id 不同則導向 stores 頁面
+        if ($groupOrder->course_id !== $request->user()->course_id) {
+            return redirect()->route('groupOrders');
+        }
+
+        $orders = Order::where('group_order_id', $groupOrder->id)
+            ->with(['user', 'orderItems'])
+            ->get()
+            ->sortBy(function ($order) {
+                return $order->user->seat_number;
+            })
+            ->values();
+
+        $myOrder = $orders->firstWhere('user_id', $request->user()->id);
+
+        return Inertia::render('groupOrders/Show', [
+            'groupOrder' => $groupOrder,
+            'orders' => $orders,
+            'myOrder' => $myOrder,
+        ]);
+    }
+
+    /**
      * 顯示團購內訂單表單.
      */
     public function showOrderForm(Request $request, int $id): Response|RedirectResponse
