@@ -107,14 +107,22 @@ q-page.q-py-lg
             q-card-section.text-center
                 | 總金額: {{ totalPrice }} 元
                 br
-                q-btn.q-mt-sm(color="green" icon="download" label="下載 csv")
-            //- 我的訂單
-            q-card-section
-                template(v-if="page.props.myOrder")
+                q-btn.q-my-sm(color="blue" icon="download" label="下載 csv")
+                br
+                q-btn.q-my-sm.q-mx-sm(
+                    :disable="page.props.groupOrder.status !== 'open'"
+                    color="green" icon="check" label="確認結單"
+                    @click="setStatus('ordered')"
+                )
+                q-btn.q-my-sm.q-mx-sm(
+                    :disable="page.props.groupOrder.status !== 'open'"
+                    color="red" icon="close" label="關閉團購"
+                    @click="setStatus('closed')"
+                )
         //- 我的訂單
         q-card
             q-card-section.text-center
-                h4.q-my-md.text-purple
+                h4.q-my-md
                     | 我的訂單
             //- 有訂單
             template(v-if="page.props.myOrder")
@@ -242,4 +250,8 @@ const myTotalPrice = computed(() => {
           }, 0)
         : 0;
 });
+
+const setStatus = (status: 'ordered' | 'closed') => {
+    router.post(route('groupOrders.update', { id: page.props.groupOrder.id }), { status });
+};
 </script>

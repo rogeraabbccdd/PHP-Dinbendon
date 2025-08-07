@@ -36,6 +36,18 @@ class GroupOrderController extends Controller
     }
 
     /**
+     * 更新團購狀態.
+     */
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $groupOrder = GroupOrder::findOrFail($id);
+        $groupOrder->status = $request->input('status');
+        $groupOrder->save();
+
+        return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+    }
+
+    /**
      * 顯示單筆團購.
      */
     public function show(Request $request, int $id): Response|RedirectResponse
