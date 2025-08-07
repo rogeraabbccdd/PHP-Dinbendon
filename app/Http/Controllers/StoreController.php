@@ -15,7 +15,9 @@ class StoreController extends Controller
      */
     public function index(Request $request): Response
     {
-        $stores = Store::all();
+        $stores = Store::withCount(['groupOrders as ordered_group_orders_count' => function ($query) {
+            $query->where('status', 'ordered');
+        }])->get();
 
         return Inertia::render('stores/Index', [
             'stores' => $stores,

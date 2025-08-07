@@ -62,6 +62,7 @@ export interface Store {
     is_closed: boolean;
     created_at: string;
     updated_at: string;
+    ordered_group_orders_count: number;
 }
 
 export interface MenuItem {

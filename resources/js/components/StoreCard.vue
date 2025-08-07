@@ -16,6 +16,8 @@ q-card.card-store
             | 外送條件: {{ props.delivery_conditions }}
             br
             | 更新日期: {{ new Date(props.updated_at).toLocaleString() }}
+            br
+            | 成團次數: {{ props.ordered_group_orders_count }}
 </template>
 
 <script setup lang="ts">
