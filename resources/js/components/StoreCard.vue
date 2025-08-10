@@ -17,7 +17,9 @@ q-card.card-store
             br
             | 更新日期: {{ new Date(props.updated_at).toLocaleString() }}
             br
-            | 成團次數: {{ props.ordered_group_orders_count }}
+            | 總成團次數: {{ props.ordered_group_orders_count }}
+            br
+            | 班級成團次數: {{ props.course_ordered_group_orders_count }}
 </template>
 
 <script setup lang="ts">

@@ -64,6 +64,7 @@ export interface Store {
     created_at: string;
     updated_at: string;
     ordered_group_orders_count: number;
+    course_ordered_group_orders_count: number;
 }
 
 export interface MenuItem {
