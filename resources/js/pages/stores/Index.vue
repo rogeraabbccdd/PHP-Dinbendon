@@ -34,10 +34,17 @@ q-page.q-py-lg
                             )
                             q-btn(
                                 flat
-                                label="成團次數"
+                                label="總成團次數"
                                 :icon-right="getSortIcon('ordered_group_orders_count')"
                                 :text-color="sort.field === 'ordered_group_orders_count' ? 'rose' : 'grey'"
                                 @click="changeSort('ordered_group_orders_count')"
+                            )
+                            q-btn(
+                                flat
+                                label="班級成團次數"
+                                :icon-right="getSortIcon('course_ordered_group_orders_count')"
+                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'rose' : 'grey'"
+                                @click="changeSort('course_ordered_group_orders_count')"
                             )
         //- 店家卡片列表
         .row.q-col-gutter-lg.q-mt-sm
@@ -59,10 +66,13 @@ defineOptions({ layout: MainLayout });
 
 const page = usePage<StorePageProps>();
 
+type SortField = 'created_at' | 'name' | 'updated_at' | 'ordered_group_orders_count' | 'course_ordered_group_orders_count';
+type SortOrder = 1 | -1;
+
 const search = ref('');
 const sort = ref<{
-    field: keyof Store;
-    order: 1 | -1;
+    field: SortField;
+    order: SortOrder;
 }>({
     field: 'name',
     order: 1,
@@ -80,12 +90,12 @@ const filteredStores = computed(() => {
         });
 });
 
-const getSortIcon = (field: keyof Store) => {
+const getSortIcon = (field: SortField) => {
     if (sort.value.field === field) return sort.value.order > 0 ? 'arrow_drop_up' : 'arrow_drop_down';
     else return undefined;
 };
 
-const changeSort = (field: keyof Store) => {
+const changeSort = (field: SortField) => {
     if (sort.value.field === field) sort.value.order *= -1;
     else {
         sort.value.field = field;
