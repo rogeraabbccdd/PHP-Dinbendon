@@ -76,11 +76,12 @@ export interface MenuItem {
     updated_at: string;
 }
 
+export type GroupOrderStatus = 'open' | 'closed' | 'ordered';
 export interface GroupOrderBase {
     id: number;
     store_id: number;
     user_id: number;
-    status: 'open'|'closed'|'ordered';
+    status: GroupOrderStatus;
     store: Store;
     user: User;
     created_at: string;
