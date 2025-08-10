@@ -32,7 +32,7 @@ class GroupOrderController extends Controller
 
         $groupOrder->save();
 
-        return redirect()->intended(route('groupOrders.order', $groupOrder->id));
+        return redirect()->intended(route('groupOrders.show', $groupOrder->id));
     }
 
     /**
