@@ -22,7 +22,9 @@ q-page.q-py-lg
                     br
                     | 電話: {{ page.props.store.phone }}
                     br
-                    | 成團次數: {{ page.props.store.ordered_group_orders_count }}
+                    | 總成團次數: {{ page.props.store.ordered_group_orders_count }}
+                    br
+                    | 班級成團次數: {{ page.props.store.course_ordered_group_orders_count }}
                 div
                     q-btn(
                         v-if="page.props.store.facebook"
@@ -84,6 +86,7 @@ q-page.q-py-lg
                         label="編輯資訊"
                         color="purple"
                         icon="edit"
+                        @click="router.get(route('stores.edit', page.props.store.id))"
                     )
         .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
