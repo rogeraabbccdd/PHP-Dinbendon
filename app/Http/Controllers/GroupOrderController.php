@@ -157,7 +157,12 @@ class GroupOrderController extends Controller
         $groupOrders = GroupOrder::where('course_id', $request->user()->course_id)
             ->orderByDesc('created_at')
             ->get();
-        $groupOrders->load('store', 'user');
+        $groupOrders->load(['store' => function ($query) use ($request) {
+            $query->withCount(['groupOrders as course_ordered_group_orders_count' => function ($subQuery) use ($request) {
+                $subQuery->where('course_id', $request->user()->course_id)
+                    ->where('status', 'ordered');
+            }]);
+        }, 'user']);
         $groupOrders->makeHidden('menu_snapshot');
 
 

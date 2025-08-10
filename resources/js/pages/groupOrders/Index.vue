@@ -57,6 +57,13 @@ q-page.q-py-lg
                                 :text-color="sort.field === 'name' ? 'rose' : 'grey'"
                                 @click="changeSort('name')"
                             )
+                            q-btn(
+                                flat
+                                label="班級成團次數"
+                                :icon-right="getSortIcon('course_ordered_group_orders_count')"
+                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'rose' : 'grey'"
+                                @click="changeSort('course_ordered_group_orders_count')"
+                            )
         .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
                 v-for="groupOrder in filteredGroupOrders"
@@ -79,7 +86,7 @@ const page = usePage<GroupOrderPageProps>();
 const status = ref<GroupOrderStatus[]>(['open', 'closed', 'ordered']);
 const search = ref('');
 
-type SortField = 'created_at' | 'name';
+type SortField = 'created_at' | 'name' | 'course_ordered_group_orders_count';
 type SortOrder = 1 | -1;
 
 const sort = ref<{
@@ -100,12 +107,14 @@ const filteredGroupOrders = computed(() => {
                 const aDate = new Date(a.created_at);
                 const bDate = new Date(b.created_at);
                 return (aDate.getTime() - bDate.getTime()) * sort.value.order;
-            } else {
+            } else if (sort.value.field === 'name') {
                 const aName = a.store.name.toLowerCase();
                 const bName = b.store.name.toLowerCase();
                 if (aName < bName) return -1 * sort.value.order;
                 if (aName > bName) return 1 * sort.value.order;
                 return 0;
+            } else {
+                return (a.store.course_ordered_group_orders_count - b.store.course_ordered_group_orders_count) * sort.value.order;
             }
         });
 });
