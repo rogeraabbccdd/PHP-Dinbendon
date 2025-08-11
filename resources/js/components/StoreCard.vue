@@ -3,7 +3,7 @@ q-card.card-store
     //- 卡片圖片
     q-img(:src="props.image" height="25vh")
         .absolute-center.full-height.full-width.column.justify-center.align-center(v-if="props.is_closed")
-            .text-h4.text-center 已歇業
+            .text-h4.text-red-6.text-center 已歇業
     //- 卡片內容
     q-card-section.card-store-title
         //- 店家名稱
