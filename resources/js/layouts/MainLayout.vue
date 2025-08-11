@@ -57,7 +57,7 @@ const logout = () => {
         cancel: true,
         persistent: true,
     }).onOk(() => {
-        router.post('/logout');
+        router.post(route('logout'));
     });
 };
 </script>

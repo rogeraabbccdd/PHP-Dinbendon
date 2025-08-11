@@ -133,7 +133,7 @@ const loading = ref(false);
 const createGroupOrder = () => {
     loading.value = true;
     router.post(
-        '/group-orders',
+        route('groupOrders.create'),
         {
             store_id: page.props.store.id,
         },

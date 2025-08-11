@@ -208,7 +208,7 @@ const placeOrder = () => {
         }));
     loading.value = true;
     router.post(
-        '/group-orders/{id}/order',
+        route('groupOrders.order.create'),
         {
             group_order_id: page.props.groupOrder.id,
             items: payload,

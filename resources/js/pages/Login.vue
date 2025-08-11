@@ -12,14 +12,14 @@ q-page.column.flex-center
                         q-card-section
                             q-input(
                                 v-model="student_id"
-                                auto-complete="username" placeholder="學號" color="rose"
+                                auto-complete="username" placeholder="學號" color="purple"
                                 :error="Boolean(form.errors.value.student_id)"
                                 :error-message="form.errors.value.student_id"
                             )
                                 template(#before)
                                     q-icon(name="face")
                             q-input(
-                                v-model="password" placeholder="密碼" type="password" color="rose"
+                                v-model="password" placeholder="密碼" type="password" color="purple"
                                 auto-complete="current-password"
                                 :error="Boolean(form.errors.value.password)"
                                 :error-message="form.errors.value.password"
@@ -60,7 +60,7 @@ const { value: password } = useField<string>('password');
 
 const onFormSubmit = form.handleSubmit(async (values) => {
     return new Promise((resolve) => {
-        router.post('/login', values, {
+        router.post(route('login'), values, {
             onSuccess: () => {
                 resolve(undefined);
                 $q.notify({
