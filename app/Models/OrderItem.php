@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +23,6 @@ class OrderItem extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
             'quantity' => 'integer',
         ];
     }
@@ -41,5 +41,12 @@ class OrderItem extends Model
     public function menuItem(): BelongsTo
     {
         return $this->belongsTo(MenuItem::class);
+    }
+
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => (float) $value,
+        );
     }
 }

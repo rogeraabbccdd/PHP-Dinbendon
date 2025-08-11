@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Store;
@@ -22,7 +23,6 @@ class MenuItem extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
             'is_available' => 'boolean',
         ];
     }
@@ -38,5 +38,12 @@ class MenuItem extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => (float) $value,
+        );
     }
 }

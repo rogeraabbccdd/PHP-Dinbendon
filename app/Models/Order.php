@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +22,6 @@ class Order extends Model
     protected function casts(): array
     {
         return [
-            'total_price' => 'decimal:2',
         ];
     }
 
@@ -55,5 +55,12 @@ class Order extends Model
     public function store(): HasOneThrough
     {
         return $this->hasOneThrough(Store::class, GroupOrder::class, 'id', 'id', 'group_order_id', 'store_id');
+    }
+
+    protected function totalPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => (float) $value,
+        );
     }
 }
