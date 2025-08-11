@@ -12,7 +12,7 @@ q-card(flat bordered)
                     q-item-section
                         q-item-label
                             | {{ item.name }}
-                            q-badge.q-ml-sm(align="middle")
+                            q-badge.q-ml-sm(align="middle" color="orange" text-color="black")
                                 | ${{ item.price }}
                         q-item-label(v-if="item.comment" caption lines="1")
                             | {{ item.comment }}
