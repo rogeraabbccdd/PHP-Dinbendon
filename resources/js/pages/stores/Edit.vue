@@ -362,8 +362,8 @@ const addMenuItem = () => {
 // const exportMenuCSV = () => {};
 
 const increaseMenuPrice = (amount: number) => {
-    form.values.menuItems!.forEach((item) => {
-        item.price += amount;
+    form.values.menuItems!.forEach((item, i) => {
+        form.setFieldValue(`menuItems[${i}].price`, (item.price + amount) as never);
     });
 };
 
