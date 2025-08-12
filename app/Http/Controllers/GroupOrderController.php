@@ -20,13 +20,17 @@ class GroupOrderController extends Controller
      */
     public function create(Request $request): RedirectResponse
     {
+        $store = Store::findOrFail($groupOrder->store_id);
+        if ($store->is_closed) {
+            return redirect()->route('stores.show', $store->id);
+        }
+
         $groupOrder = new GroupOrder();
         $groupOrder->store_id = $request->input('store_id');
         $groupOrder->course_id = $request->user()->course_id;
         $groupOrder->user_id = $request->user()->id;
         $groupOrder->status = 'open';
 
-        $store = Store::findOrFail($groupOrder->store_id);
         $menuItems = MenuItem::where('store_id', $store->id)->where('is_available', 1)->get();
         $groupOrder->menu_snapshot = $menuItems->toArray();
 
@@ -122,6 +126,11 @@ class GroupOrderController extends Controller
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.comment' => 'nullable|string|max:50',
         ]);
+
+        $groupOrder = GroupOrder::with('store')->findOrFail($validated['group_order_id']);
+        if ($groupOrder->store->is_closed) {
+            return redirect()->intended(route('groupOrders.show', $order->group_order_id));
+        }
 
         $order = null;
         \DB::transaction(function () use ($validated, $request, &$order) {

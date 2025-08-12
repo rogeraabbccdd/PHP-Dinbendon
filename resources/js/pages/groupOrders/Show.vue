@@ -1,15 +1,21 @@
 <template lang="pug">
 q-page.q-py-lg
     .column.container.q-gutter-y-lg
+        //- 店家已歇業
+        template(v-if="page.props.groupOrder.store.is_closed")
+            q-banner.text-white.bg-red(rounded)
+                | 店家已歇業，無法進行訂購
+                template(#avatar)
+                    q-icon(name="warning")
         //- 團購已關閉
         template(v-if="page.props.groupOrder.status === 'closed'")
-            q-banner.text-white.bg-red.q-mb-lg(rounded)
+            q-banner.text-white.bg-red(rounded)
                 | 團購已關閉
                 template(#avatar)
                     q-icon(name="warning")
         //- 團購已下單
         template(v-else-if="page.props.groupOrder.status === 'ordered'")
-            q-banner.text-white.bg-green.q-mb-lg(rounded)
+            q-banner.text-white.bg-green(rounded)
                 | 團購已下單
                 template(#avatar)
                     q-icon(name="check")
@@ -113,7 +119,7 @@ q-page.q-py-lg
                 template(v-if="page.props.auth.user && page.props.groupOrder.user.id === page.props.auth.user.id")
                     br
                     q-btn.q-my-sm.q-mx-sm(
-                        :disable="page.props.groupOrder.status !== 'open'"
+                        :disable="!canOrder"
                         :loading="loading"
                         color="green" icon="check" label="確認結單"
                         @click="setStatus('ordered')"
@@ -147,7 +153,7 @@ q-page.q-py-lg
                         color="rose"
                         label="修改訂單"
                         icon="shopping_cart"
-                        :disable="page.props.groupOrder.status !== 'open'"
+                        :disable="!canOrder"
                         :loading="loading"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
@@ -160,7 +166,7 @@ q-page.q-py-lg
                         color="rose"
                         label="前往下單"
                         icon="shopping_cart"
-                        :disable="page.props.groupOrder.status !== 'open'"
+                        :disable="!canOrder"
                         :loading="loading"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
                     )
@@ -196,6 +202,10 @@ defineOptions({ layout: MainLayout });
 
 const page = usePage<GroupOrderShowPageProps>();
 const $q = useQuasar();
+
+const canOrder = computed(() => {
+    return page.props.groupOrder.status === 'open' && !page.props.groupOrder.store.is_closed;
+});
 
 const tab = ref<'user' | 'all'>('user');
 
