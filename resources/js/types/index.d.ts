@@ -99,7 +99,7 @@ export interface GroupOrderWithMenuSnapshot extends GroupOrderBase {
 
 export interface Order {
     id: number;
-    total_price: string;
+    total_price: number;
     user: User;
     order_items: OrderItem[];
     created_at: string;

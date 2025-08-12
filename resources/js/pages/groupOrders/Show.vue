@@ -262,7 +262,7 @@ const myOrdersColumns: QTableColumn[] = [
 
 const totalPrice = computed(() => {
     return page.props.orders.reduce((sum, order) => {
-        return sum + parseFloat(order.total_price);
+        return sum + order.total_price;
     }, 0);
 });
 
