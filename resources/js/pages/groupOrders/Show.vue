@@ -1,6 +1,6 @@
 <template lang="pug">
 q-page.q-py-lg
-    .container.q-gutter-y-lg
+    .column.container.q-gutter-y-lg
         //- 團購已關閉
         template(v-if="page.props.groupOrder.status === 'closed'")
             q-banner.text-white.bg-red.q-mb-lg(rounded)
