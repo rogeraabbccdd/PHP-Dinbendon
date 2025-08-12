@@ -128,6 +128,7 @@ q-page.q-py-lg
                         label="變更圖片"
                         icon="file_upload"
                         color="green"
+                        :loading="loading"
                         @click="onEditImageClick"
                     )
                     q-btn(
@@ -136,6 +137,7 @@ q-page.q-py-lg
                         label="復原圖片"
                         icon="undo"
                         color="red"
+                        :loading="loading"
                         @click="onRestoreImageClick"
                     )
             //- 菜單
@@ -216,18 +218,21 @@ q-page.q-py-lg
                         label="新增品項"
                         icon="add"
                         color="green"
+                        :loading="loading"
                         @click="addMenuItem"
                     )
                     q-btn(
                         label="調漲 5 元"
                         icon="attach_money"
                         color="red"
+                        :loading="loading"
                         @click="increaseMenuPrice(5)"
                     )
                     q-btn(
                         label="調漲 10 元"
                         icon="attach_money"
                         color="red"
+                        :loading="loading"
                         @click="increaseMenuPrice(10)"
                     )
             //- 送出
@@ -241,6 +246,7 @@ q-page.q-py-lg
                         type="submit"
                         color="green"
                         icon="upload"
+                        :loading="loading"
                     )
 </template>
 
