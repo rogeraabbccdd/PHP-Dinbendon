@@ -6,7 +6,7 @@ q-page.q-py-lg
             q-card-section
                 q-input(
                     v-model="search"
-                    outlined bg-color="white" color="rose"
+                    outlined bg-color="white" color="purple"
                     placeholder="搜尋店家"
                 )
                     template(#prepend)
@@ -21,19 +21,19 @@ q-page.q-py-lg
                         .q-gutter-md-xs
                             q-checkbox(
                                 v-model="status"
-                                keep-color color="rose"
+                                color="purple"
                                 val="open"
                                 label="開團中"
                             )
                             q-checkbox(
                                 v-model="status"
-                                keep-color color="rose"
+                                color="purple"
                                 val="closed"
                                 label="已關閉"
                             )
                             q-checkbox(
                                 v-model="status"
-                                keep-color color="rose"
+                                color="purple"
                                 val="ordered"
                                 label="已下單"
                             )
@@ -47,21 +47,21 @@ q-page.q-py-lg
                                 flat
                                 label="開團日期"
                                 :icon-right="getSortIcon('created_at')"
-                                :text-color="sort.field === 'created_at' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'created_at' ? 'purple' : 'grey'"
                                 @click="changeSort('created_at')"
                             )
                             q-btn(
                                 flat
                                 label="店家名稱"
                                 :icon-right="getSortIcon('name')"
-                                :text-color="sort.field === 'name' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'name' ? 'purple' : 'grey'"
                                 @click="changeSort('name')"
                             )
                             q-btn(
                                 flat
                                 label="班級成團次數"
                                 :icon-right="getSortIcon('course_ordered_group_orders_count')"
-                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'purple' : 'grey'"
                                 @click="changeSort('course_ordered_group_orders_count')"
                             )
         .row.q-col-gutter-lg.q-mt-sm

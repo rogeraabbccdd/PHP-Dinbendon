@@ -6,7 +6,7 @@ q-page.q-py-lg
             q-card-section
                 q-input(
                     v-model="search"
-                    outlined bg-color="white" color="rose"
+                    outlined bg-color="white" color="purple"
                     placeholder="搜尋店家"
                 )
                     template(#prepend)
@@ -22,28 +22,28 @@ q-page.q-py-lg
                                 flat
                                 label="名稱"
                                 :icon-right="getSortIcon('name')"
-                                :text-color="sort.field === 'name' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'name' ? 'purple' : 'grey'"
                                 @click="changeSort('name')"
                             )
                             q-btn(
                                 flat
                                 label="更新時間"
                                 :icon-right="getSortIcon('updated_at')"
-                                :text-color="sort.field === 'updated_at' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'updated_at' ? 'purple' : 'grey'"
                                 @click="changeSort('updated_at')"
                             )
                             q-btn(
                                 flat
                                 label="總成團次數"
                                 :icon-right="getSortIcon('ordered_group_orders_count')"
-                                :text-color="sort.field === 'ordered_group_orders_count' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'ordered_group_orders_count' ? 'purple' : 'grey'"
                                 @click="changeSort('ordered_group_orders_count')"
                             )
                             q-btn(
                                 flat
                                 label="班級成團次數"
                                 :icon-right="getSortIcon('course_ordered_group_orders_count')"
-                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'rose' : 'grey'"
+                                :text-color="sort.field === 'course_ordered_group_orders_count' ? 'purple' : 'grey'"
                                 @click="changeSort('course_ordered_group_orders_count')"
                             )
         //- 店家卡片列表
