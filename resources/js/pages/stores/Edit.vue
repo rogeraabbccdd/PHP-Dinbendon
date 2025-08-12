@@ -145,7 +145,7 @@ q-page.q-py-lg
                         | 菜單
                 //- 菜單表格
                 q-card-section
-                    q-table.table-no-pagination(
+                    q-table(
                         :rows="items"
                         :rows-per-page-options="[0]"
                         :columns="tableColumns"
@@ -154,7 +154,7 @@ q-page.q-py-lg
                     )
                         template(#body-cell-name="props")
                             q-td(:props="props")
-                                q-input.q-pb-none(
+                                q-input(
                                     v-model="props.row.value.name"
                                     outlined
                                     dense
@@ -162,11 +162,12 @@ q-page.q-py-lg
                                     required
                                     :bottom-slots="false"
                                     hide-hint
+                                    hide-bottom-space
                                     :error="Boolean(form.errors.value[`menuItems[${props.rowIndex}].name`])"
                                 )
                         template(#body-cell-price="props")
                             q-td(:props="props")
-                                q-input.q-pb-none(
+                                q-input(
                                     v-model.number="props.row.value.price"
                                     outlined
                                     dense
@@ -175,6 +176,7 @@ q-page.q-py-lg
                                     type="number"
                                     :bottom-slots="false"
                                     hide-hint
+                                    hide-bottom-space
                                     :error="Boolean(form.errors.value[`menuItems[${props.rowIndex}].price`])"
                                 )
                         template(#body-cell-is_available="props")
