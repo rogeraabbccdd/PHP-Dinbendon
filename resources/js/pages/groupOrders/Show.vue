@@ -76,6 +76,8 @@ q-page.q-py-lg
                     //- 使用者訂單卡片
                     q-tab-panel(name="user")
                         .row
+                            .col-12.text-center(v-if="page.props.orders.length === 0")
+                                | 尚無訂單
                             .col-xs-12.col-sm-6.col-md-4.q-pa-xs(
                                 v-for="order in page.props.orders" :key="order.id"
                             )
