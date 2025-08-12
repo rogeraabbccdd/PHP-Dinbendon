@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MenuItem;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Store extends Model
 {
@@ -18,6 +20,10 @@ class Store extends Model
         'phone',
         'image',
         'is_closed',
+        'business_hours',
+        'delivery_conditions',
+        'facebook',
+        'instagram',
     ];
 
     protected function casts(): array
@@ -25,6 +31,13 @@ class Store extends Model
         return [
             'is_closed' => 'boolean',
         ];
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value ? asset($value) : null,
+        );
     }
 
     public function menuItems(): HasMany

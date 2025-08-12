@@ -12,6 +12,7 @@ import { Quasar, Notify, Dialog } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-material-icons';
 import quasarLang from 'quasar/lang/zh-TW';
 import 'quasar/src/css/index.sass';
+import 'quasar/src/css/flex-addon.sass'
 
 import '../css/app.sass';
 

@@ -6,6 +6,10 @@ use App\Models\Store;
 use App\Models\MenuItem;
 use App\Models\GroupOrder;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -59,5 +63,62 @@ class StoreController extends Controller
             'menuItems' => $menuItems,
             'groupOrders' => $groupOrders,
         ]);
+    }
+
+    /**
+     * 顯示單一店家資訊表單.
+     */
+    public function editForm(Request $request, int $id): Response
+    {
+        $store = Store::withCount(['groupOrders as ordered_group_orders_count' => function ($query) {
+            $query->where('status', 'ordered');
+        }])->findOrFail($id);
+        $menuItems = $store->menuItems()->get();
+
+        return Inertia::render('stores/Edit', [
+            'store' => $store,
+            'menuItems' => $menuItems,
+        ]);
+    }
+
+    /**
+     * 更新單一店家資訊.
+     */
+    public function editFormSubmit(Request $request, int $id): RedirectResponse
+    {
+        $store = Store::withCount(['groupOrders as ordered_group_orders_count' => function ($query) {
+            $query->where('status', 'ordered');
+        }])->findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'business_hours' => 'required|string|max:255',
+            'delivery_conditions' => 'required|string|max:255',
+            'google_map' => 'required|string|max:255',
+            'facebook' => 'required|string|max:255',
+            'instagram' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
+            'is_closed' => 'required|boolean',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $oldImagePath = $store->getRawOriginal('image');
+            if ($oldImagePath && File::exists(public_path($oldImagePath))) {
+                File::delete(public_path($oldImagePath));
+            }
+
+            $file = $request->file('image');
+            $filename = (string) Str::uuid() . '.' . $file->extension();
+            $request->image->move(public_path('storage/store'), $filename);
+            $validated['image'] = 'storage/store/' . $filename;
+        } else {
+            unset($validated['image']);
+        }
+
+        $store->update($validated);
+
+        return redirect()->route('stores.show', $store);
     }
 }
