@@ -112,28 +112,39 @@ class GroupOrderController extends Controller
      */
     public function createOrder(Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'group_order_id' => 'required|exists:group_orders,id',
+            'total_price' => 'required|integer|min:1',
+            'items' => 'required|array',
+            'items.*.menu_item_id' => 'required|exists:menu_items,id',
+            'items.*.name' => 'required|string|max:255',
+            'items.*.price' => 'required|integer|min:1',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.comment' => 'nullable|string|max:50',
+        ]);
+
         $order = null;
-        \DB::transaction(function () use ($request, &$order) {
-            $order = Order::where('group_order_id', $request->input('group_order_id'))
+        \DB::transaction(function () use ($validated, $request, &$order) {
+            $order = Order::where('group_order_id', $validated['group_order_id'])
                 ->where('user_id', $request->user()->id)
                 ->first();
 
             if ($order) {
                 // 已下訂，先刪除舊的 orderItems
                 $order->orderItems()->delete();
-                $order->total_price = $request->input('total_price', 0);
+                $order->total_price = $validated['total_price'];
                 $order->save();
             } else {
                 // 尚未下訂，建立新訂單
                 $order = new Order();
-                $order->group_order_id = $request->input('group_order_id');
+                $order->group_order_id = $validated['group_order_id'];
                 $order->user_id = $request->user()->id;
-                $order->total_price = $request->input('total_price', 0);
+                $order->total_price = $validated['total_price'];
                 $order->save();
             }
 
             $orderItems = [];
-            foreach ($request->input('items', []) as $item) {
+            foreach ($validated['items'] as $item) {
                 $orderItems[] = new OrderItem([
                     'order_id' => $order->id,
                     'menu_item_id' => $item['menu_item_id'],
