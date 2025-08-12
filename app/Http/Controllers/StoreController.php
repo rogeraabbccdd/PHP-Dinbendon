@@ -101,6 +101,11 @@ class StoreController extends Controller
             'instagram' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
             'is_closed' => 'required|boolean',
+            'menuItems' => 'present|array',
+            'menuItems.*.id' => 'required|integer',
+            'menuItems.*.name' => 'required|string|max:255',
+            'menuItems.*.price' => 'required|numeric|min:0',
+            'menuItems.*.is_available' => 'required|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -118,6 +123,22 @@ class StoreController extends Controller
         }
 
         $store->update($validated);
+
+        foreach ($validated['menuItems'] as $menuItemData) {
+            if ($menuItemData['id'] > 0) {
+                // Update existing item
+                $menuItem = MenuItem::where('store_id', $store->id)->findOrFail($menuItemData['id']);
+                $menuItem->update($menuItemData);
+            } else {
+                // Create new item
+                MenuItem::create([
+                    'store_id' => $store->id,
+                    'name' => $menuItemData['name'],
+                    'price' => $menuItemData['price'],
+                    'is_available' => $menuItemData['is_available'],
+                ]);
+            }
+        }
 
         return redirect()->route('stores.show', $store);
     }
