@@ -115,7 +115,7 @@ q-page.q-py-lg
                         | 店家圖片
                 q-card-section
                     q-img(
-                        :src="selectedImage || page.props.store?.image || ''"
+                        :src="selectedImage || page.props.store?.image || placeholderImage"
                         height="25vh"
                     )
                 q-card-section.text-center.q-gutter-md
@@ -128,7 +128,7 @@ q-page.q-py-lg
                         | 圖片大小不能超過 1MB
                     q-btn(
                         label="變更圖片"
-                        icon="file_upload"
+                        icon="image"
                         color="green"
                         :loading="loading"
                         @click="onEditImageClick"
@@ -262,6 +262,8 @@ import { useQuasar } from 'quasar';
 import { useField, useFieldArray, useForm } from 'vee-validate';
 import { ref, useTemplateRef } from 'vue';
 import * as zod from 'zod';
+
+const placeholderImage = new URL('$/images/placeholder.webp', import.meta.url).href;
 
 const page = usePage<StoreEditPageProps>();
 const $q = useQuasar();
