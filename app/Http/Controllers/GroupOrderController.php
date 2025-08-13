@@ -20,7 +20,7 @@ class GroupOrderController extends Controller
      */
     public function create(Request $request): RedirectResponse
     {
-        $store = Store::findOrFail($groupOrder->store_id);
+        $store = Store::findOrFail($request->input('store_id'));
         if ($store->is_closed) {
             return redirect()->route('stores.show', $store->id);
         }
