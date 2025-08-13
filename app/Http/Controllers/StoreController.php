@@ -81,16 +81,21 @@ class StoreController extends Controller
         ]);
     }
 
+    public function createForm(Request $request): Response
+    {
+        return Inertia::render('stores/Edit', [
+            'store' => null,
+            'menuItems' => null,
+        ]);
+    }
+
     /**
      * 更新單一店家資訊.
      */
-    public function editFormSubmit(Request $request, int $id): RedirectResponse
+    public function editFormSubmit(Request $request): RedirectResponse
     {
-        $store = Store::withCount(['groupOrders as ordered_group_orders_count' => function ($query) {
-            $query->where('status', 'ordered');
-        }])->findOrFail($id);
-
         $validated = $request->validate([
+            'store' => 'nullable|integer',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
@@ -102,16 +107,23 @@ class StoreController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
             'is_closed' => 'required|boolean',
             'menuItems' => 'present|array',
-            'menuItems.*.id' => 'required|integer',
+            'menuItems.*.id' => 'nullable|integer',
             'menuItems.*.name' => 'required|string|max:255',
             'menuItems.*.price' => 'required|numeric|min:0',
             'menuItems.*.is_available' => 'required|boolean',
         ]);
 
+        $store = null;
+        if ($validated['store']) {
+            $store = Store::findOrFail($validated['store']);
+        }
+
         if ($request->hasFile('image')) {
-            $oldImagePath = $store->getRawOriginal('image');
-            if ($oldImagePath && File::exists(public_path($oldImagePath))) {
-                File::delete(public_path($oldImagePath));
+            if ($store) {
+                $oldImagePath = $store->getRawOriginal('image');
+                if ($oldImagePath && File::exists(public_path($oldImagePath))) {
+                    File::delete(public_path($oldImagePath));
+                }
             }
 
             $file = $request->file('image');
@@ -122,22 +134,19 @@ class StoreController extends Controller
             unset($validated['image']);
         }
 
-        $store->update($validated);
+        $store = Store::updateOrCreate(
+            ['id' => $validated['store']],
+            $validated
+        );
 
         foreach ($validated['menuItems'] as $menuItemData) {
-            if ($menuItemData['id'] > 0) {
-                // Update existing item
-                $menuItem = MenuItem::where('store_id', $store->id)->findOrFail($menuItemData['id']);
-                $menuItem->update($menuItemData);
-            } else {
-                // Create new item
-                MenuItem::create([
+            MenuItem::updateOrCreate(
+                [
+                    'id' => $menuItemData['id'],
                     'store_id' => $store->id,
-                    'name' => $menuItemData['name'],
-                    'price' => $menuItemData['price'],
-                    'is_available' => $menuItemData['is_available'],
-                ]);
-            }
+                ],
+                $menuItemData
+            );
         }
 
         return redirect()->route('stores.show', $store);

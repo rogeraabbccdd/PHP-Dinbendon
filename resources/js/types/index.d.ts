@@ -19,6 +19,11 @@ export interface StoreShowPageProps extends AuthPageProps {
     groupOrders: GroupOrderBase[];
 }
 
+export interface StoreEditPageProps extends AuthPageProps {
+    store?: Store;
+    menuItems?: MenuItem[];
+}
+
 export interface GroupOrderPageProps extends AuthPageProps {
     groupOrders: GroupOrder[];
 }

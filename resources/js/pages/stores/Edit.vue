@@ -115,7 +115,7 @@ q-page.q-py-lg
                         | 店家圖片
                 q-card-section
                     q-img(
-                        :src="selectedImage || page.props.store.image"
+                        :src="selectedImage || page.props.store?.image || ''"
                         height="25vh"
                     )
                 q-card-section.text-center.q-gutter-md
@@ -132,7 +132,7 @@ q-page.q-py-lg
                         @click="onEditImageClick"
                     )
                     q-btn(
-                        v-if="page.props.store.image"
+                        v-if="page.props.store?.image"
                         :disable="!selectedImage"
                         label="復原圖片"
                         icon="undo"
@@ -252,7 +252,7 @@ q-page.q-py-lg
 
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
-import type { StoreShowPageProps } from '@/types';
+import type { StoreEditPageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import type { QTableColumn } from 'quasar';
@@ -261,7 +261,7 @@ import { useField, useFieldArray, useForm } from 'vee-validate';
 import { ref, useTemplateRef } from 'vue';
 import * as zod from 'zod';
 
-const page = usePage<StoreShowPageProps>();
+const page = usePage<StoreEditPageProps>();
 const $q = useQuasar();
 
 defineOptions({ layout: MainLayout });
@@ -344,12 +344,13 @@ if (page.props.store) {
         phone: page.props.store.phone,
         delivery_conditions: page.props.store.delivery_conditions,
         is_closed: page.props.store.is_closed,
-        menuItems: page.props.menuItems.map((item) => ({
-            name: item.name,
-            price: item.price,
-            is_available: item.is_available,
-            id: item.id,
-        })),
+        menuItems:
+            page.props.menuItems?.map((item) => ({
+                name: item.name,
+                price: item.price,
+                is_available: item.is_available,
+                id: item.id,
+            })) || [],
     });
 }
 
@@ -419,8 +420,8 @@ const onFormSubmit = form.handleSubmit(async (values) => {
     loading.value = true;
     await new Promise((resolve) => {
         router.post(
-            route('stores.edit.submit', page.props.store.id),
-            { ...values, image: selectedImageFile },
+            route('stores.edit.submit'),
+            { ...values, image: selectedImageFile, store: page.props.store?.id || null },
             {
                 onSuccess: () => {
                     resolve(undefined);

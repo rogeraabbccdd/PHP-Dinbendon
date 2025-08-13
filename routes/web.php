@@ -28,13 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::get('stores', [StoreController::class, 'index'])
         ->name('stores');
 
+    Route::get('stores/new', [StoreController::class, 'createForm'])
+        ->name('stores.new');
+
     Route::get('stores/{id}', [StoreController::class, 'show'])
         ->name('stores.show');
 
     Route::get('stores/{id}/edit', [StoreController::class, 'editForm'])
         ->name('stores.edit');
 
-    Route::post('stores/{id}/edit', [StoreController::class, 'editFormSubmit'])
+    Route::post('stores', [StoreController::class, 'editFormSubmit'])
         ->name('stores.edit.submit');
 
     Route::get('group-orders', [GroupOrderController::class, 'index'])
