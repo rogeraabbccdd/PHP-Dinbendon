@@ -94,7 +94,7 @@ const sort = ref<{
     order: SortOrder;
 }>({
     field: 'created_at',
-    order: 1,
+    order: -1,
 });
 
 const filteredGroupOrders = computed(() => {
