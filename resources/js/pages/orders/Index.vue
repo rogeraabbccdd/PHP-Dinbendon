@@ -3,64 +3,87 @@ q-page.q-py-lg
     .container
         q-card
             q-card-section
-                .flex.items-center
-                    q-btn-group
-                        q-btn(label="<" color="rose" @click="calendar?.prev();")
-                        q-btn(label="今天" color="rose" @click="calendar?.moveToToday();")
-                        q-btn(label=">" color="rose" @click="calendar?.next();")
-                    q-space
-                    .text-h6 {{ currentMonth }}
-            q-card-section
-                q-calendar-month(
-                    ref="calendar"
-                    v-model="selectedDate"
-                    locale="zh-HANT"
-                    :day-min-height="150"
-                    :day-height="0"
-                    animated
-                    no-active-date
+                full-calendar(
+                    :options="calendarOptions"
                 )
-                    template(#day="{ scope: { timestamp } }")
-                        template(v-for="order in orderMap[timestamp.date]" :key="order.id")
-                            q-chip.q-calendar__ellipsis.q-my-sm(
-                                clickable
-                                color="purple"
-                                text-color="white"
-                                @click="router.visit(route('groupOrders.show', order.group_order?.id))"
-                            )
-                                | {{ order.group_order?.store.name }}
-                                q-tooltip
-                                    | ${{ order.total_price }}
+                    template(#eventContent='props')
+                        q-list
+                            q-expansion-item
+                                template(#header)
+                                    q-item-section
+                                        q-item-label
+                                            | {{ props.event.extendedProps.groupOrder.store.name }}
+                                            q-badge.q-ml-sm(align="middle" color="orange" text-color="black")
+                                                | ${{ props.event.extendedProps.totalPrice }}
+                                q-list
+                                    q-item(
+                                        v-for="item in props.event.extendedProps.orderItems"
+                                        :key="item.id"
+                                    )
+                                        q-item-section
+                                            q-item-label
+                                                | {{ item.name }}
+                                                q-badge.q-ml-sm(align="middle" color="orange" text-color="black")
+                                                    | ${{ item.price }}
+                                            q-item-label(v-if="item.comment" caption lines="1")
+                                                | {{ item.comment }}
+                                        q-item-section(side)
+                                            | x{{ item.quantity }}
+                                    q-separator(spaced)
+                                    q-item
+                                        q-item-section
+                                            q-item-label
+                                                | 總計
+                                        q-item-section(side)
+                                            q-item-label
+                                                | ${{ props.event.extendedProps.totalPrice }}
 </template>
 
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
-import type { Order, OrderPageProps } from '@/types';
-import { router, usePage } from '@inertiajs/vue3';
-import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar';
-import '@quasar/quasar-ui-qcalendar/index.css';
-import { computed, ref, useTemplateRef } from 'vue';
+import type { OrderPageProps } from '@/types';
+import zhTWLocale from '@fullcalendar/core/locales/zh-tw';
+import listPlugin from '@fullcalendar/list';
+import FullCalendar from '@fullcalendar/vue3';
+import { usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 defineOptions({ layout: MainLayout });
 
 const page = usePage<OrderPageProps>();
 
-const calendar = useTemplateRef<QCalendarMonth>('calendar');
-
-// 必須要綁定 v-model 才能換月份
-const selectedDate = ref(new Date().toISOString().split('T')[0]);
-
-const currentMonth = computed(() => {
-    const [year, month] = selectedDate.value.split('-');
-    return `${year}年${month}月`;
+const calendarOptions = computed(() => {
+    return {
+        initialView: 'listMonth',
+        plugins: [listPlugin],
+        locales: [zhTWLocale],
+        locale: 'zh-tw',
+        events: page.props.orders.map((order) => {
+            return {
+                date: order.created_at,
+                groupOrder: order.group_order,
+                orderItems: order.order_items,
+                totalPrice: order.total_price,
+            };
+        }),
+    };
 });
-
-const orderMap = page.props.orders.reduce((map: Record<string, Order[]>, order: any) => {
-    const date = new Date(order.created_at).toISOString().split('T')[0];
-    if (!map[date]) {
-        map[date] = [];
-    }
-    map[date].push(order);
-    return map;
-}, {});
 </script>
+
+<style scoped lang="sass">
+:deep(.fc-list-event-graphic)
+    display: none !important
+:deep(.fc-list-event-time)
+    vertical-align: middle !important
+:deep(.fc-button-primary)
+    background: $purple
+    border: none !important
+:deep(.fc-button-primary:disabled)
+    background: lighten($purple, 10%) !important
+:deep(.fc-button-primary:hover)
+    background: lighten($purple, 5%) !important
+:deep(.fc-button-primary:active)
+    background: lighten($purple, 5%) !important
+:deep(.fc-button-primary:focus)
+    box-shadow: none !important
+</style>

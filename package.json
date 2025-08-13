@@ -30,9 +30,11 @@
         "vue-tsc": "^2.2.4"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.19",
+        "@fullcalendar/list": "^6.1.19",
+        "@fullcalendar/vue3": "^6.1.19",
         "@inertiajs/vue3": "^2.0.0",
         "@quasar/extras": "^1.17.0",
-        "@quasar/quasar-ui-qcalendar": "^4.1.2",
         "@vee-validate/zod": "^4.15.1",
         "@vitejs/plugin-vue": "^6.0.0",
         "@vueuse/core": "^12.8.2",
