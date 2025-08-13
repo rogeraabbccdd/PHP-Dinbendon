@@ -289,27 +289,35 @@ const myTotalPrice = computed(() => {
 const loading = ref(false);
 
 const setStatus = (status: 'ordered' | 'closed') => {
-    loading.value = true;
-    router.post(
-        route('groupOrders.update', { id: page.props.groupOrder.id }),
-        { status },
-        {
-            onSuccess: () => {
-                loading.value = false;
-                $q.notify({
-                    type: 'positive',
-                    message: '團購狀態更新成功！',
-                });
+    $q.dialog({
+        title: '你確定?',
+        message: `你確定要${status === 'ordered' ? '下單' : '關閉'}嗎?`,
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        loading.value = true;
+
+        router.post(
+            route('groupOrders.update', { id: page.props.groupOrder.id }),
+            { status },
+            {
+                onSuccess: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'positive',
+                        message: '團購狀態更新成功！',
+                    });
+                },
+                onError: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'negative',
+                        message: '團購狀態更新失敗！',
+                    });
+                },
             },
-            onError: () => {
-                loading.value = false;
-                $q.notify({
-                    type: 'negative',
-                    message: '團購狀態更新失敗！',
-                });
-            },
-        },
-    );
+        );
+    });
 };
 
 const downloadCsv = () => {
