@@ -145,28 +145,35 @@ const tableColumns: QTableColumn[] = [
 const loading = ref(false);
 
 const createGroupOrder = () => {
-    loading.value = true;
-    router.post(
-        route('groupOrders.create'),
-        {
-            store_id: page.props.store.id,
-        },
-        {
-            onSuccess: () => {
-                loading.value = false;
-                $q.notify({
-                    type: 'positive',
-                    message: '團購建立成功！',
-                });
+    $q.dialog({
+        title: '你確定?',
+        message: '你確定要開團嗎?',
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        loading.value = true;
+        router.post(
+            route('groupOrders.create'),
+            {
+                store_id: page.props.store.id,
             },
-            onError: () => {
-                loading.value = false;
-                $q.notify({
-                    type: 'negative',
-                    message: '團購建立失敗！',
-                });
+            {
+                onSuccess: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'positive',
+                        message: '團購建立成功！',
+                    });
+                },
+                onError: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'negative',
+                        message: '團購建立失敗！',
+                    });
+                },
             },
-        },
-    );
+        );
+    });
 };
 </script>
