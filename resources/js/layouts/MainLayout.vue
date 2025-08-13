@@ -14,6 +14,8 @@ q-layout(view='hHh lpR fff')
                     q-btn(icon="group" stretch flat label="團購" @click="router.get(route('groupOrders'))")
                     q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
                         q-list
+                            q-item(v-close-popup clickable @click="router.get(route('orders'))")
+                                q-item-section 訂單記錄
                             q-item(v-close-popup clickable @click="logout")
                                 q-item-section 登出
                 //- 導覽列按鈕 (未登入)

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\GroupOrderController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -57,4 +58,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('group-orders/{id}/order', [GroupOrderController::class, 'createOrder'])
         ->name('groupOrders.order.create');
+
+    Route::get('orders', [OrderController::class, 'index'])
+        ->name('orders');
 });

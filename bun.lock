@@ -5,6 +5,7 @@
       "dependencies": {
         "@inertiajs/vue3": "^2.0.0",
         "@quasar/extras": "^1.17.0",
+        "@quasar/quasar-ui-qcalendar": "^4.1.2",
         "@vee-validate/zod": "^4.15.1",
         "@vitejs/plugin-vue": "^6.0.0",
         "@vueuse/core": "^12.8.2",
@@ -209,6 +210,8 @@
     "@polka/url": ["@polka/url@1.0.0-next.29", "", {}, "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="],
 
     "@quasar/extras": ["@quasar/extras@1.17.0", "", {}, "sha512-KqAHdSJfIDauiR1nJ8rqHWT0diqD0QradZKoVIZJAilHAvgwyPIY7MbyR2z4RIMkUIMUSqBZcbshMpEw+9A30w=="],
+
+    "@quasar/quasar-ui-qcalendar": ["@quasar/quasar-ui-qcalendar@4.1.2", "", {}, "sha512-z4ZesDZbHvA0w6CvB8Sm5rsUhyUNO+7F9fO32wYssjX3m4oBi0OzRxWZRkOD/s7wtx0WxUZEllHP2UEx/whaBg=="],
 
     "@quasar/vite-plugin": ["@quasar/vite-plugin@1.10.0", "", { "peerDependencies": { "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0", "quasar": "^2.16.0", "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0", "vue": "^3.0.0" } }, "sha512-4PJoTclz4ZjAfyqe0+hlkKcFJt0e2NX3Ac3hy8ILqUPdtZ24nCo5/xEHvTxZGBQMKRPwwePbO8CVs4n9EKJEug=="],
 

@@ -39,6 +39,10 @@ export interface GroupOrdersOrderPageProps extends AuthPageProps {
     myOrder: Order | null;
 }
 
+export interface OrderPageProps extends AuthPageProps {
+    orders: Order[];
+}
+
 export interface Auth {
     user?: User
 }
@@ -111,6 +115,7 @@ export interface Order {
     order_items: OrderItem[];
     created_at: string;
     updated_at: string;
+    group_order?: GroupOrderWithStore;
 }
 
 export interface OrderItem {
