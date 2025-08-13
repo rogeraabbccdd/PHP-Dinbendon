@@ -37,6 +37,15 @@ q-page.q-py-lg
                                         q-item-section(side)
                                             q-item-label
                                                 | ${{ props.event.extendedProps.totalPrice }}
+                                    q-item.q-gutter-x-md
+                                        q-btn(
+                                            color="purple" label="團購資訊" icon="group"
+                                            @click="router.visit(route('groupOrders.show', props.event.extendedProps.groupOrder.id))"
+                                        )
+                                        q-btn(
+                                            color="purple" label="店家資訊" icon="restaurant"
+                                            @click="router.visit(route('stores.show', props.event.extendedProps.groupOrder.store.id))"
+                                        )
 </template>
 
 <script setup lang="ts">
@@ -45,7 +54,7 @@ import type { OrderPageProps } from '@/types';
 import zhTWLocale from '@fullcalendar/core/locales/zh-tw';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/vue3';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 defineOptions({ layout: MainLayout });
