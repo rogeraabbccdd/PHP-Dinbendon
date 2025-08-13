@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(title="店家")
 q-page.q-py-lg
     .container
         //- 搜尋
@@ -59,7 +60,7 @@ q-page.q-py-lg
 import StoreCard from '@/components/StoreCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { Store, StorePageProps } from '@/types';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
 defineOptions({ layout: MainLayout });

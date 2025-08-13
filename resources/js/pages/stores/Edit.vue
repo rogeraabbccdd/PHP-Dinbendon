@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(:title="page.props.store ? '編輯店家' : '新增店家'")
 q-page.q-py-lg
     q-form(@submit.prevent="onFormSubmit")
         .column.container.q-gutter-y-lg
@@ -255,7 +256,7 @@ q-page.q-py-lg
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { StoreEditPageProps } from '@/types';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';

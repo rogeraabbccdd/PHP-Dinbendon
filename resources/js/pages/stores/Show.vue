@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(:title="page.props.store.name")
 q-page.q-py-lg
     .container
         //- 歇業警告
@@ -101,7 +102,7 @@ import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { StoreShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';
 import { ref } from 'vue';

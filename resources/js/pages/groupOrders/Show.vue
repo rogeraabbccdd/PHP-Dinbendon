@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(:title="page.props.groupOrder.store.name + '的團購'")
 q-page.q-py-lg
     .column.container.q-gutter-y-lg
         //- 店家已歇業
@@ -177,7 +178,7 @@ import OrderCard from '@/components/OrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { GroupOrderShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';

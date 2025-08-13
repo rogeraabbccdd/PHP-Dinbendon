@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(:title="page.props.groupOrder.store.name + '的團購'")
 q-page.q-py-lg
     q-form(@submit.prevent="onFormSubmit")
         .container
@@ -124,7 +125,7 @@ q-page.q-py-lg
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { GroupOrdersOrderPageProps } from '@/types';
 import { openLink } from '@/utils/url';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';

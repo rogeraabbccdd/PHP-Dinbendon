@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(title="團購")
 q-page.q-py-lg
     .container
         //- 搜尋
@@ -76,7 +77,7 @@ q-page.q-py-lg
 import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { GroupOrderBase, GroupOrderPageProps, GroupOrderStatus } from '@/types';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 

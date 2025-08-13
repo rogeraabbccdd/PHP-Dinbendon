@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(title="訂單記錄")
 q-page.q-py-lg
     .container
         q-card
@@ -54,7 +55,7 @@ import type { OrderPageProps } from '@/types';
 import zhTWLocale from '@fullcalendar/core/locales/zh-tw';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/vue3';
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 defineOptions({ layout: MainLayout });

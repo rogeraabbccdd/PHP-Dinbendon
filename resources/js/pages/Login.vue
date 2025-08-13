@@ -1,4 +1,5 @@
 <template lang="pug">
+Head(title="登入")
 q-page.column.flex-center
     .container
         .row.justify-center
@@ -33,7 +34,7 @@ q-page.column.flex-center
 
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useQuasar } from 'quasar';
 import { useField, useForm } from 'vee-validate';
