@@ -126,6 +126,20 @@ const tableColumns: QTableColumn[] = [
         sortable: true,
         align: 'left',
     },
+    {
+        name: 'total_ordered_count',
+        label: '總訂購數',
+        field: 'total_ordered_count',
+        sortable: true,
+        align: 'left',
+    },
+    {
+        name: 'course_ordered_count',
+        label: '班級訂購數',
+        field: 'course_ordered_count',
+        sortable: true,
+        align: 'left',
+    },
 ];
 
 const loading = ref(false);

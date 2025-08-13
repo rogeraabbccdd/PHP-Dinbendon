@@ -105,6 +105,42 @@ class GroupOrderController extends Controller
             ->with('orderItems')
             ->first();
 
+        $courseId = $request->user()->course_id;
+        $menuItemIds = collect($groupOrder->menu_snapshot)->pluck('id');
+
+        $menuItemsWithCounts = MenuItem::whereIn('id', $menuItemIds)
+            ->withSum([
+                'orderItems as total_ordered_count' => function ($query) {
+                    $query->whereHas('order.groupOrder', fn ($q) => $q->where('status', 'ordered'));
+                }
+            ], 'quantity')
+            ->when($courseId, function ($query) use ($courseId) {
+                $query->withSum([
+                    'orderItems as course_ordered_count' => function ($query) use ($courseId) {
+                        $query->whereHas('order', function ($q) use ($courseId) {
+                            $q->whereHas('groupOrder', fn ($subQ) => $subQ->where('status', 'ordered'))
+                                ->whereHas('user', fn ($subQ) => $subQ->where('course_id', $courseId));
+                        });
+                    }
+                ], 'quantity');
+            })
+            ->get()
+            ->keyBy('id');
+
+        $menuSnapshotWithCounts = collect($groupOrder->menu_snapshot)->map(function ($item) use ($menuItemsWithCounts, $courseId) {
+            $itemWithCount = $menuItemsWithCounts->get($item['id']);
+            if ($itemWithCount) {
+                $item['total_ordered_count'] = (int) $itemWithCount->total_ordered_count;
+                $item['course_ordered_count'] = $courseId ? (int) $itemWithCount->course_ordered_count : 0;
+            } else {
+                $item['total_ordered_count'] = 0;
+                $item['course_ordered_count'] = 0;
+            }
+            return $item;
+        });
+
+        $groupOrder->menu_snapshot = $menuSnapshotWithCounts;
+
         return Inertia::render('groupOrders/Order', [
             'groupOrder' => $groupOrder,
             'myOrder' => $myOrder,

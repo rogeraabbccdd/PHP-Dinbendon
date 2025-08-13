@@ -166,6 +166,20 @@ const tableColumns: QTableColumn[] = [
         sortable: true,
         align: 'left',
     },
+    {
+        name: 'total_ordered_count',
+        label: '總訂購數',
+        field: (row) => row.value.total_ordered_count,
+        sortable: true,
+        align: 'left',
+    },
+    {
+        name: 'course_ordered_count',
+        label: '班級訂購數',
+        field: (row) => row.value.course_ordered_count,
+        sortable: true,
+        align: 'left',
+    },
 ];
 
 const form = useForm({
@@ -178,6 +192,8 @@ const form = useForm({
                     comment: zod.string().max(50),
                     price: zod.number().min(0),
                     name: zod.string().max(255),
+                    total_ordered_count: zod.number().optional(),
+                    course_ordered_count: zod.number().optional(),
                 }),
             ),
         }),
@@ -189,6 +205,8 @@ const form = useForm({
             comment: '',
             price: item.price,
             name: item.name,
+            total_ordered_count: item.total_ordered_count,
+            course_ordered_count: item.course_ordered_count,
         })),
     },
 });

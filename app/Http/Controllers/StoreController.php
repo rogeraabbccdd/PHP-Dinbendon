@@ -49,7 +49,37 @@ class StoreController extends Controller
                     ->where('status', 'ordered');
             }
         ])->findOrFail($id);
-        $menuItems = $store->menuItems()->where('is_available', true)->get();
+
+        $courseId = $request->user()->course_id;
+
+        $menuItemsQuery = $store->menuItems()->where('is_available', true);
+
+        $menuItemsQuery->withSum([
+            'orderItems as total_ordered_count' => function ($query) {
+                $query->whereHas('order.groupOrder', function ($q) {
+                    $q->where('status', 'ordered');
+                });
+            }
+        ], 'quantity');
+
+        $menuItemsQuery->withSum([
+            'orderItems as course_ordered_count' => function ($query) use ($courseId) {
+                $query->whereHas('order', function ($q) use ($courseId) {
+                    $q->whereHas('groupOrder', function ($subQ) {
+                        $subQ->where('status', 'ordered');
+                    })->whereHas('user', function ($subQ) use ($courseId) {
+                        $subQ->where('course_id', $courseId);
+                    });
+                });
+            }
+        ], 'quantity');
+
+        $menuItems = $menuItemsQuery->get();
+
+        $menuItems->each(function ($item) use ($courseId) {
+            $item->total_ordered_count = (int) $item->total_ordered_count;
+            $item->course_ordered_count = $courseId ? (int) $item->course_ordered_count : 0;
+        });
 
         $groupOrders = GroupOrder::where('store_id', $store->id)->where('status', 'open')
             ->orderByDesc('created_at')

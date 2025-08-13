@@ -80,6 +80,8 @@ export interface MenuItem {
     is_available: boolean;
     created_at: string;
     updated_at: string;
+    total_ordered_count?: number;
+    course_ordered_count?: number;
 }
 
 export type GroupOrderStatus = 'open' | 'closed' | 'ordered';
