@@ -124,6 +124,8 @@ q-page.q-py-lg
                         type="file" accept="image/png, image/jpeg"
                         @change="onImageInputChange"
                     )
+                    .text-red(v-if="selectedImageFile && selectedImageFile.size > 1024 * 1024")
+                        | 圖片大小不能超過 1MB
                     q-btn(
                         label="變更圖片"
                         icon="file_upload"
@@ -268,7 +270,7 @@ defineOptions({ layout: MainLayout });
 
 const imageInput = useTemplateRef<HTMLInputElement>('imageInput');
 const selectedImage = ref('');
-let selectedImageFile: File | null = null;
+const selectedImageFile = ref<File | null>(null);
 
 const onEditImageClick = () => {
     imageInput.value?.click();
@@ -276,7 +278,7 @@ const onEditImageClick = () => {
 
 const onRestoreImageClick = () => {
     selectedImage.value = '';
-    selectedImageFile = null;
+    selectedImageFile.value = null;
 };
 
 const onImageInputChange = (event: Event) => {
@@ -284,7 +286,7 @@ const onImageInputChange = (event: Event) => {
     if (!target || !target.files || target.files.length === 0) return;
 
     selectedImage.value = URL.createObjectURL(target.files[0]);
-    selectedImageFile = target.files[0];
+    selectedImageFile.value = target.files[0];
 };
 
 const form = useForm({
@@ -417,11 +419,18 @@ const tableColumns: QTableColumn[] = [
 const loading = ref(false);
 
 const onFormSubmit = form.handleSubmit(async (values) => {
+    if (selectedImageFile.value && selectedImageFile.value.size > 1024 * 1024) {
+        $q.notify({
+            type: 'negative',
+            message: '圖片大小不能超過 1MB',
+        });
+        return;
+    }
     loading.value = true;
     await new Promise((resolve) => {
         router.post(
             route('stores.edit.submit'),
-            { ...values, image: selectedImageFile, store: page.props.store?.id || null },
+            { ...values, image: selectedImageFile.value, store: page.props.store?.id || null },
             {
                 onSuccess: () => {
                     resolve(undefined);
