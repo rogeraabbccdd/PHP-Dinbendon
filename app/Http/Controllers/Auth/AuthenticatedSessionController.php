@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('stores', absolute: false));
+        return redirect()->intended(route('groupOrders', absolute: false));
     }
 
     /**
