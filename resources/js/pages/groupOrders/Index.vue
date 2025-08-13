@@ -77,11 +77,13 @@ import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { GroupOrderBase, GroupOrderPageProps, GroupOrderStatus } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { useQuasar } from 'quasar';
+import { computed, onMounted, ref } from 'vue';
 
 defineOptions({ layout: MainLayout });
 
 const page = usePage<GroupOrderPageProps>();
+const $q = useQuasar();
 
 const status = ref<GroupOrderStatus[]>(['open', 'closed', 'ordered']);
 const search = ref('');
@@ -131,4 +133,17 @@ const changeSort = (field: SortField) => {
         sort.value.order = -1;
     }
 };
+
+onMounted(() => {
+    const openGroupOrdersCount = page.props.groupOrders.filter((groupOrder) => groupOrder.status === 'open').length;
+
+    if (openGroupOrdersCount > 0) {
+        $q.notify({
+            message: `目前有 ${openGroupOrdersCount} 個團購進行中`,
+            color: 'purple',
+            position: 'top',
+            icon: 'notifications',
+        });
+    }
+});
 </script>
