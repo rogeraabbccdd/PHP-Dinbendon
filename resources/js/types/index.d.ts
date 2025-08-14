@@ -17,6 +17,8 @@ export interface StoreShowPageProps extends AuthPageProps {
     store: Store;
     menuItems: MenuItem[];
     groupOrders: GroupOrderBase[];
+    myComment: Comment;
+    comments: Comment[];
 }
 
 export interface StoreEditPageProps extends AuthPageProps {
@@ -56,6 +58,7 @@ export interface User {
     enabled: number;
     created_at: string;
     updated_at: string;
+    course?: Course;
 }
 
 export interface Store {
@@ -126,4 +129,22 @@ export interface OrderItem {
     price: number;
     quantity: number;
     comment: string;
+}
+
+export interface Course {
+    id: number;
+    year: number;
+    term: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Comment {
+    id: number;
+    store_id: number;
+    rating: number;
+    content: string;
+    created_at: string;
+    updated_at: string;
 }

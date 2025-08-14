@@ -52,4 +52,9 @@ class Store extends Model
     {
         return $this->hasMany(GroupOrder::class);
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

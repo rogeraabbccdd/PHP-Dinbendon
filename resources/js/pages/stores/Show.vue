@@ -1,10 +1,10 @@
 <template lang="pug">
 Head(:title="page.props.store.name")
 q-page.q-py-lg
-    .container
+    .column.container.q-gutter-y-lg
         //- 歇業警告
         template(v-if="page.props.store.is_closed")
-            q-banner.text-white.bg-red.q-mb-lg(rounded)
+            q-banner.text-white.bg-red(rounded)
                 | 店家已歇業，無法進行訂購
                 template(#avatar)
                     q-icon(name="warning")
@@ -89,12 +89,86 @@ q-page.q-py-lg
                         icon="edit"
                         @click="router.get(route('stores.edit', page.props.store.id))"
                     )
-        .row.q-col-gutter-lg.q-mt-sm
-            .col-12.col-sm-6.col-md-6.col-lg-4(
-                v-for="groupOrder in page.props.groupOrders"
-                :key="groupOrder.id"
-            )
-                GroupOrderCard.cursor-pointer(v-bind="groupOrder" :store="page.props.store" @click="router.get(route('groupOrders.show', groupOrder.id))")
+        //- 進行中團購卡片
+        .full-width
+            .row.q-col-gutter-lg
+                .col-12.col-sm-6.col-md-6.col-lg-4(
+                    v-for="groupOrder in page.props.groupOrders"
+                    :key="groupOrder.id"
+                )
+                    GroupOrderCard.cursor-pointer(v-bind="groupOrder" :store="page.props.store" @click="router.get(route('groupOrders.show', groupOrder.id))")
+        //- 評論
+        q-card
+            q-card-section
+                q-form(@submit.prevent="submitComment")
+                    .column.q-gutter-md
+                        q-input(
+                            v-model="content"
+                            type="textarea"
+                            placeholder="評論" outlined bg-color="white" color="purple"
+                            :error="!!form.errors.value.content"
+                            :error-message="form.errors.value.content"
+                            hide-hint
+                            hide-bottom-space
+                        )
+                        .text-center
+                            q-rating(
+                                v-model="rating"
+                                :max="5"
+                                color="orange" icon="star" size="2em"
+                                :error="!!form.errors.value.rating"
+                                :error-message="form.errors.value.rating"
+                                no-reset
+                            )
+                        .text-center
+                            q-btn(label="送出" type="submit" color="green" icon="comment" :loading="loading")
+        q-card
+            q-card-section
+                q-input(
+                    v-model="search"
+                    outlined bg-color="white" color="purple"
+                    placeholder="搜尋評論"
+                )
+                    template(#prepend)
+                        q-icon(name="search")
+                    template(#append)
+                        q-icon.cursor-pointer(v-if="search" name="close" @click="search = ''")
+            q-card-section
+                .row.align.items-center.q-gutter-y-md
+                    .col-12.col-sm-6.col-lg-6 排序
+                    .col-12.col-sm-6.col-lg-6
+                        .q-gutter-md-xs
+                            q-btn(
+                                flat
+                                label="評價"
+                                :icon-right="getSortIcon('rating')"
+                                :text-color="sort.field === 'rating' ? 'purple' : 'grey'"
+                                @click="changeSort('rating')"
+                            )
+                            q-btn(
+                                flat
+                                label="評論時間"
+                                :icon-right="getSortIcon('created_at')"
+                                :text-color="sort.field === 'created_at' ? 'purple' : 'grey'"
+                                @click="changeSort('created_at')"
+                            )
+            q-separator
+            q-card-section
+                q-list()
+                    q-item(v-for="comment in filteredComments" :key="comment.id")
+                        q-item-section
+                            q-item-label.text-rose
+                                | {{ new Date(comment.created_at).toLocaleString() }}
+                            q-item-label.text-body2
+                                | {{ comment.content }}
+                        q-item-section(side top)
+                            q-rating(
+                                :model-value="comment.rating"
+                                readonly color="orange" icon="star"
+                            )
+                    q-item(v-if="filteredComments.length === 0")
+                        q-item-section
+                            q-item-label.text-center 暫無評論
 </template>
 
 <script setup lang="ts">
@@ -103,9 +177,12 @@ import MainLayout from '@/layouts/MainLayout.vue';
 import type { StoreShowPageProps } from '@/types';
 import { openLink } from '@/utils/url';
 import { Head, router, usePage } from '@inertiajs/vue3';
+import { toTypedSchema } from '@vee-validate/zod';
 import type { QTableColumn } from 'quasar';
 import { useQuasar } from 'quasar';
-import { ref } from 'vue';
+import { useField, useForm } from 'vee-validate';
+import { computed, ref } from 'vue';
+import * as zod from 'zod';
 
 const page = usePage<StoreShowPageProps>();
 const $q = useQuasar();
@@ -177,4 +254,90 @@ const createGroupOrder = () => {
         );
     });
 };
+
+type SortField = 'rating' | 'created_at';
+type SortOrder = 1 | -1;
+
+const search = ref('');
+const sort = ref<{
+    field: SortField;
+    order: SortOrder;
+}>({
+    field: 'rating',
+    order: 1,
+});
+
+const getSortIcon = (field: SortField) => {
+    if (sort.value.field === field) return sort.value.order > 0 ? 'arrow_drop_up' : 'arrow_drop_down';
+    else return undefined;
+};
+
+const changeSort = (field: SortField) => {
+    if (sort.value.field === field) sort.value.order *= -1;
+    else {
+        sort.value.field = field;
+        sort.value.order = -1;
+    }
+};
+
+const filteredComments = computed(() => {
+    return page.props.comments
+        .filter((comment) => {
+            return comment.content.includes(search.value);
+        })
+        .sort((a, b) => {
+            if (a[sort.value.field] < b[sort.value.field]) {
+                return -sort.value.order;
+            }
+            if (a[sort.value.field] > b[sort.value.field]) {
+                return sort.value.order;
+            }
+            return 0;
+        });
+});
+
+const form = useForm({
+    validationSchema: toTypedSchema(
+        zod.object({
+            content: zod.string().min(1, { message: '必填欄位' }).max(100, { message: '不得超過 200 字' }),
+            rating: zod.number().min(1, { message: '必須在 1 到 5 之間' }).max(5, { message: '必須在 1 到 5 之間' }),
+        }),
+    ),
+    initialValues: {
+        content: '',
+        rating: 5,
+    },
+});
+const { value: content } = useField<string>('content');
+const { value: rating } = useField<number>('rating');
+
+if (page.props.myComment) {
+    form.setFieldValue('content', page.props.myComment.content);
+    form.setFieldValue('rating', page.props.myComment.rating);
+}
+
+const submitComment = form.handleSubmit(async (values) => {
+    loading.value = true;
+    await new Promise((resolve) => {
+        router.post(
+            route('comments.submit'),
+            { ...values, store_id: page.props.store.id },
+            {
+                onSuccess: () => {
+                    resolve(undefined);
+                    $q.notify({
+                        type: 'positive',
+                        message: '評論成功！',
+                    });
+                    router.reload({ only: ['comments', 'myComment'] });
+                },
+                onError: (errors) => {
+                    form.setErrors(errors);
+                    resolve(undefined);
+                },
+            },
+        );
+    });
+    loading.value = false;
+});
 </script>

@@ -89,10 +89,16 @@ class StoreController extends Controller
         $groupOrders->makeHidden('menu_snapshot');
         $groupOrders->store = $store;
 
+        $myComment = $store->comments()->where('user_id', $request->user()->id)->first();
+
+        $comments = $store->comments()->get();
+
         return Inertia::render('stores/Show', [
             'store' => $store,
             'menuItems' => $menuItems,
             'groupOrders' => $groupOrders,
+            'myComment' => $myComment,
+            'comments' => $comments,
         ]);
     }
 
