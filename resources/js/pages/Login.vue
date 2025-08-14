@@ -14,7 +14,7 @@ q-page.column.flex-center
                             q-input(
                                 v-model="student_id"
                                 auto-complete="username" placeholder="學號" color="purple"
-                                :error="Boolean(form.errors.value.student_id)"
+                                :error="!!form.errors.value.student_id"
                                 :error-message="form.errors.value.student_id"
                             )
                                 template(#before)
@@ -22,7 +22,7 @@ q-page.column.flex-center
                             q-input(
                                 v-model="password" placeholder="密碼" type="password" color="purple"
                                 auto-complete="current-password"
-                                :error="Boolean(form.errors.value.password)"
+                                :error="!!form.errors.value.password"
                                 :error-message="form.errors.value.password"
                             )
                                 template(#before)

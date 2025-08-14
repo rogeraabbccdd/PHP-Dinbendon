@@ -18,7 +18,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="name" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.name)"
+                                        :error="!!form.errors.value.name"
                                         :error-message="form.errors.value.name"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -29,7 +29,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="address" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.address)"
+                                        :error="!!form.errors.value.address"
                                         :error-message="form.errors.value.address"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -40,7 +40,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="phone" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.phone)"
+                                        :error="!!form.errors.value.phone"
                                         :error-message="form.errors.value.phone"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -51,7 +51,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="business_hours" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.business_hours)"
+                                        :error="!!form.errors.value.business_hours"
                                         :error-message="form.errors.value.business_hours"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -62,7 +62,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="delivery_conditions" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.delivery_conditions)"
+                                        :error="!!form.errors.value.delivery_conditions"
                                         :error-message="form.errors.value.delivery_conditions"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -73,7 +73,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="google_map" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.google_map)"
+                                        :error="!!form.errors.value.google_map"
                                         :error-message="form.errors.value.google_map"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -84,7 +84,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="facebook" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.facebook)"
+                                        :error="!!form.errors.value.facebook"
                                         :error-message="form.errors.value.facebook"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -95,7 +95,7 @@ q-page.q-py-lg
                                     q-input.q-pb-none(
                                         v-model="instagram" outlined square
                                         color="purple"
-                                        :error="Boolean(form.errors.value.instagram)"
+                                        :error="!!form.errors.value.instagram"
                                         :error-message="form.errors.value.instagram"
                                     )
                         q-item.q-py-lg.q-py-md-md
@@ -106,7 +106,7 @@ q-page.q-py-lg
                                     q-checkbox(
                                         v-model="is_closed"
                                         color="purple"
-                                        :error="Boolean(form.errors.value.is_closed)"
+                                        :error="!!form.errors.value.is_closed"
                                         :error-message="form.errors.value.is_closed"
                                     )
             //- 圖片
@@ -168,7 +168,7 @@ q-page.q-py-lg
                                     :bottom-slots="false"
                                     hide-hint
                                     hide-bottom-space
-                                    :error="Boolean(form.errors.value[`menuItems[${props.rowIndex}].name`])"
+                                    :error="!!form.errors.value[`menuItems[${props.rowIndex}].name`]"
                                 )
                         template(#body-cell-price="props")
                             q-td(:props="props")
@@ -182,7 +182,7 @@ q-page.q-py-lg
                                     :bottom-slots="false"
                                     hide-hint
                                     hide-bottom-space
-                                    :error="Boolean(form.errors.value[`menuItems[${props.rowIndex}].price`])"
+                                    :error="!!form.errors.value[`menuItems[${props.rowIndex}].price`]"
                                 )
                         template(#body-cell-is_available="props")
                             q-td(:props="props")

@@ -88,7 +88,7 @@ q-page.q-py-lg
                                     hide-bottom-space
                                     :bottom-slots="false"
                                     color="purple" type="number" min="0"
-                                    :error="Boolean(form.errors.value[`items[${props.rowIndex}].quantity`])"
+                                    :error="!!form.errors.value[`items[${props.rowIndex}].quantity`]"
                                     @update:model-value="onQuantityChange(props.rowIndex, $event)"
                                 )
                         template(#body-cell-comment="props")
@@ -104,7 +104,7 @@ q-page.q-py-lg
                                     hide-bottom-space
                                     :bottom-slots="false"
                                     maxlength="50"
-                                    :error="Boolean(form.errors.value[`items[${props.rowIndex}].comment`])"
+                                    :error="!!form.errors.value[`items[${props.rowIndex}].comment`]"
                                 )
                 //- 動作按鈕
                 q-card-section.q-gutter-md
