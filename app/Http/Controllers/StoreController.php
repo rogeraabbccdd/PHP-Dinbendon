@@ -81,10 +81,11 @@ class StoreController extends Controller
             $item->course_ordered_count = $courseId ? (int) $item->course_ordered_count : 0;
         });
 
-        $groupOrders = GroupOrder::where('store_id', $store->id)->where('status', 'open')
+        $groupOrders = $store->groupOrders()
+            ->with('user')
+            ->where('status', 'open')
             ->orderByDesc('created_at')
             ->get();
-        $groupOrders->load('user');
         $groupOrders->makeHidden('menu_snapshot');
         $groupOrders->store = $store;
 
