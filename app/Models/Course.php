@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -46,5 +47,15 @@ class Course extends Model
     public function groupOrders(): HasMany
     {
         return $this->hasMany(GroupOrder::class);
+    }
+
+    /**
+     * Get the Taiwan year.
+     */
+    protected function year(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value - 1911
+        );
     }
 }
