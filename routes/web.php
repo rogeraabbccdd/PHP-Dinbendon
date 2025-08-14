@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\GroupOrderController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -61,4 +62,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('orders', [OrderController::class, 'index'])
         ->name('orders');
+
+    Route::post('comments', [CommentController::class, 'submit'])
+        ->name('comments.submit');
 });
