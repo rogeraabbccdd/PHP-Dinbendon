@@ -51,6 +51,8 @@ class StoreController extends Controller
      */
     public function show(Request $request, int $id): Response
     {
+        $courseId = $request->user()->course_id;
+
         $store = Store::withCount([
             'groupOrders as ordered_group_orders_count' => function ($query) {
                 $query->where('status', 'ordered');
@@ -59,7 +61,16 @@ class StoreController extends Controller
                 $query->where('course_id', $request->user()->course_id)
                     ->where('status', 'ordered');
             }
-        ])->findOrFail($id);
+        ])
+            ->withAvg('comments as rating_avg', 'rating')
+            ->withAvg([
+                'comments as course_rating_avg' => function ($query) use ($courseId) {
+                    $query->whereHas('user', function ($q) use ($courseId) {
+                        $q->where('course_id', $courseId);
+                    });
+                }
+            ], 'rating')
+            ->findOrFail($id);
 
         $courseId = $request->user()->course_id;
 
