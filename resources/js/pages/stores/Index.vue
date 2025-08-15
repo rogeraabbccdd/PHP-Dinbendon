@@ -47,6 +47,20 @@ q-page.q-py-lg
                                 :text-color="sort.field === 'course_ordered_group_orders_count' ? 'purple' : 'grey'"
                                 @click="changeSort('course_ordered_group_orders_count')"
                             )
+                            q-btn(
+                                flat
+                                label="評價"
+                                :icon-right="getSortIcon('rating_avg')"
+                                :text-color="sort.field === 'rating_avg' ? 'purple' : 'grey'"
+                                @click="changeSort('rating_avg')"
+                            )
+                            q-btn(
+                                flat
+                                label="班級評價"
+                                :icon-right="getSortIcon('course_rating_avg')"
+                                :text-color="sort.field === 'course_rating_avg' ? 'purple' : 'grey'"
+                                @click="changeSort('course_rating_avg')"
+                            )
         //- 店家卡片列表
         .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
@@ -67,7 +81,14 @@ defineOptions({ layout: MainLayout });
 
 const page = usePage<StorePageProps>();
 
-type SortField = 'created_at' | 'name' | 'updated_at' | 'ordered_group_orders_count' | 'course_ordered_group_orders_count';
+type SortField =
+    | 'created_at'
+    | 'name'
+    | 'updated_at'
+    | 'ordered_group_orders_count'
+    | 'course_ordered_group_orders_count'
+    | 'rating_avg'
+    | 'course_rating_avg';
 type SortOrder = 1 | -1;
 
 const search = ref('');
@@ -83,8 +104,8 @@ const filteredStores = computed(() => {
     return page.props.stores
         .filter((store) => store.name.toLowerCase().includes(search.value.toLowerCase()))
         .sort((a: Store, b: Store) => {
-            const aValue = a[sort.value.field];
-            const bValue = b[sort.value.field];
+            const aValue = a[sort.value.field] || 0;
+            const bValue = b[sort.value.field] || 0;
             if (aValue < bValue) return -1 * sort.value.order;
             if (aValue > bValue) return 1 * sort.value.order;
             return 0;

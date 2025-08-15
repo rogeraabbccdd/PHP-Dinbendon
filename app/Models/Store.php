@@ -30,6 +30,8 @@ class Store extends Model
     {
         return [
             'is_closed' => 'boolean',
+            'rating_avg' => 'float',
+            'course_rating_avg' => 'float',
         ];
     }
 

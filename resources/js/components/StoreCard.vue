@@ -20,6 +20,18 @@ q-card.card-store
             | 總成團次數: {{ props.ordered_group_orders_count }}
             br
             | 班級成團次數: {{ props.course_ordered_group_orders_count }}
+            br
+            | 平均評價:
+            template(v-if="props.rating_avg")
+                q-rating(:model-value="props.rating_avg" readonly color="orange")
+            template(v-else)
+                | -
+            br
+            | 班級平均評價:
+            template(v-if="props.rating_avg")
+                q-rating(:model-value="props.rating_avg" readonly color="orange")
+            template(v-else)
+                | -
 </template>
 
 <script setup lang="ts">
