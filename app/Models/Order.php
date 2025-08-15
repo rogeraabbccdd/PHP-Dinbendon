@@ -22,6 +22,7 @@ class Order extends Model
     protected function casts(): array
     {
         return [
+            'total_price' => 'float',
         ];
     }
 
@@ -55,12 +56,5 @@ class Order extends Model
     public function store(): HasOneThrough
     {
         return $this->hasOneThrough(Store::class, GroupOrder::class, 'id', 'id', 'group_order_id', 'store_id');
-    }
-
-    protected function totalPrice(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => (float) $value,
-        );
     }
 }

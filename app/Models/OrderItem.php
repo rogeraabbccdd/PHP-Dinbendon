@@ -24,6 +24,7 @@ class OrderItem extends Model
     {
         return [
             'quantity' => 'integer',
+            'price' => 'float',
         ];
     }
 
@@ -41,12 +42,5 @@ class OrderItem extends Model
     public function menuItem(): BelongsTo
     {
         return $this->belongsTo(MenuItem::class);
-    }
-
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => (float) $value,
-        );
     }
 }

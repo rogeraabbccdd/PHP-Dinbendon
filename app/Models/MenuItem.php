@@ -24,6 +24,7 @@ class MenuItem extends Model
     {
         return [
             'is_available' => 'boolean',
+            'price' => 'float',
         ];
     }
 
@@ -38,12 +39,5 @@ class MenuItem extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
-    }
-
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => (float) $value,
-        );
     }
 }
