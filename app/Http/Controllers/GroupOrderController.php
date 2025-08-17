@@ -20,21 +20,21 @@ class GroupOrderController extends Controller
      */
     public function create(Request $request): RedirectResponse
     {
-        $store = Store::findOrFail($request->input('store_id'));
+        $store = Store::with(['menuItems' => function ($query) {
+            $query->where('is_available', true);
+        }])->findOrFail($request->input('store_id'));
+
         if ($store->is_closed) {
             return redirect()->route('stores.show', $store->id);
         }
 
-        $groupOrder = new GroupOrder();
-        $groupOrder->store_id = $request->input('store_id');
-        $groupOrder->course_id = $request->user()->course_id;
-        $groupOrder->user_id = $request->user()->id;
-        $groupOrder->status = 'open';
-
-        $menuItems = MenuItem::where('store_id', $store->id)->where('is_available', 1)->get();
-        $groupOrder->menu_snapshot = $menuItems->toArray();
-
-        $groupOrder->save();
+        $groupOrder = GroupOrder::create([
+            'store_id' => $store->id,
+            'course_id' => $request->user()->course_id,
+            'user_id' => $request->user()->id,
+            'status' => 'open',
+            'menu_snapshot' => $store->menuItems->toArray(),
+        ]);
 
         return redirect()->intended(route('groupOrders.show', $groupOrder->id));
     }
@@ -44,16 +44,11 @@ class GroupOrderController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
-        $groupOrder = GroupOrder::findOrFail($id);
+        $updated = GroupOrder::where('id', $id)
+            ->where('user_id', $request->user()->id)
+            ->update(['status' => $request->input('status')]);
 
-        if ($groupOrder->user_id !== $request->user()->id) {
-            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
-        }
-
-        $groupOrder->status = $request->input('status');
-        $groupOrder->save();
-
-        return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        return redirect()->intended(route('groupOrders.show', $id));
     }
 
     /**
@@ -61,17 +56,15 @@ class GroupOrderController extends Controller
      */
     public function show(Request $request, int $id): Response|RedirectResponse
     {
-        $groupOrder = GroupOrder::findOrFail($id);
-        $groupOrder->load('store', 'user');
+        $groupOrder = GroupOrder::with([
+            'store', 'user', 'orders.user', 'orders.orderItems'
+        ])->findOrFail($id);
 
-        // 若 course_id 不同則導向 stores 頁面
         if ($groupOrder->course_id !== $request->user()->course_id) {
             return redirect()->route('groupOrders');
         }
 
-        $orders = Order::where('group_order_id', $groupOrder->id)
-            ->with(['user', 'orderItems'])
-            ->get()
+        $orders = $groupOrder->orders
             ->sortBy(function ($order) {
                 return $order->user->seat_number;
             })
@@ -91,19 +84,21 @@ class GroupOrderController extends Controller
      */
     public function showOrderForm(Request $request, int $id): Response|RedirectResponse
     {
-        $groupOrder = GroupOrder::findOrFail($id);
-        $groupOrder->load('store', 'user');
+        $userId = $request->user()->id;
+        $groupOrder = GroupOrder::with([
+            'store',
+            'user',
+            'orders' => function ($query) use ($userId) {
+                $query->where('user_id', $userId)->with('orderItems');
+            }
+        ])->findOrFail($id);
 
         // 若 course_id 不同則導向 stores 頁面
         if ($groupOrder->course_id !== $request->user()->course_id) {
             return redirect()->route('groupOrders');
         }
 
-        // 查詢目前使用者的訂單
-        $myOrder = Order::where('group_order_id', $groupOrder->id)
-            ->where('user_id', $request->user()->id)
-            ->with('orderItems')
-            ->first();
+        $myOrder = $groupOrder->orders->first();
 
         $courseId = $request->user()->course_id;
         $menuItemIds = collect($groupOrder->menu_snapshot)->pluck('id');
@@ -165,41 +160,25 @@ class GroupOrderController extends Controller
 
         $groupOrder = GroupOrder::with('store')->findOrFail($validated['group_order_id']);
         if ($groupOrder->store->is_closed) {
-            return redirect()->intended(route('groupOrders.show', $order->group_order_id));
+            // Bug Fix: 這裡應該使用 $groupOrder->id
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
         }
 
-        $order = null;
-        \DB::transaction(function () use ($validated, $request, &$order) {
-            $order = Order::where('group_order_id', $validated['group_order_id'])
-                ->where('user_id', $request->user()->id)
-                ->first();
+        $order = \DB::transaction(function () use ($validated, $request) {
+            $order = Order::updateOrCreate(
+                [
+                    'group_order_id' => $validated['group_order_id'],
+                    'user_id'        => $request->user()->id,
+                ],
+                [
+                    'total_price' => $validated['total_price'],
+                ]
+            );
 
-            if ($order) {
-                // 已下訂，先刪除舊的 orderItems
-                $order->orderItems()->delete();
-                $order->total_price = $validated['total_price'];
-                $order->save();
-            } else {
-                // 尚未下訂，建立新訂單
-                $order = new Order();
-                $order->group_order_id = $validated['group_order_id'];
-                $order->user_id = $request->user()->id;
-                $order->total_price = $validated['total_price'];
-                $order->save();
-            }
+            $order->orderItems()->delete();
+            $order->orderItems()->createMany($validated['items']);
 
-            $orderItems = [];
-            foreach ($validated['items'] as $item) {
-                $orderItems[] = new OrderItem([
-                    'order_id' => $order->id,
-                    'menu_item_id' => $item['menu_item_id'],
-                    'name' => $item['name'],
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'comment' => $item['comment'] ?? '',
-                ]);
-            }
-            $order->orderItems()->saveMany($orderItems);
+            return $order;
         });
 
         return redirect()->intended(route('groupOrders.show', $order->group_order_id));
@@ -210,17 +189,23 @@ class GroupOrderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $groupOrders = GroupOrder::where('course_id', $request->user()->course_id)
+        $user = $request->user();
+        $groupOrders = GroupOrder::where('course_id', $user->course_id)
+            ->with([
+                'store' => function ($query) use ($user) {
+                    $query->withCount([
+                        'groupOrders as course_ordered_group_orders_count' => function ($subQuery) use ($user) {
+                            $subQuery->where('course_id', $user->course_id)
+                                ->where('status', 'ordered');
+                        }
+                    ]);
+                },
+                'user'
+            ])
             ->orderByDesc('created_at')
             ->get();
-        $groupOrders->load(['store' => function ($query) use ($request) {
-            $query->withCount(['groupOrders as course_ordered_group_orders_count' => function ($subQuery) use ($request) {
-                $subQuery->where('course_id', $request->user()->course_id)
-                    ->where('status', 'ordered');
-            }]);
-        }, 'user']);
-        $groupOrders->makeHidden('menu_snapshot');
 
+        $groupOrders->makeHidden('menu_snapshot');
 
         return Inertia::render('groupOrders/Index', [
             'groupOrders' => $groupOrders,
