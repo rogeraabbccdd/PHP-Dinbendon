@@ -182,17 +182,26 @@ q-page.q-py-lg
                 q-btn.q-my-sm(color="blue" icon="download" label="下載 csv" @click="downloadCsv")
                 template(v-if="page.props.auth.user && page.props.groupOrder.user.id === page.props.auth.user.id")
                     br
+                    //- 啟用條件: 團購狀態為 open，且店家未歇業
                     q-btn.q-my-sm.q-mx-sm(
-                        :disable="!canOrder"
+                        :disable="page.props.groupOrder.status !== 'open' || page.props.groupOrder.store.is_closed"
                         :loading="loading"
                         color="green" icon="check" label="確認結單"
-                        @click="setStatus('ordered')"
+                        @click="setStatus('ordered', '結單')"
                     )
+                    //- 啟用條件: 團購狀態為 open，或店家已歇業
                     q-btn.q-my-sm.q-mx-sm(
-                        :disable="page.props.groupOrder.status !== 'open'"
+                        :disable="(page.props.groupOrder.status !== 'open' && !page.props.groupOrder.store.is_closed) || page.props.groupOrder.status === 'closed'"
                         :loading="loading"
                         color="red" icon="close" label="關閉團購"
-                        @click="setStatus('closed')"
+                        @click="setStatus('closed', '關閉')"
+                    )
+                    //- 啟用條件: 團購狀態為 closed 或 ordered，且店家未歇業
+                    q-btn.q-my-sm.q-mx-sm(
+                        :disable="!['closed', 'ordered'].includes(page.props.groupOrder.status) || page.props.groupOrder.store.is_closed"
+                        :loading="loading"
+                        color="orange" icon="replay" label="重新開啟"
+                        @click="setStatus('open', '重新開啟')"
                     )
         //- 我的訂單
         q-card.full-width
@@ -406,10 +415,10 @@ const cancelOrder = () => {
     });
 };
 
-const setStatus = (status: 'ordered' | 'closed') => {
+const setStatus = (status: 'ordered' | 'closed' | 'open', text: string) => {
     $q.dialog({
         title: '你確定?',
-        message: `你確定要${status === 'ordered' ? '下單' : '關閉'}嗎?`,
+        message: `你確定要${text}嗎?`,
         cancel: true,
         persistent: true,
     }).onOk(() => {
