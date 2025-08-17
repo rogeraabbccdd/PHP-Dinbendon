@@ -78,7 +78,9 @@ export interface Store {
     ordered_group_orders_count: number;
     course_ordered_group_orders_count: number;
     rating_avg?: number | null;
+    rating_count?: number | null;
     course_rating_avg?: number | null;
+    course_rating_count?: number | null;
 }
 
 export interface MenuItem {

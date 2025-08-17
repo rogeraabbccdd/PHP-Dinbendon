@@ -32,6 +32,7 @@ class StoreController extends Controller
             }
         ])
             ->withAvg('comments as rating_avg', 'rating')
+            ->withCount('comments as rating_count')
             ->withAvg([
                 'comments as course_rating_avg' => function ($query) use ($courseId) {
                     $query->whereHas('user', function ($q) use ($courseId) {
@@ -39,6 +40,13 @@ class StoreController extends Controller
                     });
                 }
             ], 'rating')
+            ->withCount([
+                'comments as course_rating_count' => function ($query) use ($courseId) {
+                    $query->whereHas('user', function ($q) use ($courseId) {
+                        $q->where('course_id', $courseId);
+                    });
+                }
+            ])
             ->get();
 
         return Inertia::render('stores/Index', [
@@ -63,6 +71,7 @@ class StoreController extends Controller
             }
         ])
             ->withAvg('comments as rating_avg', 'rating')
+            ->withCount('comments as rating_count')
             ->withAvg([
                 'comments as course_rating_avg' => function ($query) use ($courseId) {
                     $query->whereHas('user', function ($q) use ($courseId) {
@@ -70,6 +79,13 @@ class StoreController extends Controller
                     });
                 }
             ], 'rating')
+            ->withCount([
+                'comments as course_rating_count' => function ($query) use ($courseId) {
+                    $query->whereHas('user', function ($q) use ($courseId) {
+                        $q->where('course_id', $courseId);
+                    });
+                }
+            ])
             ->findOrFail($id);
 
         $courseId = $request->user()->course_id;
