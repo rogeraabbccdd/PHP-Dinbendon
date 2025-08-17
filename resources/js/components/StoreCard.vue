@@ -46,7 +46,7 @@ q-card.card-store
                     q-avatar(icon="thumb_up" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 平均評價
-                    q-item-label(caption) {{ props.rating_avg || 0 }} / {{ props.rating_count }} 則評論
+                    q-item-label(caption) {{ props.rating_avg || 0 }} / {{ props.rating_count }} 則評價
                 q-item-section(side top)
                     q-rating(
                         :model-value="props.rating_avg || 0"
@@ -59,7 +59,7 @@ q-card.card-store
                     q-avatar(icon="thumb_up" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 班級平均評價
-                    q-item-label(caption) {{ props.course_rating_avg || 0 }} / {{ props.course_rating_count }} 則評論
+                    q-item-label(caption) {{ props.course_rating_avg || 0 }} / {{ props.course_rating_count }} 則評價
                 q-item-section(side top)
                     q-rating(
                         :model-value="props.course_rating_avg || 0"

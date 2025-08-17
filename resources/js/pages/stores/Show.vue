@@ -78,7 +78,7 @@ q-page.q-py-lg
                                 q-avatar(icon="thumb_up" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 平均評價
-                                q-item-label(caption) {{ page.props.store.rating_avg || 0 }} / {{ page.props.store.rating_count }} 則評論
+                                q-item-label(caption) {{ page.props.store.rating_avg || 0 }} / {{ page.props.store.rating_count }} 則評價
                             q-item-section(side top)
                                 q-rating(
                                     :model-value="page.props.store.rating_avg || 0"
@@ -92,7 +92,7 @@ q-page.q-py-lg
                                 q-avatar(icon="thumb_up" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 班級平均評價
-                                q-item-label(caption) {{ page.props.store.course_rating_avg || 0 }} / {{ page.props.store.course_rating_count }} 則評論
+                                q-item-label(caption) {{ page.props.store.course_rating_avg || 0 }} / {{ page.props.store.course_rating_count }} 則評價
                             q-item-section(side top)
                                 q-rating(
                                     :model-value="page.props.store.course_rating_avg || 0"
@@ -173,7 +173,7 @@ q-page.q-py-lg
                     :key="groupOrder.id"
                 )
                     GroupOrderCard.cursor-pointer(v-bind="groupOrder" :store="page.props.store" @click="router.get(route('groupOrders.show', groupOrder.id))")
-        //- 評論
+        //- 評價
         q-card.full-width
             q-card-section.text-center
                 h4.q-my-md
@@ -184,7 +184,7 @@ q-page.q-py-lg
                         q-input(
                             v-model="content"
                             type="textarea"
-                            placeholder="評論" outlined bg-color="white" color="purple"
+                            placeholder="評價內容..." outlined bg-color="white" color="purple"
                             :error="!!form.errors.value.content"
                             :error-message="form.errors.value.content"
                             hide-hint
@@ -209,7 +209,7 @@ q-page.q-py-lg
                 q-input(
                     v-model="search"
                     outlined bg-color="white" color="purple"
-                    placeholder="搜尋評論"
+                    placeholder="搜尋評價"
                 )
                     template(#prepend)
                         q-icon(name="search")
@@ -229,7 +229,7 @@ q-page.q-py-lg
                             )
                             q-btn(
                                 flat
-                                label="評論時間"
+                                label="評價時間"
                                 :icon-right="getSortIcon('created_at')"
                                 :text-color="sort.field === 'created_at' ? 'purple' : 'grey'"
                                 @click="changeSort('created_at')"
@@ -250,7 +250,7 @@ q-page.q-py-lg
                             )
                     q-item(v-if="filteredComments.length === 0")
                         q-item-section
-                            q-item-label.text-center 暫無評論
+                            q-item-label.text-center 暫無評價
 </template>
 
 <script setup lang="ts">
@@ -409,7 +409,7 @@ const submitComment = form.handleSubmit(async (values) => {
                     resolve(undefined);
                     $q.notify({
                         type: 'positive',
-                        message: '評論成功！',
+                        message: '評價成功！',
                     });
                     router.reload({ only: ['comments', 'myComment'] });
                 },
