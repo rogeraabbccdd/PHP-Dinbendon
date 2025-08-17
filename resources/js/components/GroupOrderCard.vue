@@ -13,12 +13,22 @@ q-card.card-group-order
         .text-h6.text-purple.text-center {{ props.store.name }}
     q-separator
     q-card-section
-        .text-caption.text-center
-            | 開團日期: {{ new Date(props.updated_at).toLocaleString() }}
-            br
-            | 發起人: {{ props.user.name }}
-            q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
-                | {{ props.user.seat_number }}
+        q-list
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="calendar_month" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 開團日期
+                    q-item-label(caption) {{ new Date(props.updated_at).toLocaleString() }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="person" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 發起人
+                    q-item-label(caption)
+                        | {{ props.user.name }}
+                        q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
+                            | {{ props.user.seat_number }}
 </template>
 
 <script setup lang="ts">
