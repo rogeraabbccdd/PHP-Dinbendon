@@ -14,70 +14,120 @@ q-page.q-py-lg
             q-card-section.text-center
                 h4.q-my-md.text-purple
                     | {{ page.props.store.name }}
-                div
-                    | 營業時間: {{ page.props.store.business_hours }}
-                    br
-                    | 外送條件: {{ page.props.store.delivery_conditions }}
-                    br
-                    | 地址: {{ page.props.store.address }}
-                    br
-                    | 電話: {{ page.props.store.phone }}
-                    br
-                    | 總成團次數: {{ page.props.store.ordered_group_orders_count }}
-                    br
-                    | 班級成團次數: {{ page.props.store.course_ordered_group_orders_count }}
-                    br
-                    | 平均評價:&nbsp;
-                    template(v-if="page.props.store.rating_avg")
-                        | {{ page.props.store.rating_avg }}
-                        q-rating(
-                            :model-value="page.props.store.rating_avg"
-                            readonly no-dimming max="5"
-                            color="orange"
-                            icon="star_border" icon-selected="star" icon-half="star_half"
-                        )
-                    template(v-else)
-                        | -
-                    br
-                    | 班級平均評價:&nbsp;
-                    template(v-if="page.props.store.course_rating_avg")
-                        | {{ page.props.store.course_rating_avg }}
-                        q-rating(
-                            :model-value="page.props.store.course_rating_avg"
-                            readonly no-dimming max="5"
-                            color="orange"
-                            icon="star_border" icon-selected="star" icon-half="star_half"
-                        )
-                    template(v-else)
-                        | -
-                div
-                    q-btn(
-                        v-if="page.props.store.facebook"
-                        icon="fa-brands fa-facebook"
-                        flat
-                        round
-                        color="blue"
-                        size="md"
-                        @click="openLink(page.props.store.facebook)"
-                    )
-                    q-btn(
-                        v-if="page.props.store.instagram"
-                        icon="fa-brands fa-instagram"
-                        flat
-                        round
-                        color="purple"
-                        size="md"
-                        @click="openLink(page.props.store.instagram)"
-                    )
-                    q-btn(
-                        v-if="page.props.store.google_map"
-                        icon="location_on"
-                        flat
-                        round
-                        color="green"
-                        size="md"
-                        @click="openLink(page.props.store.google_map)"
-                    )
+            q-card-section
+                .row.q-col-gutter-md.full-width
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="access_time" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 營業時間
+                                q-item-label(caption) {{ page.props.store.business_hours }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="delivery_dining" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 外送條件
+                                q-item-label(caption) {{ page.props.store.delivery_conditions }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="place" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 地址
+                                q-item-label(caption) {{ page.props.store.address }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="phone" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 電話
+                                q-item-label(caption) {{ page.props.store.phone }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="calendar_month" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 建立日期
+                                q-item-label(caption) {{ new Date(page.props.store.created_at).toLocaleString() }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="calendar_month" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 更新日期
+                                q-item-label(caption) {{ new Date(page.props.store.updated_at).toLocaleString() }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="group" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 總成團次數
+                                q-item-label(caption) {{ page.props.store.ordered_group_orders_count }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="group" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 班級成團次數
+                                q-item-label(caption) {{ page.props.store.course_ordered_group_orders_count }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="thumb_up" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 平均評價
+                                q-item-label(caption) {{ page.props.store.rating_avg || 0 }} / {{ page.props.store.rating_count }} 則評論
+                            q-item-section(side top)
+                                q-rating(
+                                    :model-value="page.props.store.rating_avg || 0"
+                                    readonly no-dimming max="5"
+                                    color="orange"
+                                    icon="star_border" icon-selected="star" icon-half="star_half"
+                                )
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="thumb_up" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 班級平均評價
+                                q-item-label(caption) {{ page.props.store.course_rating_avg || 0 }} / {{ page.props.store.course_rating_count }} 則評論
+                            q-item-section(side top)
+                                q-rating(
+                                    :model-value="page.props.store.course_rating_avg || 0"
+                                    readonly no-dimming max="5"
+                                    color="orange"
+                                    icon="star_border" icon-selected="star" icon-half="star_half"
+                                )
+            q-card-section.text-center
+                q-btn(
+                    v-if="page.props.store.facebook"
+                    icon="fa-brands fa-facebook"
+                    flat
+                    round
+                    color="blue"
+                    size="md"
+                    @click="openLink(page.props.store.facebook)"
+                )
+                q-btn(
+                    v-if="page.props.store.instagram"
+                    icon="fa-brands fa-instagram"
+                    flat
+                    round
+                    color="purple"
+                    size="md"
+                    @click="openLink(page.props.store.instagram)"
+                )
+                q-btn(
+                    v-if="page.props.store.google_map"
+                    icon="location_on"
+                    flat
+                    round
+                    color="green"
+                    size="md"
+                    @click="openLink(page.props.store.google_map)"
+                )
             //- 店家圖片
             q-card-section
                 q-img(:src="page.props.store.image" height="25vh")
