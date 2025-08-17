@@ -1,7 +1,7 @@
 <template lang="pug">
 Head(title="店家")
 q-page.q-py-lg
-    .container
+    .column.container.q-gutter-y-lg
         //- 搜尋
         q-card.full-width
             q-card-section
@@ -61,6 +61,14 @@ q-page.q-py-lg
                                 :text-color="sort.field === 'course_rating_avg' ? 'purple' : 'grey'"
                                 @click="changeSort('course_rating_avg')"
                             )
+        q-card.full-width
+            q-card-section.text-center
+                q-btn.q-my-sm.q-mx-sm(
+                    color="green"
+                    label="新增店家"
+                    icon="add"
+                    @click="router.visit(route('stores.new'))"
+                )
         //- 店家卡片列表
         .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
