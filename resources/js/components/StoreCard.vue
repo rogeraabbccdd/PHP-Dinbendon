@@ -10,40 +10,63 @@ q-card.card-store
         .text-h6.text-purple.text-center {{ props.name }}
     q-separator
     q-card-section
-        .text-caption.text-center
-            | 營業時間: {{ props.business_hours }}
-            br
-            | 外送條件: {{ props.delivery_conditions }}
-            br
-            | 更新日期: {{ new Date(props.updated_at).toLocaleString() }}
-            br
-            | 總成團次數: {{ props.ordered_group_orders_count }}
-            br
-            | 班級成團次數: {{ props.course_ordered_group_orders_count }}
-            br
-            | 平均評價:&nbsp;
-            template(v-if="props.rating_avg")
-                | {{ props.rating_avg }}
-                q-rating(
-                    :model-value="props.rating_avg"
-                    readonly no-dimming max="5"
-                    color="orange"
-                    icon="star_border" icon-selected="star" icon-half="star_half"
-                )
-            template(v-else)
-                | -
-            br
-            | 班級平均評價:&nbsp;
-            template(v-if="props.course_rating_avg")
-                | {{ props.course_rating_avg }}
-                q-rating(
-                    :model-value="props.course_rating_avg"
-                    readonly no-dimming max="5"
-                    color="orange"
-                    icon="star_border" icon-selected="star" icon-half="star_half"
-                )
-            template(v-else)
-                | -
+        q-list
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="access_time" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 營業時間
+                    q-item-label(caption) {{ props.business_hours }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="delivery_dining" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 外送條件
+                    q-item-label(caption) {{ props.delivery_conditions }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="calendar_month" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 更新日期
+                    q-item-label(caption) {{ new Date(props.updated_at).toLocaleString() }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="group" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 總成團次數
+                    q-item-label(caption) {{ props.ordered_group_orders_count }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="group" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 班級成團次數
+                    q-item-label(caption) {{ props.course_ordered_group_orders_count }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="thumb_up" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 平均評價
+                    q-item-label(caption) {{ props.rating_avg || 0 }} / {{ props.rating_count }} 則評論
+                q-item-section(side top)
+                    q-rating(
+                        :model-value="props.rating_avg || 0"
+                        readonly no-dimming max="5"
+                        color="orange"
+                        icon="star_border" icon-selected="star" icon-half="star_half"
+                    )
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="thumb_up" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 班級平均評價
+                    q-item-label(caption) {{ props.course_rating_avg || 0 }} / {{ props.course_rating_count }} 則評論
+                q-item-section(side top)
+                    q-rating(
+                        :model-value="props.course_rating_avg || 0"
+                        readonly no-dimming max="5"
+                        color="orange"
+                        icon="star_border" icon-selected="star" icon-half="star_half"
+                    )
 </template>
 
 <script setup lang="ts">
@@ -53,7 +76,9 @@ const props = defineProps<Store>();
 </script>
 
 <style scoped lang="sass">
-.card-store-title > .text-h6
+.card-store-title > .text-h6,
+.q-item__label.q-item__label--caption
     text-overflow: ellipsis
     overflow: hidden
+    white-space: nowrap
 </style>
