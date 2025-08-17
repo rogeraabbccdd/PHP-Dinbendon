@@ -130,6 +130,8 @@ q-page.q-py-lg
                             flat
                             table-header-class="text-rose"
                             :rows-per-page-options="[0]"
+                            :grid="!$q.screen.gt.sm"
+                            :bordered="!$q.screen.gt.sm"
                         )
                             template(#body-cell-orders="props")
                                 q-td(:props="props")
@@ -179,6 +181,8 @@ q-page.q-py-lg
                         flat
                         table-header-class="text-rose"
                         :rows-per-page-options="[0]"
+                        :grid="!$q.screen.gt.sm"
+                        :bordered="!$q.screen.gt.sm"
                     )
                 q-card-section.text-center
                     | 總金額: {{ myTotalPrice }} 元
@@ -226,18 +230,20 @@ import { useQuasar } from 'quasar';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import * as xlsx from 'xlsx';
 
+interface GroupedMenuItemOrder {
+    comment?: string;
+    name: string;
+    seat_number: number;
+    quantity: number;
+}
+
 interface GroupedMenuItem {
     id: number;
     name: string;
     price: number;
     total: number;
     subtotal: number;
-    orders: {
-        comment?: string;
-        name: string;
-        seat_number: number;
-        quantity: number;
-    }[];
+    orders: GroupedMenuItemOrder[];
 }
 
 defineOptions({ layout: MainLayout });
@@ -296,7 +302,20 @@ const ordersColumns: QTableColumn[] = [
     { name: 'price', label: '單價', field: 'price', align: 'right', sortable: true },
     { name: 'total', label: '數量', field: 'total', align: 'right', sortable: true },
     { name: 'subtotal', label: '金額', field: 'subtotal', align: 'right', sortable: true },
-    { name: 'orders', label: '訂購者', field: 'orders', align: 'right', sortable: true },
+    {
+        name: 'orders',
+        label: '訂購者',
+        field: 'orders',
+        align: 'right',
+        sortable: true,
+        format: (val) =>
+            val
+                .map(
+                    (order: GroupedMenuItemOrder) =>
+                        `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`,
+                )
+                .join(', '),
+    },
 ];
 
 const myOrdersColumns: QTableColumn[] = [
@@ -427,3 +446,11 @@ onUnmounted(() => {
     clearInterval(timer);
 });
 </script>
+
+<style lang="sass" scoped>
+:deep(.q-table__grid-item-value)
+    word-wrap: break-word
+:deep(.q-table__grid-item-title)
+    color: var(--rose)
+    font-weight: bold
+</style>
