@@ -28,48 +28,81 @@ q-page.q-py-lg
                     @click="router.visit(route('stores.show', page.props.groupOrder.store.id))"
                 )
                     | {{ page.props.groupOrder.store.name }}
-                div
-                    | 營業時間: {{ page.props.groupOrder.store.business_hours }}
-                    br
-                    | 外送條件: {{ page.props.groupOrder.store.delivery_conditions }}
-                    br
-                    | 地址: {{ page.props.groupOrder.store.address }}
-                    br
-                    | 電話: {{ page.props.groupOrder.store.phone }}
-                    br
-                    | 發起人: {{ page.props.groupOrder.user.name }}
-                    q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
-                        | {{ page.props.groupOrder.user.seat_number }}
-                    br
-                    | 開團日期: {{ new Date(page.props.groupOrder.created_at).toLocaleString() }}
-                div
-                    q-btn(
-                        v-if="page.props.groupOrder.store.facebook"
-                        icon="fa-brands fa-facebook"
-                        flat
-                        round
-                        color="blue"
-                        size="md"
-                        @click="openLink(page.props.groupOrder.store.facebook)"
-                    )
-                    q-btn(
-                        v-if="page.props.groupOrder.store.instagram"
-                        icon="fa-brands fa-instagram"
-                        flat
-                        round
-                        color="purple"
-                        size="md"
-                        @click="openLink(page.props.groupOrder.store.instagram)"
-                    )
-                    q-btn(
-                        v-if="page.props.groupOrder.store.google_map"
-                        icon="location_on"
-                        flat
-                        round
-                        color="green"
-                        size="md"
-                        @click="openLink(page.props.groupOrder.store.google_map)"
-                    )
+            q-card-section
+                .row.q-col-gutter-md.full-width
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="access_time" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 營業時間
+                                q-item-label(caption) {{ page.props.groupOrder.store.business_hours }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="delivery_dining" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 外送條件
+                                q-item-label(caption) {{ page.props.groupOrder.store.delivery_conditions }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="place" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 地址
+                                q-item-label(caption) {{ page.props.groupOrder.store.address }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="phone" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 電話
+                                q-item-label(caption) {{ page.props.groupOrder.store.phone }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="person" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 發起人
+                                q-item-label(caption)
+                                    | {{ page.props.groupOrder.user.name }}
+                                    q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
+                                        | {{ page.props.groupOrder.user.seat_number }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="calendar_month" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 開團日期
+                                q-item-label(caption) {{ new Date(page.props.groupOrder.created_at).toLocaleString() }}
+            q-card-section.text-center
+                q-btn(
+                    v-if="page.props.groupOrder.store.facebook"
+                    icon="fa-brands fa-facebook"
+                    flat
+                    round
+                    color="blue"
+                    size="md"
+                    @click="openLink(page.props.groupOrder.store.facebook)"
+                )
+                q-btn(
+                    v-if="page.props.groupOrder.store.instagram"
+                    icon="fa-brands fa-instagram"
+                    flat
+                    round
+                    color="purple"
+                    size="md"
+                    @click="openLink(page.props.groupOrder.store.instagram)"
+                )
+                q-btn(
+                    v-if="page.props.groupOrder.store.google_map"
+                    icon="location_on"
+                    flat
+                    round
+                    color="green"
+                    size="md"
+                    @click="openLink(page.props.groupOrder.store.google_map)"
+                )
             //- 店家圖片
             q-card-section
                 q-img(:src="page.props.groupOrder.store.image" height="25vh")
