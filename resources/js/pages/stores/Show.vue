@@ -27,15 +27,27 @@ q-page.q-py-lg
                     br
                     | 班級成團次數: {{ page.props.store.course_ordered_group_orders_count }}
                     br
-                    | 平均評價:
+                    | 平均評價:&nbsp;
                     template(v-if="page.props.store.rating_avg")
-                        q-rating(:model-value="page.props.store.rating_avg" readonly color="orange")
+                        | {{ page.props.store.rating_avg }}
+                        q-rating(
+                            :model-value="page.props.store.rating_avg"
+                            readonly no-dimming max="5"
+                            color="orange"
+                            icon="star_border" icon-selected="star" icon-half="star_half"
+                        )
                     template(v-else)
                         | -
                     br
-                    | 班級平均評價:
+                    | 班級平均評價:&nbsp;
                     template(v-if="page.props.store.course_rating_avg")
-                        q-rating(:model-value="page.props.store.course_rating_avg" readonly color="orange")
+                        | {{ page.props.store.course_rating_avg }}
+                        q-rating(
+                            :model-value="page.props.store.course_rating_avg"
+                            readonly no-dimming max="5"
+                            color="orange"
+                            icon="star_border" icon-selected="star" icon-half="star_half"
+                        )
                     template(v-else)
                         | -
                 div
