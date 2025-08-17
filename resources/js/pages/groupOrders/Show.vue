@@ -61,6 +61,34 @@ q-page.q-py-lg
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
+                                q-avatar(icon="thumb_up" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 平均評價
+                                q-item-label(caption) {{ page.props.groupOrder.store.rating_avg || 0 }} / {{ page.props.groupOrder.store.rating_count }} 則評價
+                            q-item-section(side top)
+                                q-rating(
+                                    :model-value="page.props.groupOrder.store.rating_avg || 0"
+                                    readonly no-dimming max="5"
+                                    color="orange"
+                                    icon="star_border" icon-selected="star" icon-half="star_half"
+                                )
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="thumb_up" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 班級平均評價
+                                q-item-label(caption) {{ page.props.groupOrder.store.course_rating_avg || 0 }} / {{ page.props.groupOrder.store.course_rating_count }} 則評價
+                            q-item-section(side top)
+                                q-rating(
+                                    :model-value="page.props.groupOrder.store.course_rating_avg || 0"
+                                    readonly no-dimming max="5"
+                                    color="orange"
+                                    icon="star_border" icon-selected="star" icon-half="star_half"
+                                )
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
                                 q-avatar(icon="person" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 發起人

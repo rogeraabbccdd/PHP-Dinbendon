@@ -56,8 +56,30 @@ class GroupOrderController extends Controller
      */
     public function show(Request $request, int $id): Response|RedirectResponse
     {
+        $courseId = $request->user()->course_id;
+
         $groupOrder = GroupOrder::with([
-            'store', 'user', 'orders.user', 'orders.orderItems'
+            'store' => function ($query) use ($courseId) {
+                $query->withAvg('comments as rating_avg', 'rating')
+                    ->withCount('comments as rating_count')
+                    ->withAvg([
+                        'comments as course_rating_avg' => function ($query) use ($courseId) {
+                            $query->whereHas('user', function ($q) use ($courseId) {
+                                $q->where('course_id', $courseId);
+                            });
+                        }
+                    ], 'rating')
+                    ->withCount([
+                        'comments as course_rating_count' => function ($query) use ($courseId) {
+                            $query->whereHas('user', function ($q) use ($courseId) {
+                                $q->where('course_id', $courseId);
+                            });
+                        }
+                    ]);
+            },
+            'user',
+            'orders.user',
+            'orders.orderItems'
         ])->findOrFail($id);
 
         if ($groupOrder->course_id !== $request->user()->course_id) {
