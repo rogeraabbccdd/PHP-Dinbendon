@@ -76,6 +76,8 @@ q-page.q-py-lg
                         flat
                         table-header-class="text-rose"
                         :rows-per-page-options="[20, 50, 100, 0]"
+                        :grid="!$q.screen.gt.sm"
+                        :bordered="!$q.screen.gt.sm"
                     )
                         template(#body-cell-quantity="props")
                             q-td(:props="props")
@@ -106,6 +108,52 @@ q-page.q-py-lg
                                     maxlength="50"
                                     :error="!!form.errors.value[`items[${props.rowIndex}].comment`]"
                                 )
+                        template(#item="props")
+                            .q-table__grid-item.col-xs-12.col-sm-6.col-md-4.col-lg-3
+                                .q-table__grid-item-card.q-table__card.q-table--flat.q-table--bordered
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 品項
+                                        .q-table__grid-item-value {{ props.row.value.name }}
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 價格
+                                        .q-table__grid-item-value {{ props.row.value.price }}
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 總訂購數
+                                        .q-table__grid-item-value {{ props.row.value.total_ordered_count }}
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 班級訂購數
+                                        .q-table__grid-item-value {{ props.row.value.course_ordered_count }}
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 數量
+                                        .q-table__grid-item-value
+                                            q-input(
+                                                :disable="page.props.groupOrder.status !== 'open'"
+                                                :model-value="props.row.value.quantity"
+                                                outlined
+                                                dense
+                                                hide-hint
+                                                hide-bottom-space
+                                                :bottom-slots="false"
+                                                color="purple" type="number" min="0"
+                                                :error="!!form.errors.value[`items[${props.rowIndex}].quantity`]"
+                                                @update:model-value="onQuantityChange(props.rowIndex, $event)"
+                                            )
+                                    .q-table__grid-item-row
+                                        .q-table__grid-item-title 備註
+                                        .q-table__grid-item-value
+                                            q-input(
+                                                v-model="props.row.value.comment"
+                                                :disable="page.props.groupOrder.status !== 'open'"
+                                                outlined
+                                                dense
+                                                color="purple"
+                                                placeholder="備註 (最多 50 字)"
+                                                hide-hint
+                                                hide-bottom-space
+                                                :bottom-slots="false"
+                                                maxlength="50"
+                                                :error="!!form.errors.value[`items[${props.rowIndex}].comment`]"
+                                            )
                 //- 動作按鈕
                 q-card-section.q-gutter-md
                     .text-center
@@ -154,20 +202,6 @@ const tableColumns: QTableColumn[] = [
         align: 'left',
     },
     {
-        name: 'quantity',
-        label: '數量',
-        field: (row) => row.value.quantity,
-        sortable: true,
-        align: 'left',
-    },
-    {
-        name: 'comment',
-        label: '備註',
-        field: (row) => row.value.comment,
-        sortable: true,
-        align: 'left',
-    },
-    {
         name: 'total_ordered_count',
         label: '總訂購數',
         field: (row) => row.value.total_ordered_count,
@@ -178,6 +212,20 @@ const tableColumns: QTableColumn[] = [
         name: 'course_ordered_count',
         label: '班級訂購數',
         field: (row) => row.value.course_ordered_count,
+        sortable: true,
+        align: 'left',
+    },
+    {
+        name: 'quantity',
+        label: '數量',
+        field: (row) => row.value.quantity,
+        sortable: true,
+        align: 'left',
+    },
+    {
+        name: 'comment',
+        label: '備註',
+        field: (row) => row.value.comment,
         sortable: true,
         align: 'left',
     },
@@ -270,3 +318,11 @@ const onFormSubmit = form.handleSubmit((values) => {
     );
 });
 </script>
+
+<style lang="sass" scoped>
+:deep(.q-table__grid-item-value)
+    word-wrap: break-word
+:deep(.q-table__grid-item-title)
+    color: var(--rose)
+    font-weight: bold
+</style>
