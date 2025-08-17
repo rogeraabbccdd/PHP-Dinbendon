@@ -183,13 +183,21 @@ q-page.q-py-lg
                 q-card-section.text-center
                     | 總金額: {{ myTotalPrice }} 元
                     br
-                    q-btn.q-mt-sm(
-                        color="rose"
+                    q-btn.q-my-sm.q-mx-sm(
+                        color="green"
                         label="修改訂單"
-                        icon="shopping_cart"
+                        icon="edit"
                         :disable="!canOrder"
                         :loading="loading"
                         @click="router.visit(route('groupOrders.order', page.props.groupOrder.id))"
+                    )
+                    q-btn.q-my-sm.q-mx-sm(
+                        color="red"
+                        label="取消訂單"
+                        icon="clear"
+                        :disable="!canOrder"
+                        :loading="loading"
+                        @click="cancelOrder"
                     )
             //- 無訂單
             template(v-else)
@@ -197,7 +205,7 @@ q-page.q-py-lg
                     h4.q-my-md
                         | 尚未下單
                     q-btn.q-mt-sm(
-                        color="rose"
+                        color="green"
                         label="前往下單"
                         icon="shopping_cart"
                         :disable="!canOrder"
@@ -321,6 +329,35 @@ const myTotalPrice = computed(() => {
 });
 
 const loading = ref(false);
+
+const cancelOrder = () => {
+    $q.dialog({
+        title: '你確定?',
+        message: '你確定要取消訂單嗎?',
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        loading.value = true;
+
+        router.delete(route('orders.cancel', { id: page.props.myOrder!.id }), {
+            onSuccess: () => {
+                loading.value = false;
+                $q.notify({
+                    type: 'positive',
+                    message: '訂單取消成功！',
+                });
+                router.reload();
+            },
+            onError: () => {
+                loading.value = false;
+                $q.notify({
+                    type: 'negative',
+                    message: '訂單取消失敗！',
+                });
+            },
+        });
+    });
+};
 
 const setStatus = (status: 'ordered' | 'closed') => {
     $q.dialog({

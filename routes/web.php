@@ -63,6 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::get('orders', [OrderController::class, 'index'])
         ->name('orders');
 
+    Route::delete('orders/{id}', [OrderController::class, 'cancel'])
+        ->name('orders.cancel');
+
     Route::post('comments', [CommentController::class, 'submit'])
         ->name('comments.submit');
 });

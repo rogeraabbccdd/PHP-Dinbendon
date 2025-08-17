@@ -141,4 +141,21 @@ class OrderController extends Controller
             'myOrder' => $myOrder,
         ]);
     }
+
+    /**
+     * 取消訂單
+     */
+    public function cancel(Request $request, int $id): RedirectResponse
+    {
+        $order = Order::with('groupOrder')->findOrFail($id);
+
+        if ($order->user_id !== $request->user()->id || $order->groupOrder->status !== 'open') {
+            return redirect()->route('groupOrders.show', $order->group_order_id);
+        }
+
+        $order->orderItems()->delete();
+        $order->delete();
+
+        return redirect()->route('groupOrders.show', $order->group_order_id);
+    }
 }
