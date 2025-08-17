@@ -54,10 +54,10 @@ Route::middleware('auth')->group(function () {
     Route::post('group-orders/{id}', [GroupOrderController::class, 'update'])
         ->name('groupOrders.update');
 
-    Route::get('group-orders/{id}/order', [GroupOrderController::class, 'showOrderForm'])
+    Route::get('group-orders/{id}/order', [OrderController::class, 'showForm'])
         ->name('groupOrders.order');
 
-    Route::post('group-orders/{id}/order', [GroupOrderController::class, 'createOrder'])
+    Route::post('group-orders/{id}/order', [OrderController::class, 'create'])
         ->name('groupOrders.order.create');
 
     Route::get('orders', [OrderController::class, 'index'])
