@@ -1,41 +1,12 @@
-// Container styles similar to Bootstrap
-// https://stackoverflow.com/questions/60673143/bootstrap-like-container-in-quasar#answer-64828090
-$xs-breakpoint: 600px
-$sm-breakpoint: 1024px
-$md-breakpoint: 1440px
-$lg-breakpoint: 1920px
+@use "quasar/src/css/variables" as q
 
-.container,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl
+.container
     width: 100%
+    padding-right: 0.75rem
+    padding-left: 0.75rem
     margin-right: auto
     margin-left: auto
 
-@media (min-width: $xs-breakpoint)
-    .container,
-    .container-sm
-        max-width: 540px
-
-@media (min-width: $sm-breakpoint)
-    .container,
-    .container-sm,
-    .container-md
-        max-width: 920px
-
-@media (min-width: $md-breakpoint)
-    .container,
-    .container-sm,
-    .container-md,
-    .container-lg
-        max-width: 1140px
-
-@media (min-width: $lg-breakpoint)
-    .container,
-    .container-sm,
-    .container-md,
-    .container-lg,
-    .container-xl
+@media (min-width: q.$breakpoint-md-min)
+    .container
         max-width: 1440px
