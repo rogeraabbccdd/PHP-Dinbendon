@@ -21,7 +21,7 @@ q-page.q-py-lg
                 template(#avatar)
                     q-icon(name="check")
         //- 團購資訊、所有訂單
-        q-card
+        q-card.full-width
             //- 店家名稱
             q-card-section.text-center
                 h4.q-my-md.text-purple.cursor-pointer(
@@ -165,7 +165,7 @@ q-page.q-py-lg
                         @click="setStatus('closed')"
                     )
         //- 我的訂單
-        q-card
+        q-card.full-width
             //- 有訂單
             template(v-if="page.props.myOrder")
                 q-card-section.text-center

@@ -3,7 +3,7 @@ Head(title="團購")
 q-page.q-py-lg
     .container
         //- 搜尋
-        q-card
+        q-card.full-width
             q-card-section
                 q-input(
                     v-model="search"

@@ -16,7 +16,7 @@ q-page.q-py-lg
                     template(#avatar)
                         q-icon(name="check")
             //- 內容
-            q-card
+            q-card.full-width
                 q-card-section.text-center
                     h4.q-my-md.text-purple.cursor-pointer(
                         @click="router.visit(route('stores.show', page.props.groupOrder.store.id))"

@@ -4,7 +4,7 @@ q-page.q-py-lg
     q-form(@submit.prevent="onFormSubmit")
         .column.container.q-gutter-y-lg
             //- 基本資料
-            q-card
+            q-card.full-width
                 q-card-section.text-center
                     h4.q-my-md
                         | 基本資料
@@ -110,7 +110,7 @@ q-page.q-py-lg
                                         :error-message="form.errors.value.is_closed"
                                     )
             //- 圖片
-            q-card
+            q-card.full-width
                 q-card-section.text-center
                     h4.q-my-md
                         | 店家圖片
@@ -144,7 +144,7 @@ q-page.q-py-lg
                         @click="onRestoreImageClick"
                     )
             //- 菜單
-            q-card
+            q-card.full-width
                 q-card-section.text-center
                     h4.q-my-md
                         | 菜單
@@ -239,7 +239,7 @@ q-page.q-py-lg
                         @click="increaseMenuPrice(10)"
                     )
             //- 送出
-            q-card
+            q-card.full-width
                 q-card-section.text-center
                     h4.q-my-md
                         | 操作

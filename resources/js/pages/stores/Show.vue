@@ -9,7 +9,7 @@ q-page.q-py-lg
                 template(#avatar)
                     q-icon(name="warning")
         //- 內容
-        q-card
+        q-card.full-width
             //- 店家名稱和資訊
             q-card-section.text-center
                 h4.q-my-md.text-purple
@@ -172,7 +172,7 @@ q-page.q-py-lg
                 )
                     GroupOrderCard.cursor-pointer(v-bind="groupOrder" :store="page.props.store" @click="router.get(route('groupOrders.show', groupOrder.id))")
         //- 評論
-        q-card
+        q-card.full-width
             q-card-section
                 q-form(@submit.prevent="submitComment")
                     .column.q-gutter-md
@@ -196,7 +196,7 @@ q-page.q-py-lg
                             )
                         .text-center
                             q-btn(label="送出" type="submit" color="green" icon="comment" :loading="loading")
-        q-card
+        q-card.full-width
             q-card-section
                 q-input(
                     v-model="search"

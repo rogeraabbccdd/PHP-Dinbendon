@@ -3,7 +3,7 @@ Head(title="店家")
 q-page.q-py-lg
     .container
         //- 搜尋
-        q-card
+        q-card.full-width
             q-card-section
                 q-input(
                     v-model="search"
@@ -16,8 +16,8 @@ q-page.q-py-lg
                         q-icon.cursor-pointer(v-if="search" name="close" @click="search = ''")
             q-card-section
                 .row.align.items-center.q-gutter-y-md
-                    .col-12.col-sm-6.col-lg-6 排序
-                    .col-12.col-sm-6.col-lg-6
+                    .col-12.col-md-6 排序
+                    .col-12.col-md-6
                         .q-gutter-md-xs
                             q-btn(
                                 flat

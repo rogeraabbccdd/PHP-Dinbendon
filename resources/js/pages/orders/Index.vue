@@ -2,7 +2,7 @@
 Head(title="訂單記錄")
 q-page.q-py-lg
     .container
-        q-card
+        q-card.full-width
             q-card-section
                 full-calendar(
                     :options="calendarOptions"
