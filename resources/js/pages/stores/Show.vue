@@ -139,6 +139,8 @@ q-page.q-py-lg
                     flat
                     table-header-class="text-rose"
                     :rows-per-page-options="[20, 50, 100, 0]"
+                    :grid="!$q.screen.gt.sm"
+                    :bordered="!$q.screen.gt.sm"
                 )
             //- 日期
             q-card-section
@@ -415,3 +417,9 @@ const submitComment = form.handleSubmit(async (values) => {
     loading.value = false;
 });
 </script>
+
+<style lang="sass" scoped>
+:deep(.q-table__grid-item-title)
+    color: var(--rose)
+    font-weight: bold
+</style>
