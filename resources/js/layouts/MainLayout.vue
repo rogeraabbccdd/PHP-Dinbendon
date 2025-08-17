@@ -10,18 +10,56 @@ q-layout(view='hHh lpR fff')
                     | &nbsp;DinBenDon
                 //- 導覽列按鈕 (登入)
                 template(v-if="isLoggedIn")
-                    q-btn(icon="restaurant" stretch flat label="店家" @click="router.get(route('stores'))")
-                    q-btn(icon="group" stretch flat label="團購" @click="router.get(route('groupOrders'))")
-                    q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
-                        q-list
-                            q-item(v-close-popup clickable @click="router.get(route('orders'))")
-                                q-item-section 訂單記錄
-                            q-item(v-close-popup clickable @click="logout")
-                                q-item-section 登出
+                    //- PC
+                    template(v-if="$q.screen.gt.sm")
+                        q-btn(icon="restaurant" stretch flat label="店家" @click="router.get(route('stores'))")
+                        q-btn(icon="group" stretch flat label="團購" @click="router.get(route('groupOrders'))")
+                        q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
+                            q-list
+                                q-item(v-close-popup clickable @click="router.get(route('orders'))")
+                                    q-item-section 訂單記錄
+                                q-item(v-close-popup clickable @click="logout")
+                                    q-item-section 登出
+                    //- 手機
+                    template(v-else)
+                        q-btn(icon="menu" stretch flat @click="drawer = true")
                 //- 導覽列按鈕 (未登入)
                 template(v-else)
                     q-btn(icon="person" stretch flat label="未登入")
-    //- 內容
+    //- 手機側邊攔
+    template(v-if="!$q.screen.gt.sm")
+        q-drawer(
+            v-model="drawer"
+            dark
+        )
+            q-scroll-area.fit
+                q-list(padding)
+                    template(v-if="isLoggedIn")
+                        q-item-label(header)
+                            | {{ page.props.auth?.user?.name }}
+                        q-item(clickable ripple @click="drawer = false; router.get(route('stores'))")
+                            q-item-section(avatar)
+                                q-icon(name="restaurant")
+                            q-item-section
+                                |店家
+                        q-item(clickable ripple @click="drawer = false; router.get(route('groupOrders'))")
+                            q-item-section(avatar)
+                                q-icon(name="group")
+                            q-item-section
+                                | 團購
+                        q-item(clickable ripple @click="drawer = false; router.get(route('orders'))")
+                            q-item-section(avatar)
+                                q-icon(name="list")
+                            q-item-section
+                                | 訂單記錄
+                        q-item(clickable ripple @click="drawer = false; logout()")
+                            q-item-section(avatar)
+                                q-icon(name="logout")
+                            q-item-section
+                                | 登出
+                    template(v-else)
+                        q-item-label(header)
+                            | 未登入
     q-page-container
         //- 滿版背景
         #bg
@@ -41,7 +79,7 @@ q-layout(view='hHh lpR fff')
 import type { AuthPageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const page = usePage<AuthPageProps>();
 const $q = useQuasar();
@@ -52,6 +90,8 @@ const isLoggedIn = computed(() => {
     return page.props.auth.user !== null;
 });
 
+const drawer = ref(false);
+
 const logout = () => {
     $q.dialog({
         title: '你確定?',
@@ -60,6 +100,7 @@ const logout = () => {
         persistent: true,
     }).onOk(() => {
         router.post(route('logout'));
+        drawer.value = false;
     });
 };
 </script>
