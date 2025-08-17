@@ -34,8 +34,8 @@ q-page.q-py-lg
                         | -
                     br
                     | 班級平均評價:
-                    template(v-if="page.props.store.rating_avg")
-                        q-rating(:model-value="page.props.store.rating_avg" readonly color="orange")
+                    template(v-if="page.props.store.course_rating_avg")
+                        q-rating(:model-value="page.props.store.course_rating_avg" readonly color="orange")
                     template(v-else)
                         | -
                 div

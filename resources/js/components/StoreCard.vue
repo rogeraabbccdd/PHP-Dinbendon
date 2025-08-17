@@ -28,8 +28,8 @@ q-card.card-store
                 | -
             br
             | 班級平均評價:
-            template(v-if="props.rating_avg")
-                q-rating(:model-value="props.rating_avg" readonly color="orange")
+            template(v-if="props.course_rating_avg")
+                q-rating(:model-value="props.course_rating_avg" readonly color="orange")
             template(v-else)
                 | -
 </template>
