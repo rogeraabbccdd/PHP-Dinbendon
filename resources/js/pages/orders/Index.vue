@@ -81,6 +81,8 @@ const calendarOptions = computed(() => {
 </script>
 
 <style scoped lang="sass">
+@use 'sass:color'
+
 :deep(.fc-list-event-graphic)
     display: none !important
 :deep(.fc-list-event-time)
@@ -89,11 +91,11 @@ const calendarOptions = computed(() => {
     background: $purple
     border: none !important
 :deep(.fc-button-primary:disabled)
-    background: lighten($purple, 10%) !important
+    background: color.scale($purple, $lightness: 10%) !important
 :deep(.fc-button-primary:hover)
-    background: lighten($purple, 5%) !important
+    background: color.scale($purple, $lightness: 5%) !important
 :deep(.fc-button-primary:active)
-    background: lighten($purple, 5%) !important
+    background: color.scale($purple, $lightness: 5%) !important
 :deep(.fc-button-primary:focus)
     box-shadow: none !important
 </style>
