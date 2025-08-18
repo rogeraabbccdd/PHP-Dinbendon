@@ -1,7 +1,7 @@
 <template lang="pug">
 q-layout(view='hHh lpR fff')
     //- Header
-    q-header(bordered)
+    q-header(elevated)
         .container
             //- 導覽列
             q-toolbar.text-white
@@ -12,14 +12,24 @@ q-layout(view='hHh lpR fff')
                 template(v-if="isLoggedIn")
                     //- PC
                     template(v-if="$q.screen.gt.sm")
-                        q-btn(icon="restaurant" stretch flat label="店家" @click="router.get(route('stores'))")
-                        q-btn(icon="group" stretch flat label="團購" @click="router.get(route('groupOrders'))")
-                        q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
-                            q-list
-                                q-item(v-close-popup clickable @click="router.get(route('orders'))")
-                                    q-item-section 訂單記錄
-                                q-item(v-close-popup clickable @click="logout")
-                                    q-item-section 登出
+                        q-tabs(
+                            :model-value="routeTab"
+                            inline-label
+                        )
+                            q-tab(
+                                name="stores" icon="restaurant" stretch flat label="店家"
+                                @click="router.get(route('stores'))"
+                            )
+                            q-tab(
+                                name="groupOrders" icon="group" stretch flat label="團購"
+                                @click="router.get(route('groupOrders'))"
+                            )
+                            q-btn-dropdown(stretch flat icon="person" :label="page.props.auth?.user?.name")
+                                q-list
+                                    q-item(v-close-popup clickable @click="router.get(route('orders'))")
+                                        q-item-section 訂單記錄
+                                    q-item(v-close-popup clickable @click="logout")
+                                        q-item-section 登出
                     //- 手機
                     template(v-else)
                         q-btn(icon="menu" stretch flat @click="drawer = true")
@@ -119,12 +129,17 @@ const logout = () => {
         drawer.value = false;
     });
 };
+
+const routeTab = computed(() => {
+    const currentRoute = route().current();
+    console.log('Current Route:', currentRoute);
+    return currentRoute.includes('stores') ? 'stores' : currentRoute.includes('groupOrders') ? 'groupOrders' : '';
+});
 </script>
 
 <style lang="sass" scoped>
 .q-header
     background-color: #00bcd4
-    border-bottom: 1px solid #fff
 .q-toolbar__title
     color: lemonchiffon
 #bg
