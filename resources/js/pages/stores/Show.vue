@@ -22,28 +22,28 @@ q-page.q-py-lg
                                 q-avatar(icon="access_time" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 營業時間
-                                q-item-label(caption) {{ page.props.store.business_hours }}
+                                q-item-label(caption) {{ page.props.store.business_hours || '-' }}
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
                                 q-avatar(icon="delivery_dining" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 外送條件
-                                q-item-label(caption) {{ page.props.store.delivery_conditions }}
+                                q-item-label(caption) {{ page.props.store.delivery_conditions || '-' }}
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
                                 q-avatar(icon="place" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 地址
-                                q-item-label(caption) {{ page.props.store.address }}
+                                q-item-label(caption) {{ page.props.store.address || '-' }}
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
                                 q-avatar(icon="phone" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 電話
-                                q-item-label(caption) {{ page.props.store.phone }}
+                                q-item-label(caption) {{ page.props.store.phone || '-' }}
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)

@@ -16,13 +16,13 @@ q-card.card-store
                     q-avatar(icon="access_time" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 營業時間
-                    q-item-label(caption) {{ props.business_hours }}
+                    q-item-label(caption) {{ props.business_hours || '-' }}
             q-item
                 q-item-section(avatar top)
                     q-avatar(icon="delivery_dining" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 外送條件
-                    q-item-label(caption) {{ props.delivery_conditions }}
+                    q-item-label(caption) {{ props.delivery_conditions || '-' }}
             q-item
                 q-item-section(avatar top)
                     q-avatar(icon="calendar_month" text-color="rose")
