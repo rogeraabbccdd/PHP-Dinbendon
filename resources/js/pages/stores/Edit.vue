@@ -295,18 +295,18 @@ const onImageInputChange = (event: Event) => {
 const form = useForm({
     validationSchema: toTypedSchema(
         zod.object({
-            name: zod.string().min(1, { message: '必填欄位' }),
-            address: zod.string().min(1, { message: '必填欄位' }),
-            google_map: zod.url().min(1, { message: '必填欄位' }),
-            facebook: zod.url().min(1, { message: '必填欄位' }),
-            instagram: zod.url().min(1, { message: '必填欄位' }),
-            business_hours: zod.string().min(1, { message: '必填欄位' }),
-            phone: zod.string().min(1, { message: '必填欄位' }),
-            delivery_conditions: zod.string().min(1, { message: '必填欄位' }),
+            name: zod.string().min(1, { message: '必填欄位' }).max(50, { message: '最多 50 個字' }),
+            address: zod.string(),
+            google_map: zod.url({ message: '網址格式錯誤' }).or(zod.literal('')),
+            facebook: zod.url({ message: '網址格式錯誤' }).or(zod.literal('')),
+            instagram: zod.url({ message: '網址格式錯誤' }).or(zod.literal('')),
+            business_hours: zod.string(),
+            phone: zod.string().min(1, { message: '必填欄位' }).max(50, { message: '最多 50 個字' }),
+            delivery_conditions: zod.string(),
             is_closed: zod.boolean(),
             menuItems: zod.array(
                 zod.object({
-                    name: zod.string().min(1, { message: '必填欄位' }),
+                    name: zod.string().min(1, { message: '必填欄位' }).max(50, { message: '最多 50 個字' }),
                     price: zod.number().min(1, { message: '必填欄位' }),
                     is_available: zod.boolean(),
                     id: zod.number(),
@@ -317,9 +317,9 @@ const form = useForm({
     initialValues: {
         name: '',
         address: '',
-        google_map: 'https://maps.google.com/',
-        facebook: 'https://facebook.com/',
-        instagram: 'https://instagram.com/',
+        google_map: '',
+        facebook: '',
+        instagram: '',
         business_hours: '',
         phone: '',
         delivery_conditions: '',
@@ -340,14 +340,14 @@ const { fields: items, push: itemsPush, remove: itemsRemove } = useFieldArray('m
 
 if (page.props.store) {
     form.setValues({
-        name: page.props.store.name,
-        address: page.props.store.address,
-        google_map: page.props.store.google_map,
-        facebook: page.props.store.facebook,
-        instagram: page.props.store.instagram,
-        business_hours: page.props.store.business_hours,
-        phone: page.props.store.phone,
-        delivery_conditions: page.props.store.delivery_conditions,
+        name: page.props.store.name || '',
+        address: page.props.store.address || '',
+        google_map: page.props.store.google_map || '',
+        facebook: page.props.store.facebook || '',
+        instagram: page.props.store.instagram || '',
+        business_hours: page.props.store.business_hours || '',
+        phone: page.props.store.phone || '',
+        delivery_conditions: page.props.store.delivery_conditions || '',
         is_closed: page.props.store.is_closed,
         menuItems:
             page.props.menuItems?.map((item) => ({
