@@ -73,6 +73,21 @@ q-layout(view='hHh lpR fff')
         span.text-yellow 請使用 Chrome 瀏覽本系統
         br
         | &copy;{{ year }} PHP資料庫網頁設計班
+        br
+        github-button.q-mx-sm(
+            href="https://github.com/rogeraabbccdd/PHP-Dinbendon"
+            data-color-scheme="no-preference: light; light: light; dark: light;"
+            data-icon="octicon-star" data-show-count="true"
+            aria-label="Star buttons/github-buttons on GitHub"
+        )
+            | Star
+        github-button.q-mx-sm(
+            href="https://github.com/rogeraabbccdd/PHP-Dinbendon/fork"
+            data-color-scheme="no-preference: light; light: light; dark: light;"
+            data-icon="octicon-repo-forked" data-show-count="true"
+            aria-label="Fork buttons/github-buttons on GitHub"
+        )
+            | Fork
 </template>
 
 <script setup lang="ts">
@@ -80,6 +95,7 @@ import type { AuthPageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
 import { computed, ref } from 'vue';
+import GithubButton from 'vue-github-button';
 
 const page = usePage<AuthPageProps>();
 const $q = useQuasar();
