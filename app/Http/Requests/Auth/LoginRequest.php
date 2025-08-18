@@ -49,6 +49,14 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        if (! Auth::user()->enabled) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'student_id' => '此帳號已被停用。',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
