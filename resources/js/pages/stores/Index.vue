@@ -69,6 +69,12 @@ q-page.q-py-lg
                     icon="add"
                     @click="router.visit(route('stores.new'))"
                 )
+                q-btn.q-my-sm.q-mx-sm(
+                    color="purple"
+                    label="隨機店家"
+                    icon="shuffle"
+                    @click="randomDialog = true"
+                )
         //- 店家卡片列表
         .row.q-col-gutter-lg.q-mt-sm
             .col-12.col-sm-6.col-md-6.col-lg-4(
@@ -76,9 +82,11 @@ q-page.q-py-lg
                 :key="store.id"
             )
                 StoreCard.cursor-pointer(v-bind="store" @click="router.get(route('stores.show', store.id))")
+    RandomDialog(v-model="randomDialog" :stores="page.props.stores")
 </template>
 
 <script setup lang="ts">
+import RandomDialog from '@/components/RandomDialog.vue';
 import StoreCard from '@/components/StoreCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import type { Store, StorePageProps } from '@/types';
@@ -132,4 +140,6 @@ const changeSort = (field: SortField) => {
         sort.value.order = -1;
     }
 };
+
+const randomDialog = ref(false);
 </script>
