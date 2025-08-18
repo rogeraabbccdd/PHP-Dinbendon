@@ -7,6 +7,7 @@ import checker from 'vite-plugin-checker'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
+    base: './',
     plugins: [
         vueDevTools({
             appendTo: 'resources/js/app.ts'
