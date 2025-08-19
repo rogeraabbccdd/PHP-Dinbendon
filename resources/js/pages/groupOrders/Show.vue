@@ -314,7 +314,7 @@ const groupedMenuItems = computed((): GroupedMenuItem[] => {
         const total = _.sumBy(orderItems, 'quantity');
         const subtotal = menuItem.price * total;
         const orders = orderItems.map((item) => {
-            const user = orderIdToUser.get(item.order_id);
+            const user = orderIdToUser.get(item.order_id * 1);
             return {
                 comment: item.comment,
                 name: user?.name || '',
