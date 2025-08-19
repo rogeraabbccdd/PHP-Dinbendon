@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->comment('品項名稱 (快照)');
             $table->decimal('price', 8, 2)->comment('品項單價 (快照)');
             $table->integer('quantity')->comment('購買數量');
-            $table->string('comment')->comment('備註');
+            $table->string('comment')->nullable()->comment('備註');
             $table->timestamps();
         });
     }
