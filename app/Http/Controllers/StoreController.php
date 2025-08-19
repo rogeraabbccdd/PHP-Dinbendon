@@ -122,6 +122,7 @@ class StoreController extends Controller
         $groupOrders = $store->groupOrders()
             ->with('user')
             ->where('status', 'open')
+            ->where('course_id', $request->user()->course_id)
             ->orderByDesc('created_at')
             ->get();
         $groupOrders->makeHidden('menu_snapshot');
