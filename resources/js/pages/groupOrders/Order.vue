@@ -264,7 +264,9 @@ const { fields: orderItems } = useFieldArray('items');
 
 if (page.props.myOrder) {
     page.props.myOrder.order_items.forEach((myOrderItem) => {
-        const i = form.values.items!.findIndex((item) => item.menu_item_id === myOrderItem.menu_item_id);
+        const i = form.values.items!.findIndex((item) => {
+            return item.menu_item_id * 1 === myOrderItem.menu_item_id * 1;
+        });
         if (i !== -1) {
             form.setFieldValue(`items[${i}].quantity`, (myOrderItem.quantity as never) || 0);
             form.setFieldValue(`items[${i}].comment`, (myOrderItem.comment as never) || '');
