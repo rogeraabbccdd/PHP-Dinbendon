@@ -54,7 +54,6 @@ class OrderController extends Controller
 
         $groupOrder = GroupOrder::with('store')->findOrFail($validated['group_order_id']);
         if ($groupOrder->store->is_closed) {
-            // Bug Fix: 這裡應該使用 $groupOrder->id
             return redirect()->intended(route('groupOrders.show', $groupOrder->id));
         }
 
@@ -99,6 +98,7 @@ class OrderController extends Controller
         }
 
         $myOrder = $groupOrder->orders->first();
+        $groupOrder->makeHidden(['orders']);
 
         $courseId = $request->user()->course_id;
         $menuItemIds = collect($groupOrder->menu_snapshot)->pluck('id');
