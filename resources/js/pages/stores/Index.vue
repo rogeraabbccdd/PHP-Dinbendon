@@ -16,6 +16,24 @@ q-page.q-py-lg
                         q-icon.cursor-pointer(v-if="search" name="close" @click="search = ''")
             q-card-section
                 .row.align.items-center.q-gutter-y-md
+                    .col-12.col-sm-6.col-lg-6
+                        | 狀態
+                    .col-12.col-sm-6.col-lg-6
+                        .q-gutter-md-xs
+                            q-checkbox(
+                                v-model="status"
+                                color="purple"
+                                val="open"
+                                label="營業中"
+                            )
+                            q-checkbox(
+                                v-model="status"
+                                color="purple"
+                                val="closed"
+                                label="已歇業"
+                            )
+            q-card-section
+                .row.align.items-center.q-gutter-y-md
                     .col-12.col-md-6 排序
                     .col-12.col-md-6
                         .q-gutter-md-xs
@@ -107,6 +125,8 @@ type SortField =
     | 'course_rating_avg';
 type SortOrder = 1 | -1;
 
+const status = ref<string[]>(['open', 'closed']);
+
 const search = ref('');
 const sort = ref<{
     field: SortField;
@@ -118,7 +138,11 @@ const sort = ref<{
 
 const filteredStores = computed(() => {
     return page.props.stores
-        .filter((store) => store.name.toLowerCase().includes(search.value.toLowerCase()))
+        .filter((store) => {
+            const searchMatch = store.name.toLowerCase().includes(search.value.toLowerCase());
+            const statusMatch = (status.value.includes('open') && !store.is_closed) || (status.value.includes('closed') && store.is_closed);
+            return searchMatch && statusMatch;
+        })
         .sort((a: Store, b: Store) => {
             const aValue = a[sort.value.field] || 0;
             const bValue = b[sort.value.field] || 0;
