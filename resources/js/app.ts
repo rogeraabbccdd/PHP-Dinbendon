@@ -16,7 +16,7 @@ import 'quasar/src/css/flex-addon.sass'
 
 import '../css/app.sass';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'DinBenDon';
 
 const quasarConfig = {
     plugins: {
