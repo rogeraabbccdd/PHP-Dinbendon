@@ -1,7 +1,7 @@
 <template lang="pug">
 Head(title="團購")
 q-page.q-py-lg
-    .container
+    .column.container.q-gutter-y-lg
         //- 搜尋
         q-card.full-width
             q-card-section
@@ -65,12 +65,13 @@ q-page.q-py-lg
                                 :text-color="sort.field === 'course_ordered_group_orders_count' ? 'purple' : 'grey'"
                                 @click="changeSort('course_ordered_group_orders_count')"
                             )
-        .row.q-col-gutter-lg.q-mt-sm
-            .col-12.col-sm-6.col-md-6.col-lg-4(
-                v-for="groupOrder in filteredGroupOrders"
-                :key="groupOrder.id"
-            )
-                GroupOrderCard.cursor-pointer(v-bind="groupOrder" @click="router.get(route('groupOrders.show', groupOrder.id))")
+        .full-width
+            .row.q-col-gutter-lg
+                .col-12.col-sm-6.col-md-6.col-lg-4(
+                    v-for="groupOrder in filteredGroupOrders"
+                    :key="groupOrder.id"
+                )
+                    GroupOrderCard.cursor-pointer(v-bind="groupOrder" @click="router.get(route('groupOrders.show', groupOrder.id))")
 </template>
 
 <script setup lang="ts">
