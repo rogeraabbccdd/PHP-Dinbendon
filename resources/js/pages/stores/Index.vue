@@ -94,12 +94,13 @@ q-page.q-py-lg
                     @click="randomDialog = true"
                 )
         //- 店家卡片列表
-        .row.q-col-gutter-lg.q-mt-sm
-            .col-12.col-sm-6.col-md-6.col-lg-4(
-                v-for="store in filteredStores"
-                :key="store.id"
-            )
-                StoreCard.cursor-pointer(v-bind="store" @click="router.get(route('stores.show', store.id))")
+        .full-width
+            .row.q-col-gutter-lg
+                .col-12.col-sm-6.col-md-6.col-lg-4(
+                    v-for="store in filteredStores"
+                    :key="store.id"
+                )
+                    StoreCard.cursor-pointer(v-bind="store" @click="router.get(route('stores.show', store.id))")
     RandomDialog(v-model="randomDialog" :stores="page.props.stores")
 </template>
 
