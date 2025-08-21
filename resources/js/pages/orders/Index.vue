@@ -4,6 +4,10 @@ q-page.q-py-lg
     .container
         q-card.full-width
             q-card-section
+                h4.q-my-md.text-center
+                    | 訂單記錄
+                .text-deep-orange.text-center
+                    | 僅顯示已下單的團購訂單記錄
                 full-calendar(
                     :options="calendarOptions"
                 )
