@@ -181,7 +181,8 @@ q-page.q-py-lg
                 br
                 q-btn.q-my-sm(color="blue" icon="download" label="下載 csv" @click="downloadCsv")
                 template(v-if="page.props.auth.user && page.props.groupOrder.user.id === page.props.auth.user.id")
-                    br
+                    .text-deep-orange.q-my-sm
+                        | 確認結單的團購才會計算班級成團次數及使用者訂單記錄
                     //- 啟用條件: 團購狀態為 open，且店家未歇業
                     q-btn.q-my-sm.q-mx-sm(
                         :disable="page.props.groupOrder.status !== 'open' || page.props.groupOrder.store.is_closed"
