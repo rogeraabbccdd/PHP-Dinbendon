@@ -82,20 +82,22 @@ q-page.q-py-lg
                         template(#body-cell-quantity="props")
                             q-td(:props="props")
                                 q-input(
+                                    :key="props.row.key"
                                     :disable="page.props.groupOrder.status !== 'open'"
                                     :model-value="props.row.value.quantity"
                                     outlined
                                     dense
                                     hide-hint
                                     hide-bottom-space
-                                    :bottom-slots="false"
-                                    color="purple" type="number" min="0"
-                                    :error="!!form.errors.value[`items[${props.rowIndex}].quantity`]"
-                                    @update:model-value="onQuantityChange(props.rowIndex, $event)"
+                                    :bottom-slots="false" color="purple" type="number"
+                                    min="0"
+                                    :error="!!form.errors.value[`items[${props.row.key}].quantity`]"
+                                    @update:model-value="onQuantityChange(props.row.key, $event)"
                                 )
                         template(#body-cell-comment="props")
                             q-td(:props="props")
                                 q-input(
+                                    :key="props.row.key"
                                     v-model="props.row.value.comment"
                                     :disable="page.props.groupOrder.status !== 'open'"
                                     outlined
@@ -106,7 +108,7 @@ q-page.q-py-lg
                                     hide-bottom-space
                                     :bottom-slots="false"
                                     maxlength="50"
-                                    :error="!!form.errors.value[`items[${props.rowIndex}].comment`]"
+                                    :error="!!form.errors.value[`items[${props.row.key}].comment`]"
                                 )
                         template(#item="props")
                             .q-table__grid-item.col-xs-12.col-sm-6.col-md-4.col-lg-3
@@ -127,6 +129,7 @@ q-page.q-py-lg
                                         .q-table__grid-item-title 數量
                                         .q-table__grid-item-value
                                             q-input(
+                                                :key="props.row.key"
                                                 :disable="page.props.groupOrder.status !== 'open'"
                                                 :model-value="props.row.value.quantity"
                                                 outlined
@@ -135,13 +138,14 @@ q-page.q-py-lg
                                                 hide-bottom-space
                                                 :bottom-slots="false"
                                                 color="purple" type="number" min="0"
-                                                :error="!!form.errors.value[`items[${props.rowIndex}].quantity`]"
-                                                @update:model-value="onQuantityChange(props.rowIndex, $event)"
+                                                :error="!!form.errors.value[`items[${props.row.key}].quantity`]"
+                                                @update:model-value="onQuantityChange(props.row.key, $event)"
                                             )
                                     .q-table__grid-item-row
                                         .q-table__grid-item-title 備註
                                         .q-table__grid-item-value
                                             q-input(
+                                                :key="props.row.key"
                                                 v-model="props.row.value.comment"
                                                 :disable="page.props.groupOrder.status !== 'open'"
                                                 outlined
@@ -152,7 +156,7 @@ q-page.q-py-lg
                                                 hide-bottom-space
                                                 :bottom-slots="false"
                                                 maxlength="50"
-                                                :error="!!form.errors.value[`items[${props.rowIndex}].comment`]"
+                                                :error="!!form.errors.value[`items[${props.row.key}].comment`]"
                                             )
                 //- 動作按鈕
                 q-card-section.q-gutter-md
