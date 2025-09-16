@@ -472,7 +472,7 @@ const downloadCsv = () => {
     xlsx.utils.book_append_sheet(wb, ws, '訂單');
 
     const date = new Date().toISOString().slice(0, 10);
-    xlsx.writeFile(wb, `${page.props.groupOrder.store.name}-團購訂單-${date}.xlsx`);
+    xlsx.writeFile(wb, `${page.props.groupOrder.store.name}-團購訂單-${date}.csv`);
 };
 
 // 自動更新訂單
