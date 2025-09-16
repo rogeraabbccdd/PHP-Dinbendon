@@ -450,15 +450,18 @@ const setStatus = (status: 'ordered' | 'closed' | 'open', text: string) => {
 
 const downloadCsv = () => {
     const data = groupedMenuItems.value.map((item) => {
-        return {
+        const row: { [key: string]: any } = {
             品項: item.name,
             單價: item.price,
             數量: item.total,
             金額: item.subtotal,
-            訂購者: item.orders
-                .map((order) => `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`)
-                .join(', '),
         };
+
+        item.orders.forEach((order, i) => {
+            row[i === 0 ? `訂購者` : ''] = `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`;
+        });
+
+        return row;
     });
     const ws = xlsx.utils.json_to_sheet(data);
 
