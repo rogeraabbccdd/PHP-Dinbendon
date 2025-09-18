@@ -19,7 +19,7 @@ q-card.card-group-order
                     q-avatar(icon="calendar_month" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 開團日期
-                    q-item-label(caption) {{ new Date(props.updated_at).toLocaleString() }}
+                    q-item-label(caption) {{ new Date(props.created_at).toLocaleString() }}
             q-item
                 q-item-section(avatar top)
                     q-avatar(icon="person" text-color="rose")
