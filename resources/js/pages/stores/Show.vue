@@ -152,6 +152,15 @@ q-page.q-py-lg
             q-card-section
                 .text-center.q-gutter-md
                     q-btn(
+                        label="建立公開訂單"
+                        color="orange"
+                        icon="public"
+                        :disable="page.props.store.is_closed"
+                        :loading="loading"
+                        @click="createPublicGroupOrder"
+                    )
+
+                    q-btn(
                         label="開團訂購"
                         color="green"
                         icon="group_add"
@@ -303,7 +312,7 @@ const tableColumns: QTableColumn[] = [
 ];
 
 const loading = ref(false);
-
+    
 const createGroupOrder = () => {
     $q.dialog({
         title: '你確定?',
@@ -330,6 +339,40 @@ const createGroupOrder = () => {
                     $q.notify({
                         type: 'negative',
                         message: '團購建立失敗！',
+                    });
+                },
+            },
+        );
+    });
+};
+
+const createPublicGroupOrder = () => {
+    $q.dialog({
+        title: '你確定?',
+        message: '你確定要建立公開訂單嗎?',
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        loading.value = true;
+        router.post(
+            route('groupOrders.create'),
+            {
+                store_id: page.props.store.id,
+                is_open: true, // ✅ 就只多這一行
+            },
+            {
+                onSuccess: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'positive',
+                        message: '公開團購建立成功！',
+                    });
+                },
+                onError: () => {
+                    loading.value = false;
+                    $q.notify({
+                        type: 'negative',
+                        message: '公開團購建立失敗！',
                     });
                 },
             },
