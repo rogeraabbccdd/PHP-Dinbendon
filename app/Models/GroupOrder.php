@@ -18,6 +18,7 @@ class GroupOrder extends Model
         'store_id',
         'user_id',
         'status',
+        'is_open',
         'menu_snapshot',
     ];
 
