@@ -27,7 +27,7 @@ export interface StoreEditPageProps extends AuthPageProps {
 }
 
 export interface GroupOrderPageProps extends AuthPageProps {
-    groupOrders: GroupOrder[];
+    groupOrders: GroupOrderBase[];
 }
 
 export interface GroupOrderShowPageProps extends AuthPageProps {
