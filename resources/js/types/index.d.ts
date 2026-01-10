@@ -16,7 +16,10 @@ export interface StorePageProps extends AuthPageProps {
 export interface StoreShowPageProps extends AuthPageProps {
     store: Store;
     menuItems: MenuItem[];
-    groupOrders: GroupOrderBase[];
+    groupOrders: (GroupOrder & {
+        store: Store;
+        course: Course;
+    })[];
     myComment: Comment;
     comments: Comment[];
 }
@@ -25,19 +28,29 @@ export interface StoreEditPageProps extends AuthPageProps {
     store?: Store;
     menuItems?: MenuItem[];
 }
-
 export interface GroupOrderPageProps extends AuthPageProps {
-    groupOrders: GroupOrderBase[];
+    groupOrders: (GroupOrder & {
+        store: Store;
+        course: Course;
+    })[];
 }
 
 export interface GroupOrderShowPageProps extends AuthPageProps {
-    groupOrder: GroupOrderWithMenuSnapshot;
+    groupOrder: (GroupOrder & {
+        store: Store;
+        course: Course;
+        menu_snapshot: MenuItem[];
+    });
     orders: Order[];
     myOrder: Order | null;
 }
 
 export interface GroupOrdersOrderPageProps extends AuthPageProps {
-    groupOrder: GroupOrderWithMenuSnapshot;
+    groupOrder: (GroupOrder & {
+        store: Store;
+        course: Course;
+        menu_snapshot: MenuItem[];
+    });
     myOrder: Order | null;
 }
 
@@ -96,23 +109,15 @@ export interface MenuItem {
 }
 
 export type GroupOrderStatus = 'open' | 'closed' | 'ordered';
-export interface GroupOrderBase {
+export interface GroupOrder {
     id: number;
     store_id: number;
     user_id: number;
+    is_public: boolean;
     status: GroupOrderStatus;
-    store: Store;
     user: User;
     created_at: string;
     updated_at: string;
-}
-
-export interface GroupOrderWithStore extends GroupOrderBase {
-    store: Store;
-}
-
-export interface GroupOrderWithMenuSnapshot extends GroupOrderBase {
-    menu_snapshot: MenuItem[];
 }
 
 export interface Order {
@@ -122,7 +127,7 @@ export interface Order {
     order_items: OrderItem[];
     created_at: string;
     updated_at: string;
-    group_order?: GroupOrderWithStore;
+    group_order?: GroupOrder;
 }
 
 export interface OrderItem {

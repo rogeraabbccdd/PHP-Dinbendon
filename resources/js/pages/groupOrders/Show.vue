@@ -89,13 +89,10 @@ q-page.q-py-lg
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
-                                q-avatar(icon="person" text-color="rose")
+                                q-avatar(:icon="page.props.groupOrder.is_public ? 'public' : 'lock'" text-color="rose")
                             q-item-section
-                                q-item-label(lines="1") 發起人
-                                q-item-label(caption)
-                                    | {{ page.props.groupOrder.user.name }}
-                                    q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
-                                        | {{ page.props.groupOrder.user.seat_number }}
+                                q-item-label(lines="1") 性質
+                                q-item-label(caption) {{ page.props.groupOrder.is_public ? '公開團購' : '班級團購' }}
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
@@ -103,6 +100,23 @@ q-page.q-py-lg
                             q-item-section
                                 q-item-label(lines="1") 開團日期
                                 q-item-label(caption) {{ new Date(page.props.groupOrder.created_at).toLocaleString() }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="home" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 班級
+                                q-item-label(caption) {{ page.props.groupOrder.course.name }} {{ page.props.groupOrder.course.year }} 年第 {{ page.props.groupOrder.course.term }} 期
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
+                                q-avatar(icon="person" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 發起人
+                                q-item-label(caption)
+                                    | {{ page.props.groupOrder.user.name }}
+                                    q-badge.q-ml-sm(align="middle" color="indigo" text-color="white")
+                                        | {{ page.props.groupOrder.user.seat_number }}
             q-card-section.text-center
                 q-btn(
                     v-if="page.props.groupOrder.store.facebook"
@@ -381,13 +395,15 @@ const myTotalPrice = computed(() => {
     return page.props.myOrder
         ? page.props.myOrder.order_items.reduce((sum, item) => {
               return sum + item.price * item.quantity;
-          }, 0)
+            }, 0)
         : 0;
 });
 
 const loading = ref(false);
 
 const cancelOrder = () => {
+    if (!page.props.myOrder) return;
+
     $q.dialog({
         title: '你確定?',
         message: '你確定要取消訂單嗎?',
@@ -396,7 +412,7 @@ const cancelOrder = () => {
     }).onOk(() => {
         loading.value = true;
 
-        router.delete(route('orders.cancel', { id: page.props.myOrder!.id }), {
+        router.delete(route('orders.cancel', { id: page.props.myOrder?.id }), {
             onSuccess: () => {
                 loading.value = false;
                 $q.notify({

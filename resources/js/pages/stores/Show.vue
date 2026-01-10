@@ -157,7 +157,7 @@ q-page.q-py-lg
                         icon="group_add"
                         :disable="page.props.store.is_closed"
                         :loading="loading"
-                        @click="createGroupOrder"
+                        @click="orderDialog = true"
                     )
                     q-btn(
                         label="編輯資訊"
@@ -165,6 +165,21 @@ q-page.q-py-lg
                         icon="edit"
                         @click="router.get(route('stores.edit', page.props.store.id))"
                     )
+            //- 團購對話框
+            q-dialog(v-model="orderDialog")
+                q-card
+                    q-card-section
+                        .text-h6.text-center 開團訂購
+                    q-card-section
+                        .row.justify-center
+                            .col-12.col-md-6.text-center
+                                q-btn.full-width(flat stack @click="createGroupOrder(false)")
+                                    q-icon(name="lock" color="red" size="56px")
+                                    .q-mt-md.text-center 班級團購
+                            .col-12.col-md-6.text-center
+                                q-btn.full-width(flat stack @click="createGroupOrder(true)")
+                                    q-icon(name="public" color="green" size="56px")
+                                    .q-mt-md.text-center 公開團購
         //- 進行中團購卡片
         .full-width
             .row.q-col-gutter-lg
@@ -304,7 +319,9 @@ const tableColumns: QTableColumn[] = [
 
 const loading = ref(false);
 
-const createGroupOrder = () => {
+const orderDialog = ref(false)
+
+const createGroupOrder = (is_public: boolean) => {
     $q.dialog({
         title: '你確定?',
         message: '你確定要開團嗎?',
@@ -316,6 +333,7 @@ const createGroupOrder = () => {
             route('groupOrders.create'),
             {
                 store_id: page.props.store.id,
+                is_public
             },
             {
                 onSuccess: () => {

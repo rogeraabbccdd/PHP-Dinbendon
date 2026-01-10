@@ -20,18 +20,24 @@ class GroupOrderController extends Controller
      */
     public function create(Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'store_id' => 'required|integer',
+            'is_public' => 'required|boolean',
+        ]);
+
         $store = Store::with(['menuItems' => function ($query) {
             $query->where('is_available', true);
-        }])->findOrFail($request->input('store_id'));
+        }])->findOrFail($validated['store_id']);
 
         if ($store->is_closed) {
             return redirect()->route('stores.show', $store->id);
         }
 
         $groupOrder = GroupOrder::create([
-            'store_id' => $store->id,
+            'store_id' => $validated['store_id'],
             'course_id' => $request->user()->course_id,
             'user_id' => $request->user()->id,
+            'is_public' => $validated['is_public'],
             'status' => 'open',
             'menu_snapshot' => $store->menuItems->toArray(),
         ]);
@@ -78,11 +84,13 @@ class GroupOrderController extends Controller
                     ]);
             },
             'user',
+            'course',
             'orders.user',
+            'orders.user.course',
             'orders.orderItems'
         ])->findOrFail($id);
 
-        if ($groupOrder->course_id !== $request->user()->course_id) {
+        if (!$groupOrder->is_public && $groupOrder->course_id !== $request->user()->course_id) {
             return redirect()->route('groupOrders');
         }
 
@@ -107,7 +115,10 @@ class GroupOrderController extends Controller
     public function index(Request $request): Response
     {
         $user = $request->user();
-        $groupOrders = GroupOrder::where('course_id', $user->course_id)
+        $groupOrders = GroupOrder::where(function ($query) use ($user) {
+            $query->where('course_id', $user->course_id)
+                ->orWhere('is_public', true);
+        })
             ->with([
                 'store' => function ($query) use ($user) {
                     $query->withCount([
@@ -117,7 +128,8 @@ class GroupOrderController extends Controller
                         }
                     ]);
                 },
-                'user'
+                'user',
+                'course'
             ])
             ->orderByDesc('created_at')
             ->get();

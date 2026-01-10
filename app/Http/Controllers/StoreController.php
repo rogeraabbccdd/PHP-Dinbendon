@@ -120,7 +120,7 @@ class StoreController extends Controller
         });
 
         $groupOrders = $store->groupOrders()
-            ->with('user')
+            ->with('user', 'course')
             ->where('status', 'open')
             ->where('course_id', $request->user()->course_id)
             ->orderByDesc('created_at')

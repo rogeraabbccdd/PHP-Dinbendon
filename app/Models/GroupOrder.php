@@ -19,12 +19,14 @@ class GroupOrder extends Model
         'user_id',
         'status',
         'menu_snapshot',
+        'is_public',
     ];
 
     protected function casts(): array
     {
         return [
             'status' => 'string',
+            'is_public' => 'boolean',
         ];
     }
 

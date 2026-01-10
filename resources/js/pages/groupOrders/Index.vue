@@ -41,6 +41,30 @@ q-page.q-py-lg
             q-card-section
                 .row.align.items-center.q-gutter-y-md
                     .col-12.col-sm-6.col-lg-6
+                        | 類型
+                    .col-12.col-sm-6.col-lg-6
+                        .q-gutter-md-xs
+                            q-radio(
+                                v-model="isPublic"
+                                color="purple"
+                                :val="null"
+                                label="全部"
+                            )
+                            q-radio(
+                                v-model="isPublic"
+                                color="purple"
+                                :val="false"
+                                label="班級團購"
+                            )
+                            q-radio(
+                                v-model="isPublic"
+                                color="purple"
+                                :val="true"
+                                label="公開團購"
+                            )
+            q-card-section
+                .row.align.items-center.q-gutter-y-md
+                    .col-12.col-sm-6.col-lg-6
                         | 排序
                     .col-12.col-sm-6.col-lg-6
                         .q-gutter-md-xs
@@ -77,7 +101,7 @@ q-page.q-py-lg
 <script setup lang="ts">
 import GroupOrderCard from '@/components/GroupOrderCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import type { GroupOrderBase, GroupOrderPageProps, GroupOrderStatus } from '@/types';
+import type { GroupOrderPageProps, GroupOrderStatus } from '@/types';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
@@ -89,6 +113,8 @@ const $q = useQuasar();
 
 const status = ref<GroupOrderStatus[]>(['open', 'closed', 'ordered']);
 const search = ref('');
+
+const isPublic = ref<null|boolean>(null)
 
 type SortField = 'created_at' | 'name' | 'course_ordered_group_orders_count';
 type SortOrder = 1 | -1;
@@ -103,8 +129,11 @@ const sort = ref<{
 
 const filteredGroupOrders = computed(() => {
     return page.props.groupOrders
-        .filter((groupOrder): GroupOrderBase[] => {
-            return status.value.includes(groupOrder.status) && groupOrder.store.name.toLowerCase().includes(search.value.toLowerCase());
+        .filter((groupOrder) => {
+            return status.value.includes(groupOrder.status) &&
+                groupOrder.store.name.toLowerCase().includes(search.value.toLowerCase()) &&
+                (isPublic.value === null || groupOrder.is_public === isPublic.value)
+
         })
         .sort((a, b) => {
             if (sort.value.field === 'created_at') {

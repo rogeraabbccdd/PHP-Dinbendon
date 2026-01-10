@@ -376,13 +376,15 @@ const addMenuItem = () => {
 // const exportMenuCSV = () => {};
 
 const increaseMenuPrice = (amount: number) => {
-    form.values.menuItems!.forEach((item, i) => {
+    if (!form.values.menuItems) return;
+    form.values.menuItems.forEach((item, i) => {
         form.setFieldValue(`menuItems[${i}].price`, (item.price + amount) as never);
     });
 };
 
 const removeMenuItem = (id: number) => {
-    const idx = form.values.menuItems!.findIndex((item): boolean => item.id === id);
+    if (!form.values.menuItems) return;
+    const idx = form.values.menuItems.findIndex((item): boolean => item.id === id);
     if (idx !== -1) {
         itemsRemove(idx);
     }

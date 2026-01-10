@@ -22,6 +22,18 @@ q-card.card-group-order
                     q-item-label(caption) {{ new Date(props.created_at).toLocaleString() }}
             q-item
                 q-item-section(avatar top)
+                    q-avatar(:icon="props.is_public ? 'public' : 'lock'" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 性質
+                    q-item-label(caption) {{ props.is_public ? '公開團購' : '班級團購' }}
+            q-item
+                q-item-section(avatar top)
+                    q-avatar(icon="home" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 班級
+                    q-item-label(caption)  {{ props.course.name }} {{ props.course.year }} 年第 {{ props.course.term }} 期
+            q-item
+                q-item-section(avatar top)
                     q-avatar(icon="person" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 發起人
@@ -32,7 +44,7 @@ q-card.card-group-order
 </template>
 
 <script setup lang="ts">
-import type { GroupOrderWithStore } from '@/types';
+import type { GroupOrder, Course, Store } from '@/types';
 
-const props = defineProps<GroupOrderWithStore>();
+const props = defineProps<GroupOrder & { course: Course, store: Store }>();
 </script>

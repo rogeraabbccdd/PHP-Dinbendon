@@ -87,13 +87,14 @@ class OrderController extends Controller
         $groupOrder = GroupOrder::with([
             'store',
             'user',
+            'course',
             'orders' => function ($query) use ($userId) {
                 $query->where('user_id', $userId)->with('orderItems');
             }
         ])->findOrFail($id);
 
         // 若 course_id 不同則導向 stores 頁面
-        if ($groupOrder->course_id !== $request->user()->course_id) {
+        if (!$groupOrder->is_public && $groupOrder->course_id !== $request->user()->course_id) {
             return redirect()->route('groupOrders');
         }
 
