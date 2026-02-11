@@ -8,8 +8,19 @@ q-page.q-py-lg
                 | 店家已歇業，無法進行訂購
                 template(#avatar)
                     q-icon(name="warning")
+        //- 班級或學生結訓
+        template(v-else-if="!page.props.groupOrder.course.enabled")
+            q-banner.text-white.bg-red(rounded)
+                | 開團班級已結訓，無法下單
+                template(#avatar)
+                    q-icon(name="warning")
+        template(v-else-if="!page.props.groupOrder.user.enabled")
+            q-banner.text-white.bg-red(rounded)
+                | 開團學生已結訓，無法下單
+                template(#avatar)
+                    q-icon(name="warning")
         //- 團購已關閉
-        template(v-if="page.props.groupOrder.status === 'closed'")
+        template(v-else-if="page.props.groupOrder.status === 'closed'")
             q-banner.text-white.bg-red(rounded)
                 | 團購已關閉
                 template(#avatar)
@@ -304,7 +315,10 @@ const page = usePage<GroupOrderShowPageProps>();
 const $q = useQuasar();
 
 const canOrder = computed(() => {
-    return page.props.groupOrder.status === 'open' && !page.props.groupOrder.store.is_closed;
+    return page.props.groupOrder.status === 'open' &&
+        !page.props.groupOrder.store.is_closed &&
+        page.props.groupOrder.course.enabled &&
+        page.props.groupOrder.user.enabled;;
 });
 
 const tab = ref<'user' | 'all'>('user');

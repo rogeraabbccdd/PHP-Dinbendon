@@ -52,8 +52,24 @@ class OrderController extends Controller
             'items.*.comment' => 'nullable|string|max:50',
         ]);
 
-        $groupOrder = GroupOrder::with('store')->findOrFail($validated['group_order_id']);
+        $groupOrder = GroupOrder::with(['store', 'course', 'user'])->findOrFail($validated['group_order_id']);
+        // 歇業店家不能訂購
         if ($groupOrder->store->is_closed) {
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        }
+        // 關閉或已下單團購不能訂購
+        else if ($groupOrder->status !== 'open') {
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        }
+        // 不是自己班級的非公開團購不能訂購
+        else if (!$groupOrder->is_public && $groupOrder->course_id !== $request->user()->course_id) {
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        }
+        // 開團學生已結訓
+        else if (!$groupOrder->user->enabled) {
+            return redirect()->intended(route('groupOrders.show', $groupOrder->id));
+        }
+        else if (!$groupOrder->course->enabled) {
             return redirect()->intended(route('groupOrders.show', $groupOrder->id));
         }
 

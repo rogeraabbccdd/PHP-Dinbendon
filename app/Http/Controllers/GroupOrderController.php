@@ -117,8 +117,16 @@ class GroupOrderController extends Controller
         $user = $request->user();
         $groupOrders = GroupOrder::where(function ($query) use ($user) {
             $query->where('course_id', $user->course_id)
-                ->orWhere('is_public', true);
-        })
+                ->orWhere(function ($query) {
+                    $query->where('is_public', true)
+                        ->whereHas('user', function ($query) {
+                            $query->where('enabled', true);
+                        });
+                })
+                ->orWhereHas('orders', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            })
             ->with([
                 'store' => function ($query) use ($user) {
                     $query->withCount([
