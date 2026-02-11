@@ -30,6 +30,7 @@ class Course extends Model
         return [
             'year' => 'integer',
             'term' => 'integer',
+            'enabled' => 'boolean',
         ];
     }
 

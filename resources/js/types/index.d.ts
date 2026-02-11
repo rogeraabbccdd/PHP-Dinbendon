@@ -147,6 +147,7 @@ export interface Course {
     name: string;
     created_at: string;
     updated_at: string;
+    enabled: boolean;
 }
 
 export interface Comment {
