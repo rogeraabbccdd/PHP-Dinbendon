@@ -229,6 +229,12 @@ q-page.q-py-lg
                         color="orange" icon="replay" label="重新開啟"
                         @click="setStatus('open', '重新開啟')"
                     )
+                    //- 只有已結單的團購才會顯示
+                    template(v-if="page.props.groupOrder.status === 'ordered'")
+                        .q-gutter-sm.flex.items-center.justify-center
+                            span 是否於 11:50 前送達?
+                            q-radio(:disable="loading" :val="true" label="是" :model-value="page.props.groupOrder.on_time" @update:model-value="setOnTime(true)")
+                            q-radio(:disable="loading" :val="false" label="否" :model-value="page.props.groupOrder.on_time" @update:model-value="setOnTime(false)")
         //- 我的訂單
         q-card.full-width
             //- 有訂單
@@ -477,6 +483,25 @@ const setStatus = (status: 'ordered' | 'closed' | 'open', text: string) => {
         );
     });
 };
+
+const setOnTime = (on_time: boolean) => {
+    loading.value = true;
+
+    router.post(
+        route('groupOrders.updateOnTime', { id: page.props.groupOrder.id }),
+        { on_time },
+        {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+                loading.value = false;
+            },
+            onError: () => {
+                loading.value = false;
+            },
+        },
+    );
+}
 
 const downloadCsv = () => {
     const data = groupedMenuItems.value.map((item) => {

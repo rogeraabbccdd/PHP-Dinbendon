@@ -20,6 +20,7 @@ class GroupOrder extends Model
         'status',
         'menu_snapshot',
         'is_public',
+        'on_time'
     ];
 
     protected function casts(): array
@@ -27,6 +28,7 @@ class GroupOrder extends Model
         return [
             'status' => 'string',
             'is_public' => 'boolean',
+            'on_time' => 'boolean',
         ];
     }
 

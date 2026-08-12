@@ -118,6 +118,7 @@ export interface GroupOrder {
     user: User;
     created_at: string;
     updated_at: string;
+    on_time: boolean | null
 }
 
 export interface Order {

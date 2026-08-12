@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::post('group-orders/{id}', [GroupOrderController::class, 'update'])
         ->name('groupOrders.update');
 
+    Route::post('group-orders/{id}/on_time', [GroupOrderController::class, 'updateOnTime'])
+        ->name('groupOrders.updateOnTime');
+
     Route::get('group-orders/{id}/order', [OrderController::class, 'showForm'])
         ->name('groupOrders.order');
 

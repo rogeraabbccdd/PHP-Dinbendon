@@ -52,9 +52,21 @@ class GroupOrderController extends Controller
     {
         $updated = GroupOrder::where('id', $id)
             ->where('user_id', $request->user()->id)
-            ->update(['status' => $request->input('status')]);
+            ->update(['status' => $request->input('status'), 'on_time' => null]);
 
         return redirect()->intended(route('groupOrders.show', $id));
+    }
+
+    /**
+     * 更新團購準時狀態.
+     */
+    public function updateOnTime(Request $request, int $id): RedirectResponse
+    {
+        $updated = GroupOrder::where('id', $id)
+            ->where('user_id', $request->user()->id)
+            ->update(['on_time' => $request->input('on_time')]);
+
+        return back();
     }
 
     /**
