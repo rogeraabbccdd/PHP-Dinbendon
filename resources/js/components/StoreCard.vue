@@ -25,6 +25,12 @@ q-card.card-store
                     q-item-label(caption) {{ props.delivery_conditions || '-' }}
             q-item
                 q-item-section(avatar top)
+                    q-avatar(icon="alarm_on" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 準時送達機率
+                    q-item-label(caption) {{ onTimeRate }}
+            q-item
+                q-item-section(avatar top)
                     q-avatar(icon="calendar_month" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 更新日期
@@ -70,9 +76,20 @@ q-card.card-store
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Store } from '@/types';
 
 const props = defineProps<Store>();
+
+const onTimeRate = computed(() => {
+    const total = props.on_time_total_count || 0
+    const success = props.on_time_success_count || 0
+    if (total === 0)    return '-'
+
+    const percentage = Math.round((success / total) * 100);
+
+    return `${percentage}% (${success}/${total})`;
+})
 </script>
 
 <style scoped lang="sass">

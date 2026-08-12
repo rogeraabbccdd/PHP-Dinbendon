@@ -94,6 +94,8 @@ export interface Store {
     rating_count?: number | null;
     course_rating_avg?: number | null;
     course_rating_count?: number | null;
+    on_time_total_count: number
+    on_time_success_count: number
 }
 
 export interface MenuItem {
