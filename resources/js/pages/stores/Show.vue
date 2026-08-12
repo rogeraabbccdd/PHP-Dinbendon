@@ -33,6 +33,13 @@ q-page.q-py-lg
                     .col-12.col-md-6
                         q-item
                             q-item-section(avatar top)
+                                q-avatar(icon="alarm_on" text-color="rose")
+                            q-item-section
+                                q-item-label(lines="1") 準時送達機率
+                                q-item-label(caption) {{ onTimeRate }}
+                    .col-12.col-md-6
+                        q-item
+                            q-item-section(avatar top)
                                 q-avatar(icon="place" text-color="rose")
                             q-item-section
                                 q-item-label(lines="1") 地址
@@ -318,6 +325,17 @@ const tableColumns: QTableColumn[] = [
 ];
 
 const loading = ref(false);
+
+const onTimeRate = computed(() => {
+    const total = page.props.store.on_time_total_count || 0
+    const success = page.props.store.on_time_success_count || 0
+    if (total === 0)    return '-'
+
+    // 計算百分比並四捨五入
+    const percentage = Math.round((success / total) * 100);
+
+    return `${percentage}% (${success}/${total})`;
+})
 
 const orderDialog = ref(false)
 

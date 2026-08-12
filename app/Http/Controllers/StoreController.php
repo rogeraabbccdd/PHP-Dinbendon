@@ -84,7 +84,13 @@ class StoreController extends Controller
             'groupOrders as course_ordered_group_orders_count' => function ($query) use ($request) {
                 $query->where('course_id', $request->user()->course_id)
                     ->where('status', 'ordered');
-            }
+            },
+            'groupOrders as on_time_total_count' => function ($query) {
+                $query->whereNotNull('on_time');
+            },
+            'groupOrders as on_time_success_count' => function ($query) {
+                $query->where('on_time', true);
+            },
         ])
             ->withAvg('comments as rating_avg', 'rating')
             ->withCount('comments as rating_count')
