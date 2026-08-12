@@ -19,6 +19,12 @@ q-card.card-store
                     q-item-label(caption) {{ props.business_hours || '-' }}
             q-item
                 q-item-section(avatar top)
+                    q-avatar(icon="attach_money" text-color="rose")
+                q-item-section
+                    q-item-label(lines="1") 價格區間
+                    q-item-label(caption) {{ priceRange }}
+            q-item
+                q-item-section(avatar top)
                     q-avatar(icon="delivery_dining" text-color="rose")
                 q-item-section
                     q-item-label(lines="1") 外送條件
@@ -89,6 +95,10 @@ const onTimeRate = computed(() => {
     const percentage = Math.round((success / total) * 100);
 
     return `${percentage}% (${success}/${total})`;
+})
+
+const priceRange = computed(() => {
+    return Math.round(props.min_price) + ' ~ ' + Math.round(props.max_price)
 })
 </script>
 

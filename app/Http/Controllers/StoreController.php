@@ -53,6 +53,16 @@ class StoreController extends Controller
                     });
                 }
             ])
+            ->withMin([
+                'menuItems as min_price' => function ($query) {
+                    $query->where('is_available', true);
+                }
+            ], 'price')
+            ->withMax([
+                'menuItems as max_price' => function ($query) {
+                    $query->where('is_available', true);
+                }
+            ], 'price')
             ->get();
 
         return Inertia::render('stores/Index', [

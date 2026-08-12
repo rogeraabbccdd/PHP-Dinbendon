@@ -96,6 +96,8 @@ export interface Store {
     course_rating_count?: number | null;
     on_time_total_count: number
     on_time_success_count: number
+    max_price: number
+    min_price: number
 }
 
 export interface MenuItem {
