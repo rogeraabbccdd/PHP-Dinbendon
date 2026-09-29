@@ -504,24 +504,21 @@ const setOnTime = (on_time: boolean) => {
 }
 
 const downloadCsv = () => {
-    const data = groupedMenuItems.value.map((item) => {
-        const row: { [key: string]: any } = {
-            品項: item.name,
-            單價: item.price,
-            數量: item.total,
-            金額: item.subtotal,
-        };
-
-        item.orders.forEach((order, i) => {
-            row[i === 0 ? `訂購者` : ''] = `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`;
-        });
-
-        return row;
+    const rows: (string | number)[][] = [['品項', '單價', '數量', '金額', '訂購者']];
+    groupedMenuItems.value.forEach((item) => {
+        rows.push([
+            item.name,
+            item.price,
+            item.total,
+            item.subtotal,
+            ...item.orders.map(
+                (order) => `${order.seat_number} ${order.name} x${order.quantity}${order.comment ? ` (${order.comment})` : ''}`,
+            ),
+        ]);
     });
-    const ws = xlsx.utils.json_to_sheet(data);
+    rows.push(['總計', totalPrice.value]);
 
-    const totalRow = [{ field: '總計', value: totalPrice.value }];
-    xlsx.utils.sheet_add_json(ws, totalRow, { origin: -1, skipHeader: true });
+    const ws = xlsx.utils.aoa_to_sheet(rows);
 
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, '訂單');
