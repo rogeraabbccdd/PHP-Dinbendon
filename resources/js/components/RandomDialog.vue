@@ -79,6 +79,7 @@ const roll = async () => {
     const random_diff = randomEx(diff - 300, diff + 300);
 
     if (loadout.value) {
+        void loadout.value.offsetWidth;
         loadout.value.style.transition = `left ${duration_time}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
         rollerLeft.value = -random_diff;
     }
